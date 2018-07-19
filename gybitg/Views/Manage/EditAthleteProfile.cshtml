@@ -1,0 +1,74 @@
+﻿@model AthleteProfileViewModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    ViewData.AddActivePage(gybitg.Views.Manage.ManageNavPages.EditAthleteProfile);
+}
+<h4>Profile</h4>
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditAthleteProfile">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersnalBio" class="control-label"></label>
+                <input asp-for="PersnalBio" class="form-control" />
+                <span asp-validation-for="PersnalBio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HighschoolName" class="control-label"></label>
+                <input asp-for="HighschoolName" class="form-control" />
+                <span asp-validation-for="HighschoolName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HighschoolCoach" class="control-label"></label>
+                <input asp-for="HighschoolCoach" class="form-control" />
+                <span asp-validation-for="HighschoolCoach" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HSGraduationDate" class="control-label"></label>
+                <input asp-for="HSGraduationDate" class="form-control" />
+                <span asp-validation-for="HSGraduationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HomeCity" class="control-label"></label>
+                <input asp-for="HomeCity" class="form-control" />
+                <span asp-validation-for="HomeCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    @{
+        string _userId = Model.UserId;
+    }
+    <a asp-action="Profile" asp-controller="Account" asp-route-id="@_userId">Back to profile</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+}
