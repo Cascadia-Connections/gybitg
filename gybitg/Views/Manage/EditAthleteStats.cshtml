@@ -1,0 +1,114 @@
+﻿@using gybitg.Views.Manage
+@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views
+@using gybitg.Data
+
+@model gybitg.Models.ManageViewModels.AthleteStatsViewModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Edit Profile";
+    ViewData.AddActivePage(ManageNavPages.EditAthleteStats);
+}
+
+<h4>Edit your Stats</h4>
+@Html.Partial("_StatusMessage", Model.StatusMessage)
+<hr>
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="EditAthleteStats">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="PPG" class="control-label"></label>
+                <input asp-for="PPG" class="form-control" />
+                <span asp-validation-for="PPG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RPG" class="control-label"></label>
+                <input asp-for="RPG" class="form-control" />
+                <span asp-validation-for="RPG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="APG" class="control-label"></label>
+                <input asp-for="APG" class="form-control" />
+                <span asp-validation-for="APG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GP" class="control-label"></label>
+                <input asp-for="GP" class="form-control" />
+                <span asp-validation-for="GP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GS" class="control-label"></label>
+                <input asp-for="GS" class="form-control" />
+                <span asp-validation-for="GS" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MPG" class="control-label"></label>
+                <input asp-for="MPG" class="form-control" />
+                <span asp-validation-for="MPG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FGAG" class="control-label"></label>
+                <input asp-for="FGAG" class="form-control" />
+                <span asp-validation-for="FGAG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FGMG" class="control-label"></label>
+                <input asp-for="FGMG" class="form-control" />
+                <span asp-validation-for="FGMG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FGG" class="control-label"></label>
+                <input asp-for="FGG" class="form-control" />
+                <span asp-validation-for="FGG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FTAG" class="control-label"></label>
+                <input asp-for="FTAG" class="form-control" />
+                <span asp-validation-for="FTAG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FTMG" class="control-label"></label>
+                <input asp-for="FTMG" class="form-control" />
+                <span asp-validation-for="FTMG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FTP" class="control-label"></label>
+                <input asp-for="FTP" class="form-control" />
+                <span asp-validation-for="FTP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TPAG" class="control-label"></label>
+                <input asp-for="TPAG" class="form-control" />
+                <span asp-validation-for="TPAG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TPMG" class="control-label"></label>
+                <input asp-for="TPMG" class="form-control" />
+                <span asp-validation-for="TPMG" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TPP" class="control-label"></label>
+                <input asp-for="TPP" class="form-control" />
+                <span asp-validation-for="TPP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-action="Profile" asp-controller="Account" asp-route-id="@Model.UserId">Back to Profile</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+}

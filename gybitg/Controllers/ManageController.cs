@@ -50,6 +50,12 @@ namespace gybitg.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
+        public enum MembershipType
+        {
+            ATHLETE = 1,
+            COACH
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -87,6 +93,7 @@ namespace gybitg.Controllers
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
+
 
             var email = user.Email;
             if (model.Email != email)
@@ -146,12 +153,15 @@ namespace gybitg.Controllers
                 LastName = user.LastName,
                 DateOfBirth = _userProfile.DateOfBirth,
                 Height = _userProfile.Height,
+                Weight = _userProfile.Weight,
                 PersnalBio = _userProfile.PersnalBio,
                 HighschoolName = _userProfile.HighschoolName,
                 HighschoolCoach = _userProfile.HighschoolCoach,
                 Position = _userProfile.Position,
                 HSGraduationDate = _userProfile.HSGraduationDate,
-                HomeCity = _userProfile.HomeCity,
+                City = _userProfile.City,
+                State = _userProfile.State,
+                AAUId = _userProfile.AAUId,
                 StatusMessage = StatusMessage
             };
 
@@ -186,6 +196,11 @@ namespace gybitg.Controllers
                 userProfile.Height = vmodel.Height;
             }
 
+            var weight = userProfile.Weight;
+            if (vmodel.Weight != weight)
+            {
+                userProfile.Weight = vmodel.Weight;
+            }
             var personalBio = userProfile.PersnalBio;
             if (vmodel.PersnalBio != personalBio)
             {
@@ -216,12 +231,17 @@ namespace gybitg.Controllers
                 userProfile.HSGraduationDate = vmodel.HSGraduationDate;
             }
 
-            var homecity = userProfile.HomeCity;
-            if (vmodel.HomeCity != homecity)
+            var city = userProfile.City;
+            if (vmodel.City != city)
             {
-                userProfile.HomeCity = vmodel.HomeCity;
+                userProfile.City = vmodel.City;
             }
 
+            var state = userProfile.State;
+            if (vmodel.State != state)
+            {
+                userProfile.State = vmodel.State;
+            }
             _context.Update(userProfile);
             _context.SaveChanges();
 
@@ -229,6 +249,242 @@ namespace gybitg.Controllers
 
             return RedirectToAction(nameof(EditAthleteProfile), "Manage", userProfile, id);
         }
+
+        [HttpGet]
+        public IActionResult EditAthleteStats(string id)
+        {
+            id = _userManager.GetUserId(User);
+
+            var _userStats = _context.AthleteStats.SingleOrDefault(p => p.UserId == id);
+
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
+
+            if (_userStats == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var vModel = new AthleteStatsViewModel
+            {
+                UserId = id,
+                PPG = _userStats.PPG,
+                RPG = _userStats.RPG,
+                APG = _userStats.APG,
+                GP = _userStats.GP,
+                GS = _userStats.GS,
+                MPG = _userStats.MPG,
+                FGAG = _userStats.FGAG,
+                FGMG = _userStats.FGMG,
+                FGG = _userStats.FGG,
+                FTAG = _userStats.FTAG,
+                FTMG = _userStats.FTMG,
+                FTP = _userStats.FTP,
+                TPAG = _userStats.TPAG,
+                TPMG = _userStats.TPMG,
+                TPP = _userStats.TPP,
+                StatusMessage = StatusMessage
+            };
+
+            return View(vModel);
+        }
+
+        [HttpPost]
+        public IActionResult EditAthleteStats(AthleteStatsViewModel vmodel, string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vmodel);
+            }
+
+            var userStats = _context.AthleteStats.SingleOrDefault(u => u.UserId == vmodel.UserId);
+            id = userStats.UserId;
+
+            if (userStats == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+            var PPG = userStats.PPG;
+            var RPG = userStats.RPG;
+            var APG = userStats.APG;
+            var GP = userStats.GP;
+            var GS = userStats.GS;
+            var MPG = userStats.MPG;
+            var FGAG = userStats.FGAG;
+            var FGMG = userStats.FGMG;
+            var FGG = userStats.FGG;
+            var FTAG = userStats.FTAG;
+            var FTMG = userStats.FTMG;
+            var FTP = userStats.FTP;
+            var TPAG = userStats.TPAG;
+            var TPMG = userStats.TPMG;
+            var TPP = userStats.TPMG;
+
+            if (vmodel.PPG != PPG)
+            {
+                userStats.PPG = vmodel.PPG;
+            }
+            if (vmodel.RPG != RPG)
+            {
+                userStats.RPG = vmodel.RPG;
+            }
+            if (vmodel.APG != APG)
+            {
+                userStats.APG = vmodel.APG;
+            }
+            if (vmodel.GP != GP)
+            {
+                userStats.GP = vmodel.GP;
+            }
+            if (vmodel.GS != GS)
+            {
+                userStats.GS = vmodel.GS;
+            }
+            if (vmodel.MPG != MPG)
+            {
+                userStats.MPG = vmodel.MPG;
+            }
+            if (vmodel.FGAG != FGAG)
+            {
+                userStats.FGAG = vmodel.FGAG;
+            }
+            if (vmodel.FGMG != FGMG)
+            {
+                userStats.FGMG = vmodel.FGMG;
+            }
+            if (vmodel.FGG != FGG)
+            {
+                userStats.FGG = vmodel.FGG;
+            }
+            if (vmodel.FTAG != FTAG)
+            {
+                userStats.FTAG = vmodel.FTAG;
+            }
+            if (vmodel.FTMG != FTMG)
+            {
+                userStats.FTMG = vmodel.FTMG;
+            }
+            if (vmodel.FTP != FTP)
+            {
+                userStats.FTP = vmodel.FTP;
+            }
+            if (vmodel.TPAG != TPAG)
+            {
+                userStats.TPAG = vmodel.TPAG;
+            }
+            if (vmodel.TPMG != TPMG)
+            {
+                userStats.TPMG = vmodel.TPMG;
+            }
+            if (vmodel.TPP != TPP)
+            {
+                userStats.TPP = vmodel.TPP;
+            }
+
+            _context.Update(userStats);
+            _context.SaveChanges();
+
+            StatusMessage = "Your statistics have been updated.";
+
+            return RedirectToAction(nameof(EditAthleteStats), "Manage", userStats, id);
+        }
+
+
+        [HttpGet]
+        public IActionResult EditCoachProfile(string id)
+        {
+            id = _userManager.GetUserId(User);
+
+            var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == id);
+
+            var _user = _userManager.Users.SingleOrDefault(m => m.Id == id);
+
+            if (_coachProfile == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var vmodel = new CoachProfileViewModel
+            {
+                UserId = id,
+                AAUId = _coachProfile.AAUId,
+                PersnalBio = _coachProfile.PersnalBio,
+                YearsCoaching = _coachProfile.YearsCoaching,
+                Wins = _coachProfile.Wins,
+                Lossess = _coachProfile.Lossess,
+                Achievments = _coachProfile.Achievments,
+                Address = _coachProfile.Address,
+                Verified = _coachProfile.Verified
+            };
+
+            return View(vmodel);
+        }
+
+        [HttpPost]
+        public IActionResult EditCoachProfile(CoachProfileViewModel vmodel, string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vmodel);
+            }
+
+            var coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == vmodel.UserId);
+            id = coachProfile.UserId;
+
+            if (coachProfile == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            var AAUId = coachProfile.AAUId;
+            var PersonalBio = coachProfile.PersnalBio;
+            var YearsCoaching = coachProfile.YearsCoaching;
+            var Wins = coachProfile.Wins;
+            var Lossess = coachProfile.Lossess;
+            var Achievements = coachProfile.Achievments;
+            var Address = coachProfile.Address;
+            var Verified = coachProfile.Verified;
+
+            if (AAUId != vmodel.AAUId)
+            {
+                coachProfile.AAUId = vmodel.AAUId;
+            }
+            if (PersonalBio != vmodel.PersnalBio)
+            {
+                coachProfile.PersnalBio = vmodel.PersnalBio;
+            }
+            if (YearsCoaching != vmodel.YearsCoaching)
+            {
+                coachProfile.YearsCoaching = vmodel.YearsCoaching;
+            }
+            if (Wins != vmodel.Wins)
+            {
+                coachProfile.Wins = vmodel.Wins;
+            }
+            if (Lossess != vmodel.Lossess)
+            {
+                coachProfile.Lossess = vmodel.Lossess;
+            }
+            if (Achievements != vmodel.Achievments)
+            {
+                coachProfile.Achievments = vmodel.Achievments;
+            }
+            if (Address != vmodel.Address)
+            {
+                coachProfile.Address = vmodel.Address;
+            }
+            if (Verified != vmodel.Verified)
+            {
+                coachProfile.Verified = vmodel.Verified;
+            }
+
+            _context.Update(coachProfile);
+            _context.SaveChanges();
+
+            StatusMessage = "Your profile has been updated.";
+
+            return RedirectToAction(nameof(EditCoachProfile), "Manage", coachProfile, id);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -24,6 +24,9 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Height (inches)")]
         public decimal Height { get; set; }
 
+        [Display(Name = "Weight (Lbs.)")]
+        public decimal Weight { get; set; }
+
         [Display(Name = "Personal Bio")]
         public string PersnalBio { get; set; }
 
@@ -39,8 +42,12 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
         public DateTime HSGraduationDate { get; set; }
 
-        [Display(Name = "Home City")]
-        public string HomeCity { get; set; }
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        [Display(Name = "AAU Team")]
+        public string AAUId { get; set; }
 
         public string StatusMessage { get; set; }
     }

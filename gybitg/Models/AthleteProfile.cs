@@ -9,18 +9,21 @@ namespace gybitg.Models
 {
     public class AthleteProfile
     {
-        [Key]
-        public int Id { get; set; }
+        //[Key]
+        //public int Id { get; set; }
 
-        [Required]
+        [Key]
         public string UserId { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date of Birth"), DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
-        [Display(Name = "Height (inches)")]
+        [Display(Name = "Height (In.)")]
         public decimal Height { get; set; }
+
+        [Display(Name = "Weight (Lbs.)")]
+        public decimal Weight { get; set; }
 
         [Display(Name = "Personal Bio")]
         public string PersnalBio { get; set; }
@@ -37,7 +40,11 @@ namespace gybitg.Models
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
         public DateTime HSGraduationDate { get; set; }
 
-        [Display(Name = "Home City")]
-        public string HomeCity { get; set; }
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        [Display(Name = "AAU Team")]
+        public string AAUId { get; set; }
     }
 }

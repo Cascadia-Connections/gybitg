@@ -45,7 +45,15 @@ namespace gybitg.Controllers
         public string ErrorMessage { get; set; }
         [TempData]
         public string StatusMessage { get; set; }
+        //[TempData]
+        //public int RequestedProfileId { get; set; }
 
+        // this enum class  needs to stay in line with the membership table 
+        public enum MemberType
+        {
+            ATHLETE = 1,
+            COACH,
+        }
 
         [AllowAnonymous]
         [HttpGet]
@@ -55,8 +63,23 @@ namespace gybitg.Controllers
             {
                 return RedirectToAction("Login");
             }
-            var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == id);
-            return View(_athleteProfile);
+
+            var _profile = _userManager.Users.SingleOrDefault(m => m.Id == id);
+            ViewData["RequestedProfileId"] = id;
+
+            if (_profile.MembershipId == (int)MemberType.ATHLETE)
+            {
+                var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == id);
+                var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == id);
+                return View(_athleteProfile);
+            }
+
+            if(_profile.MembershipId == (int)MemberType.COACH)
+            {
+                var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == id);
+                return View(_coachProfile);
+            }
+            return View();
         }
 
         [HttpGet]
@@ -242,17 +265,25 @@ namespace gybitg.Controllers
                 string email = model.Email;
                 var userName = email.Substring(0, email.IndexOf('@'));
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var athleteProfile = new AthleteProfile { UserId = user.Id };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; // initialize the new Application User entity
 
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var athleteProfile = new AthleteProfile { UserId = user.Id }; // initialize a new Athlete Profile entity
+                var athleteStats = new AthleteStats { UserId = user.Id, DateOFEntry = DateTime.Now }; // initialize a new Athlete Stats entity
+
+                var coachProfile = new CoachProfile { UserId = user.Id }; // initialize a new Coach Profile entity
+
+
+                var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
                 if (result.Succeeded)
                 {
-
-                    await _userManager.SetUserNameAsync(user, userName);
-                    await _userManager.UpdateAsync(user);
+                    await _userManager.SetUserNameAsync(user, userName);    // set the Username within the User.Identity
+                    await _userManager.UpdateAsync(user); 
 
                     _context.AthleteProfiles.Add(athleteProfile);
+                    _context.AthleteStats.Add(athleteStats);
+
+                    _context.CoachProfiles.Add(coachProfile);
+
                     _context.SaveChanges();
 
                     _logger.LogInformation("User created a new account with password.");
@@ -260,6 +291,7 @@ namespace gybitg.Controllers
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);

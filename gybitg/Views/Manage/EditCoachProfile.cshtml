@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views.Manage
+@using gybitg.Data
+@using gybitg.Views
+
+@model gybitg.Models.ManageViewModels.CoachProfileViewModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewData["Title"] = "Edit Profile";
+    ViewData.AddActivePage(ManageNavPages.EditCoachProfile);
+}
+
+<h4>Edit your Profile</h4>
+@*@await Html.Partial("_StatusMessage", Model.StatusMessage)*@
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditCoachProfile">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="AAUId" class="control-label"></label>
+                <input asp-for="AAUId" class="form-control" />
+                <span asp-validation-for="AAUId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersnalBio" class="control-label"></label>
+                <input asp-for="PersnalBio" class="form-control" />
+                <span asp-validation-for="PersnalBio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Wins" class="control-label"></label>
+                <input asp-for="Wins" class="form-control" />
+                <span asp-validation-for="Wins" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lossess" class="control-label"></label>
+                <input asp-for="Lossess" class="form-control" />
+                <span asp-validation-for="Lossess" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="YearsCoaching" class="control-label"></label>
+                <input asp-for="YearsCoaching" class="form-control" />
+                <span asp-validation-for="YearsCoaching" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Achievments" class="control-label"></label>
+                <input asp-for="Achievments" class="form-control" />
+                <span asp-validation-for="Achievments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to Profile", "Profile", "Account", new { id = Model.UserId });
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+
+}

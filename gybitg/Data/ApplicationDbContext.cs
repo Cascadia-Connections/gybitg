@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using gybitg.Models;
+using gybitg.Models.ManageViewModels;
 
 namespace gybitg.Data
 {
@@ -16,6 +17,9 @@ namespace gybitg.Data
         }
 
         public DbSet<AthleteProfile> AthleteProfiles { get; set; }
+        public DbSet<AthleteStats> AthleteStats { get; set; }
+        public DbSet<CoachProfile> CoachProfiles { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model gybitg.Models.AthleteProfile
+
+<h3>Profile</h3>
+
+<div>
+    @if (Model.UserId == (string) UserManager.GetUserId(User))
+        {
+    @Html.ActionLink("Edit Profile", "EditAthleteProfile", "Manage", new { id = Model.UserId });
+        }
+    <hr />
+    <dl class="d2-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersnalBio)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersnalBio)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HighschoolName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HighschoolName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HighschoolCoach)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HighschoolCoach)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Position)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Position)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HSGraduationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HSGraduationDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+    </dl>
+</div>

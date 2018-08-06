@@ -20,8 +20,10 @@ namespace gybitg.Models
         {
             get
             {
-                return FullName + " " + LastName;
+                return FirstName + " " + LastName;
             }
         }
+
+        public int MembershipId { get; set; }
     }
 }

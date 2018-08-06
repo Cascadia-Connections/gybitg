@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views
+@using gybitg.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model gybitg.Models.CoachProfile
+
+<h3>Profile</h3>
+<div>
+    @if (Model.UserId == (string)UserManager.GetUserId(User))
+    {
+        @Html.ActionLink("Edit Profile", "EditCoachProfile", "Manage", new { id = Model.UserId });
+    }
+    <hr />
+    <dl class="d2-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AAUId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AAUId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersnalBio)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersnalBio)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Wins)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Wins)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Lossess)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Lossess)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.YearsCoaching)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearsCoaching)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Achievments)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Achievments)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Verified)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Verified)
+        </dd>
+    </dl>
+</div>

@@ -1,80 +1,49 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using gybitg.Models
 @using Microsoft.AspNetCore.Mvc
-
 @using gybitg.Data
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
-@model gybitg.Models.AthleteProfile
+@inject ApplicationDbContext _context
 
 @{
-    ViewData["Title"] = "Athlete Profile";
+    var _requestedProfileId = (string)ViewData["RequestedProfileId"];
 
-    var _user = UserManager.Users.SingleOrDefault(m => m.Id == Model.UserId);
+    var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId); // grab the desired User entity
 
-    string _fullName = _user.FirstName + " " + _user.LastName;
-}
+    var _athleteProfile = new AthleteProfile();
+    var _coachProfile = new CoachProfile();
 
-<h2>@_fullName's Profile</h2>
-
-<div>
-    @if (Model.UserId == (string)UserManager.GetUserId(User))
+    if (_user.MembershipId == 1) // 1: athlete profile - from membership model
     {
-        @Html.ActionLink("Edit Profile", "EditAthleteProfile", "Manage", new { id = Model.UserId });
+        _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
     }
-    <hr />
-    <dl class="d2-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PersnalBio)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PersnalBio)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Height)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Height)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HighschoolName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HighschoolName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HighschoolCoach)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HighschoolCoach)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HSGraduationDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HSGraduationDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.HomeCity)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.HomeCity)
-        </dd>
-    </dl>
-</div>
+    else if (_user.MembershipId == 2) // 2: coach profile - from membership model
+    {
+        _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
+    }
 
-
+    if (_user.MembershipId == 1) // load the Athlete profile and stats partial views
+    {
+        var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == _requestedProfileId);
+        <h1>@_user.FullName</h1>
+        <div class="row dl-horizontal">
+            <div class="col-md-6">
+                @await Html.PartialAsync("_AthleteProfilePartial")
+            </div>
+            <div class="col-md-6">
+                @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
+            </div>
+        </div>
+    }
+    else if (_user.MembershipId == 2) // load the Coach profile partial view
+    {
+        <h1>Coach @_user.FullName</h1>
+        <div class="row dl-horizontal">
+            <div class="col-md-6">
+                @await Html.PartialAsync("_CoachProfilePartial", _coachProfile)
+            </div>
+        </div>
+    }
+}

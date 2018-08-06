@@ -1,17 +1,24 @@
-﻿@model AthleteProfileViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views.Manage
+@using gybitg.Data
+@using gybitg.Views
+
+@model AthleteProfileViewModel
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Edit Profile";
-    ViewData.AddActivePage(gybitg.Views.Manage.ManageNavPages.EditAthleteProfile);
+    ViewData.AddActivePage(ManageNavPages.EditAthleteProfile);
 }
-<h4>Profile</h4>
+<h4>Edit your Profile</h4>
 @Html.Partial("_StatusMessage", Model.StatusMessage)
-<br />
+<hr>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="EditAthleteProfile">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UserId" />
@@ -24,6 +31,11 @@
                 <label asp-for="Height" class="control-label"></label>
                 <input asp-for="Height" class="form-control" />
                 <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PersnalBio" class="control-label"></label>
@@ -51,9 +63,14 @@
                 <span asp-validation-for="HSGraduationDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HomeCity" class="control-label"></label>
-                <input asp-for="HomeCity" class="form-control" />
-                <span asp-validation-for="HomeCity" class="text-danger"></span>
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <input asp-for="State" class="form-control" />
+                <span asp-validation-for="State" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -62,13 +79,9 @@
     </div>
 </div>
 <div>
-    @{
-        string _userId = Model.UserId;
-    }
-    <a asp-action="Profile" asp-controller="Account" asp-route-id="@_userId">Back to profile</a>
+    @Html.ActionLink("Back to Profile", "Profile", "Account", new { id = Model.UserId })
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @await Html.PartialAsync("_ValidationScriptsPartial")
-
 }

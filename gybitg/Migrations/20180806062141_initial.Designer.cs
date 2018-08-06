@@ -8,12 +8,13 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
-namespace gybitg.Data.Migrations
+namespace gybitg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180806062141_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,6 +43,8 @@ namespace gybitg.Data.Migrations
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<int>("MembershipId");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -77,8 +80,12 @@ namespace gybitg.Data.Migrations
 
             modelBuilder.Entity("gybitg.Models.AthleteProfile", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AAUId");
+
+                    b.Property<string>("City");
 
                     b.Property<DateTime>("DateOfBirth");
 
@@ -90,18 +97,131 @@ namespace gybitg.Data.Migrations
 
                     b.Property<string>("HighschoolName");
 
-                    b.Property<string>("HomeCity");
-
                     b.Property<string>("PersnalBio");
 
                     b.Property<string>("Position");
+
+                    b.Property<string>("State");
+
+                    b.Property<decimal>("Weight");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("AthleteProfiles");
+                });
+
+            modelBuilder.Entity("gybitg.Models.AthleteStats", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<decimal>("APG");
+
+                    b.Property<DateTime>("DateOFEntry");
+
+                    b.Property<decimal>("FGAG");
+
+                    b.Property<decimal>("FGG");
+
+                    b.Property<decimal>("FGMG");
+
+                    b.Property<decimal>("FTAG");
+
+                    b.Property<decimal>("FTMG");
+
+                    b.Property<decimal>("FTP");
+
+                    b.Property<int>("GP");
+
+                    b.Property<int>("GS");
+
+                    b.Property<decimal>("MPG");
+
+                    b.Property<decimal>("PPG");
+
+                    b.Property<decimal>("RPG");
+
+                    b.Property<decimal>("TPAG");
+
+                    b.Property<decimal>("TPMG");
+
+                    b.Property<decimal>("TPP");
 
                     b.Property<string>("UserId")
                         .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.ToTable("AthleteProfiles");
+                    b.ToTable("AthleteStats");
+                });
+
+            modelBuilder.Entity("gybitg.Models.CoachProfile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AAUId");
+
+                    b.Property<string>("Achievments");
+
+                    b.Property<string>("Address");
+
+                    b.Property<int>("Lossess");
+
+                    b.Property<string>("PersnalBio");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.Property<bool>("Verified");
+
+                    b.Property<int>("Wins");
+
+                    b.Property<decimal>("YearsCoaching");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CoachProfiles");
+                });
+
+            modelBuilder.Entity("gybitg.Models.ManageViewModels.CoachProfileViewModel", b =>
+                {
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AAUId");
+
+                    b.Property<string>("Achievments");
+
+                    b.Property<string>("Address");
+
+                    b.Property<int>("Lossess");
+
+                    b.Property<string>("PersnalBio");
+
+                    b.Property<string>("StatusMessage");
+
+                    b.Property<bool>("Verified");
+
+                    b.Property<int>("Wins");
+
+                    b.Property<decimal>("YearsCoaching");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("CoachProfileViewModel");
+                });
+
+            modelBuilder.Entity("gybitg.Models.Membership", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Memberships");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
