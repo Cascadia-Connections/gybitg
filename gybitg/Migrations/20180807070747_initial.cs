@@ -36,7 +36,6 @@ namespace gybitg.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    MembershipId = table.Column<int>(type: "int", nullable: false),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -121,39 +120,6 @@ namespace gybitg.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CoachProfiles", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CoachProfileViewModel",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AAUId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Achievments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Lossess = table.Column<int>(type: "int", nullable: false),
-                    PersnalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StatusMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Verified = table.Column<bool>(type: "bit", nullable: false),
-                    Wins = table.Column<int>(type: "int", nullable: false),
-                    YearsCoaching = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CoachProfileViewModel", x => x.UserId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Memberships",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Memberships", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -327,12 +293,6 @@ namespace gybitg.Migrations
 
             migrationBuilder.DropTable(
                 name: "CoachProfiles");
-
-            migrationBuilder.DropTable(
-                name: "CoachProfileViewModel");
-
-            migrationBuilder.DropTable(
-                name: "Memberships");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

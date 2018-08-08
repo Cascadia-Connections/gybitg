@@ -23,6 +23,7 @@ namespace gybitg.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
@@ -34,6 +35,7 @@ namespace gybitg.Controllers
         public ManageController(
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
+          RoleManager<IdentityRole> roleManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
@@ -41,6 +43,7 @@ namespace gybitg.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
@@ -413,7 +416,8 @@ namespace gybitg.Controllers
                 Lossess = _coachProfile.Lossess,
                 Achievments = _coachProfile.Achievments,
                 Address = _coachProfile.Address,
-                Verified = _coachProfile.Verified
+                Verified = _coachProfile.Verified,
+                StatusMessage = StatusMessage                
             };
 
             return View(vmodel);
@@ -876,7 +880,7 @@ namespace gybitg.Controllers
         {
             return string.Format(
                 AuthenicatorUriFormat,
-                _urlEncoder.Encode("gybg"),
+                _urlEncoder.Encode("gybitg"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }

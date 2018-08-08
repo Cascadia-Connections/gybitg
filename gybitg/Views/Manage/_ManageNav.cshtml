@@ -12,12 +12,12 @@
 <ul class="nav nav-pills nav-divider nav-stacked">
     <li class="@ManageNavPages.IndexNavClass(ViewContext)"><a asp-action="Index">Account</a></li>
 
-    @if (_curUser.MembershipId == 1) // athlete profile & stats 
+    @if (await UserManager.IsInRoleAsync(_curUser, "Athlete")) // athlete profile & stats 
     {
         <li class="@ManageNavPages.EditAthleteProfileNavClass(ViewContext)"><a asp-action="EditAthleteProfile" asp-route-id="@_curUser.Id">Profile</a></li>
         <li class="@ManageNavPages.EditAthleteStatsNavClass(ViewContext)"><a asp-action="EditAthleteStats" asp-route-id="@_curUser.Id">Stats</a> </li>
     }
-    else if (_curUser.MembershipId == 2) // coach profile 
+    else if (await UserManager.IsInRoleAsync(_curUser, "Coach")) // coach profile 
     {
         <li class="@ManageNavPages.EditCoachProfileNavClass(ViewContext)"><a asp-action="EditCoachProfile" asp-route-id="@_curUser.Id">Profile</a> </li>
     }

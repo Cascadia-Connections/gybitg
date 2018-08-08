@@ -43,8 +43,6 @@ namespace gybitg.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<int>("MembershipId");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -181,46 +179,6 @@ namespace gybitg.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CoachProfiles");
-                });
-
-            modelBuilder.Entity("gybitg.Models.ManageViewModels.CoachProfileViewModel", b =>
-                {
-                    b.Property<string>("UserId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AAUId");
-
-                    b.Property<string>("Achievments");
-
-                    b.Property<string>("Address");
-
-                    b.Property<int>("Lossess");
-
-                    b.Property<string>("PersnalBio");
-
-                    b.Property<string>("StatusMessage");
-
-                    b.Property<bool>("Verified");
-
-                    b.Property<int>("Wins");
-
-                    b.Property<decimal>("YearsCoaching");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("CoachProfileViewModel");
-                });
-
-            modelBuilder.Entity("gybitg.Models.Membership", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Memberships");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

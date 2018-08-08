@@ -24,6 +24,5 @@ namespace gybitg.Models
             }
         }
 
-        public int MembershipId { get; set; }
     }
 }

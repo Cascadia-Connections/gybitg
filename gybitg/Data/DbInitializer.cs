@@ -8,29 +8,29 @@ namespace gybitg.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(ApplicationDbContext context)
-        {
-            context.Database.EnsureCreated();
+        //public static void Initialize(ApplicationDbContext context)
+        //{
+        //    //context.Database.EnsureCreated();
 
-            // Look for any user accounts
-            if (context.Users.Any())
-            {
-                return; // DB Has been seeded
-            }
+        //    //// Look for any user accounts
+        //    //if (context.Users.Any())
+        //    //{
+        //    //    return; // DB Has been seeded
+        //    //}
 
-            // Create the membership types
-            var memberships = new Membership[]
-            {
-                new Membership{Type="Athlete" },
-                new Membership{Type="Coach" }
-            };
-            // Seed the Db / Memberships table
-            foreach (Membership m in memberships)
-            {
-                context.Memberships.Add(m);
-            }
-            context.SaveChanges();
-        }
+        //    //// Create the membership types
+        //    //var memberships = new Membership[]
+        //    //{
+        //    //    new Membership{Type="Athlete" },
+        //    //    new Membership{Type="Coach" }
+        //    //};
+        //    //// Seed the Db / Memberships table
+        //    //foreach (Membership m in memberships)
+        //    //{
+        //    //    context.Memberships.Add(m);
+        //    //}
+        //    //context.SaveChanges();
+        //}
 
     }
 }

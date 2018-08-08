@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,6 +24,7 @@ namespace gybitg.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
@@ -30,12 +32,14 @@ namespace gybitg.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ILogger<AccountController> logger,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
             _context = context;
@@ -57,29 +61,32 @@ namespace gybitg.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public IActionResult Profile(string id)
+        public async Task<IActionResult> Profile(string id)
         {
             if (id == null)
             {
-                return RedirectToAction("Login");
+                //return RedirectToAction("Login");
+                throw new ApplicationException($"Unable to load profile.");
+
             }
 
             var _profile = _userManager.Users.SingleOrDefault(m => m.Id == id);
             ViewData["RequestedProfileId"] = id;
 
-            if (_profile.MembershipId == (int)MemberType.ATHLETE)
+            if (await _userManager.IsInRoleAsync(_profile, "Athlete")) // check if the user is an Athlete: return Profile & Stats
             {
                 var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == id);
                 var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == id);
                 return View(_athleteProfile);
             }
-
-            if(_profile.MembershipId == (int)MemberType.COACH)
+            else if (await _userManager.IsInRoleAsync(_profile, "Coach"))   // check if the user is a Coach: return Profile
             {
                 var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == id);
                 return View(_coachProfile);
             }
-            return View();
+
+            // if here something went wrong, profile couldn't be loaded
+            throw new ApplicationException($"Unable to load profile.");
         }
 
         [HttpGet]
@@ -250,6 +257,11 @@ namespace gybitg.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
+            var rolesList = _roleManager.Roles.ToList();
+            rolesList.Insert(0, new IdentityRole { Name = "Select" });
+
+            ViewBag.ListofRole = rolesList;
+
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -267,22 +279,31 @@ namespace gybitg.Controllers
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; // initialize the new Application User entity
 
-                var athleteProfile = new AthleteProfile { UserId = user.Id }; // initialize a new Athlete Profile entity
-                var athleteStats = new AthleteStats { UserId = user.Id, DateOFEntry = DateTime.Now }; // initialize a new Athlete Stats entity
-
-                var coachProfile = new CoachProfile { UserId = user.Id }; // initialize a new Coach Profile entity
-
-
                 var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
-                if (result.Succeeded)
+
+                if (result.Succeeded) // create the necessary athlete/ coach profile, stats, and assign the User to its Role
                 {
+                    var roleModel = _roleManager.Roles.SingleOrDefault(r => r.Id == model.RoleId);
+                    switch (roleModel.Name)
+                    {
+                        case "Athlete":
+                            var athleteProfile = new AthleteProfile { UserId = user.Id }; // initialize a new Athlete Profile entity
+                            var athleteStats = new AthleteStats { UserId = user.Id, DateOFEntry = DateTime.Now }; // initialize a new Athlete Stats entity and add to Athlete role
+                            _context.AthleteProfiles.Add(athleteProfile);
+                            _context.AthleteStats.Add(athleteStats);
+                            await _userManager.AddToRoleAsync(user, roleModel.Name);
+                            break;
+                        case "Coach":
+                            var coachProfile = new CoachProfile { UserId = user.Id }; // initialize a new Coach Profile entity and add to Coach role
+                            _context.CoachProfiles.Add(coachProfile);
+                            await _userManager.AddToRoleAsync(user, roleModel.Name);
+                            break;
+                        default:
+                            break;
+                    }
+
                     await _userManager.SetUserNameAsync(user, userName);    // set the Username within the User.Identity
                     await _userManager.UpdateAsync(user); 
-
-                    _context.AthleteProfiles.Add(athleteProfile);
-                    _context.AthleteStats.Add(athleteStats);
-
-                    _context.CoachProfiles.Add(coachProfile);
 
                     _context.SaveChanges();
 
