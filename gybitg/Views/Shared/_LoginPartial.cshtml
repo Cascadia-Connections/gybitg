@@ -28,7 +28,7 @@
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @_user.FirstName!</a>
+                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage"><img src="~/images/settings-icon.svg" width="25" height="25" /></a>
             </li>
             <li>
                 @Html.ActionLink("My Profile", "Profile", "Account", new { id = _userIdString })

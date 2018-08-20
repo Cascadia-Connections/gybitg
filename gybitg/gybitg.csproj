@@ -20,6 +20,12 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Uploads\" />
+    <Folder Include="wwwroot\avatars\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\settings-icon.svg" />
   </ItemGroup>
 
 </Project>

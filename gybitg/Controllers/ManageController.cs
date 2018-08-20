@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using System.IO;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using gybitg.Models;
@@ -28,6 +35,8 @@ namespace gybitg.Controllers
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _environment;
+
 
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
@@ -39,7 +48,8 @@ namespace gybitg.Controllers
           IEmailSender emailSender,
           ILogger<ManageController> logger,
           UrlEncoder urlEncoder,
-          ApplicationDbContext context)
+          ApplicationDbContext context,
+          IHostingEnvironment environment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -48,16 +58,12 @@ namespace gybitg.Controllers
             _logger = logger;
             _urlEncoder = urlEncoder;
             _context = context;
+            _environment = environment;
         }
 
         [TempData]
         public string StatusMessage { get; set; }
 
-        public enum MembershipType
-        {
-            ATHLETE = 1,
-            COACH
-        }
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -75,6 +81,10 @@ namespace gybitg.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Position = user.Position,
+                City = user.City,
+                State = user.State,
+                Zip = user.Zip,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
             };
@@ -92,11 +102,54 @@ namespace gybitg.Controllers
             }
 
             var user = await _userManager.GetUserAsync(User);
+            var newFilename = string.Empty;
+
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            // Avatar image upload process
+            if (model.AvatarImage != null)  
+            {
+                string PathDB = string.Empty;
+                var filename = string.Empty;
+
+                filename = ContentDispositionHeaderValue
+                                        .Parse(model.AvatarImage.ContentDisposition)
+                                        .FileName
+                                        .Trim('"');
+                
+                //Assigning Unique Filename (Guid)
+                var myUniqueFilename = Convert.ToString(Guid.NewGuid());
+
+                //Getting file Extension
+                var FileExtension = Path.GetExtension(filename);
+
+                // concating  FileName + FileExtension
+                newFilename = myUniqueFilename + FileExtension;
+
+                // Combines two strings into a path.
+                filename = Path.Combine(_environment.WebRootPath, "avatars") + $@"\{newFilename}";
+
+                // if you want to store path of folder in database
+                PathDB = "avatars/" + newFilename;
+
+                //using (var ms = new FileStream(filename, FileMode.Create))
+                using (FileStream fs = System.IO.File.Create(filename))
+                {
+                    await model.AvatarImage.CopyToAsync(fs);
+                    fs.Flush();
+                }
+
+                user.AvatarImageUrl = PathDB;
+
+                var setAvatarResult = await _userManager.UpdateAsync(user);
+                if (!setAvatarResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occured setting avatar for the user with ID '{user.Id}'.");
+                }
+            }
 
             var email = user.Email;
             if (model.Email != email)
@@ -130,6 +183,53 @@ namespace gybitg.Controllers
                 }
             }
 
+            var position = user.Position;
+            if (model.Position != user.Position)
+            {
+                user.Position = model.Position;
+
+                var setPositionResult = await _userManager.UpdateAsync(user);
+                if (!setPositionResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occured setting position for the user with ID '{user.Id}'.");
+                }
+            }
+
+            var city = user.City;
+            if (model.City != user.City)
+            {
+                user.City = model.City;
+
+                var setCityResult = await _userManager.UpdateAsync(user);
+                if (!setCityResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occured setting city for the user with ID '{user.Id}'.");
+                }
+            }
+
+            var state = user.State;
+            if (model.State != user.State)
+            {
+                user.State = model.State;
+
+                var setStateResult = await _userManager.UpdateAsync(user);
+                if (!setStateResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occured setting state for the user with ID '{user.Id}'.");
+                }
+            }
+
+            var zip = user.Zip;
+            if (model.Zip != user.Zip)
+            {
+                user.Zip = model.Zip;
+
+                var setZipResult = await _userManager.UpdateAsync(user);
+                if (!setZipResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occured setting zip for the user with ID '{user.Id}'.");
+                }
+            }
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
@@ -160,10 +260,7 @@ namespace gybitg.Controllers
                 PersnalBio = _userProfile.PersnalBio,
                 HighschoolName = _userProfile.HighschoolName,
                 HighschoolCoach = _userProfile.HighschoolCoach,
-                Position = _userProfile.Position,
                 HSGraduationDate = _userProfile.HSGraduationDate,
-                City = _userProfile.City,
-                State = _userProfile.State,
                 AAUId = _userProfile.AAUId,
                 StatusMessage = StatusMessage
             };
@@ -222,29 +319,12 @@ namespace gybitg.Controllers
                 userProfile.HighschoolName = vmodel.HighschoolName;
             }
 
-            var position = userProfile.Position;
-            if (vmodel.Position != position)
-            {
-                userProfile.Position = vmodel.Position;
-            }
-
             var hsGraduation = userProfile.HSGraduationDate;
             if (vmodel.HSGraduationDate != hsGraduation)
             {
                 userProfile.HSGraduationDate = vmodel.HSGraduationDate;
             }
 
-            var city = userProfile.City;
-            if (vmodel.City != city)
-            {
-                userProfile.City = vmodel.City;
-            }
-
-            var state = userProfile.State;
-            if (vmodel.State != state)
-            {
-                userProfile.State = vmodel.State;
-            }
             _context.Update(userProfile);
             _context.SaveChanges();
 
@@ -415,9 +495,8 @@ namespace gybitg.Controllers
                 Wins = _coachProfile.Wins,
                 Lossess = _coachProfile.Lossess,
                 Achievments = _coachProfile.Achievments,
-                Address = _coachProfile.Address,
                 Verified = _coachProfile.Verified,
-                StatusMessage = StatusMessage                
+                StatusMessage = StatusMessage
             };
 
             return View(vmodel);
@@ -445,7 +524,6 @@ namespace gybitg.Controllers
             var Wins = coachProfile.Wins;
             var Lossess = coachProfile.Lossess;
             var Achievements = coachProfile.Achievments;
-            var Address = coachProfile.Address;
             var Verified = coachProfile.Verified;
 
             if (AAUId != vmodel.AAUId)
@@ -471,10 +549,6 @@ namespace gybitg.Controllers
             if (Achievements != vmodel.Achievments)
             {
                 coachProfile.Achievments = vmodel.Achievments;
-            }
-            if (Address != vmodel.Address)
-            {
-                coachProfile.Address = vmodel.Address;
             }
             if (Verified != vmodel.Verified)
             {

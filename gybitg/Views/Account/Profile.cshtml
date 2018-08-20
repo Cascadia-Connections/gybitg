@@ -12,30 +12,56 @@
 
     var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId); // grab the desired User entity
 
-    if (await UserManager.IsInRoleAsync(_user, "Athlete")) // load the Athlete profile and stats partial views
+    // convert a byte[] to use in a <img> tag
+    //var base64 = Convert.ToBase64String(_user.AvatarImage);
+    //var avatarSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+
+    if (await UserManager.IsInRoleAsync(_user, "Athlete")) // if User is Athlete: load the Athlete profile and stats partial views
     {
         var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
         var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == _requestedProfileId);
 
-        <h1>@_user.FullName</h1>
-        <div class="row dl-horizontal">
-            <div class="col-md-6">
-                @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
-            </div>
-            <div class="col-md-6">
-                @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
-            </div>
+        <div style="display:inline-block; padding-top: 20px;">
+            <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
+            <p style="display:inline-grid">
+                <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
+                <br />
+                @_user.Position
+                <br />
+                Class of @_athleteProfile.HSGraduationDate.Year
         </div>
+
+        <center>
+            <div class="row dl-horizontal">
+                <div class="col-md-6">
+                    @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
+                </div>
+                <div class="col-md-6">
+                    @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
+                </div>
+            </div>
+        </center>
+
     }
-    else if (await UserManager.IsInRoleAsync(_user, "Coach")) // load the Coach profile partial view
+    else if (await UserManager.IsInRoleAsync(_user, "Coach")) // if User is Coach: load the Coach profile partial view
     {
         var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
 
-        <h1>Coach @_user.FullName</h1>
-        <div class="row dl-horizontal">
-            <div class="col-md-6">
-                @await Html.PartialAsync("_CoachProfilePartial", _coachProfile)
-            </div>
+        <div style="display:inline-block; padding-top: 20px;">
+            <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
+            <p style="display:inline-grid">
+                <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
+                <br />
+                @_user.Position for @_coachProfile.YearsCoaching years at @_coachProfile.AAUId
         </div>
+
+        <center>
+            <div class="row dl-horizontal">
+                <div class="col-md-6">
+                    @await Html.PartialAsync("_CoachProfilePartial", _coachProfile)
+                </div>
+            </div>
+        </center>
     }
 }

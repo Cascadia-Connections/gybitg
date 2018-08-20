@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.IO;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -49,15 +55,7 @@ namespace gybitg.Controllers
         public string ErrorMessage { get; set; }
         [TempData]
         public string StatusMessage { get; set; }
-        //[TempData]
-        //public int RequestedProfileId { get; set; }
 
-        // this enum class  needs to stay in line with the membership table 
-        public enum MemberType
-        {
-            ATHLETE = 1,
-            COACH,
-        }
 
         [AllowAnonymous]
         [HttpGet]
@@ -258,7 +256,7 @@ namespace gybitg.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             var rolesList = _roleManager.Roles.ToList();
-            rolesList.Insert(0, new IdentityRole { Name = "Select" });
+            //rolesList.Insert(0, new IdentityRole { Name = "Select" });
 
             ViewBag.ListofRole = rolesList;
 
@@ -277,13 +275,13 @@ namespace gybitg.Controllers
                 string email = model.Email;
                 var userName = email.Substring(0, email.IndexOf('@'));
 
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; // initialize the new Application User entity
+                var user = new ApplicationUser { UserName = userName, Email = model.Email }; // initialize the new Application User entity
 
                 var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
 
                 if (result.Succeeded) // create the necessary athlete/ coach profile, stats, and assign the User to its Role
                 {
-                    var roleModel = _roleManager.Roles.SingleOrDefault(r => r.Id == model.RoleId);
+                    var roleModel = _roleManager.Roles.SingleOrDefault(r => r.Id == model.RoleId);  // get the new User role type: 1 - Athlete, 2 - Coach
                     switch (roleModel.Name)
                     {
                         case "Athlete":
@@ -294,6 +292,7 @@ namespace gybitg.Controllers
                             await _userManager.AddToRoleAsync(user, roleModel.Name);
                             break;
                         case "Coach":
+                            user.Position = "Coach";
                             var coachProfile = new CoachProfile { UserId = user.Id }; // initialize a new Coach Profile entity and add to Coach role
                             _context.CoachProfiles.Add(coachProfile);
                             await _userManager.AddToRoleAsync(user, roleModel.Name);
@@ -303,7 +302,7 @@ namespace gybitg.Controllers
                     }
 
                     await _userManager.SetUserNameAsync(user, userName);    // set the Username within the User.Identity
-                    await _userManager.UpdateAsync(user); 
+                    await _userManager.UpdateAsync(user);
 
                     _context.SaveChanges();
 

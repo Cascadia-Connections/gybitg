@@ -14,14 +14,15 @@
     @if (Model.UserId == (string) UserManager.GetUserId(User))
         {
     @Html.ActionLink("Edit Profile", "EditAthleteProfile", "Manage", new { id = Model.UserId });
+        
         }
     <hr />
     <dl class="d2-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
+            Age
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DateOfBirth)
+            @(DateTime.Today.Year - Model.DateOfBirth.Year)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.PersnalBio)
@@ -36,6 +37,12 @@
             @Html.DisplayFor(model => model.Height)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.Weight)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Weight)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.HighschoolName)
         </dt>
         <dd>
@@ -48,28 +55,10 @@
             @Html.DisplayFor(model => model.HighschoolCoach)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.HSGraduationDate)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.HSGraduationDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.State)
         </dd>
     </dl>
 </div>

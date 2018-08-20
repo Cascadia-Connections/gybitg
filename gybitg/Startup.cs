@@ -73,6 +73,8 @@ namespace gybitg
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+
             services.AddMvc().AddRazorPagesOptions(options =>
             {
                 options.Conventions.AddPageRoute("/Account/Login", "landing");
@@ -103,14 +105,6 @@ namespace gybitg
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(
-                    name: "profile",
-                    template: "{controller=Account}/{action=Profile}/{id?}");
-
-                routes.MapRoute(
-                    name: "editAthleteProfile",
-                    template: "{controller=Manage}/{action=EditAthleteProfile}/{id?}");
             });
 
             CreateRoles(serviceProvider).Wait();

@@ -37,8 +37,6 @@ namespace gybitg.Models
 
         public string Achievments { get; set; }
 
-        public string Address { get; set; }
-
         public bool Verified { get; set; }
 
     }

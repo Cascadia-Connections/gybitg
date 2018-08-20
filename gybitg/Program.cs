@@ -16,7 +16,6 @@ namespace gybitg
     {
         public static void Main(string[] args)
         {
-            //var host = BuildWebHost(args);
 
             //using (var scope = host.Services.CreateScope())
             //{
@@ -33,7 +32,6 @@ namespace gybitg
             //    }
             //}
 
-            //host.Run();
 
             BuildWebHost(args).Run();
         }

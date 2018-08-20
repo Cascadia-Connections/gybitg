@@ -11,7 +11,7 @@ using System;
 namespace gybitg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180807070747_initial")]
+    [Migration("20180820215558_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,10 @@ namespace gybitg.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("AvatarImageUrl");
+
+                    b.Property<string>("City");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -56,12 +60,18 @@ namespace gybitg.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("Position");
+
                     b.Property<string>("SecurityStamp");
+
+                    b.Property<string>("State");
 
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
+
+                    b.Property<string>("Zip");
 
                     b.HasKey("Id");
 
@@ -83,8 +93,6 @@ namespace gybitg.Migrations
 
                     b.Property<string>("AAUId");
 
-                    b.Property<string>("City");
-
                     b.Property<DateTime>("DateOfBirth");
 
                     b.Property<DateTime>("HSGraduationDate");
@@ -96,10 +104,6 @@ namespace gybitg.Migrations
                     b.Property<string>("HighschoolName");
 
                     b.Property<string>("PersnalBio");
-
-                    b.Property<string>("Position");
-
-                    b.Property<string>("State");
 
                     b.Property<decimal>("Weight");
 
@@ -161,8 +165,6 @@ namespace gybitg.Migrations
                     b.Property<string>("AAUId");
 
                     b.Property<string>("Achievments");
-
-                    b.Property<string>("Address");
 
                     b.Property<int>("Lossess");
 

@@ -29,6 +29,8 @@ namespace gybitg.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false),
+                    AvatarImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
@@ -41,9 +43,12 @@ namespace gybitg.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true)
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    Zip = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,15 +61,12 @@ namespace gybitg.Migrations
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AAUId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     HSGraduationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Height = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     HighschoolCoach = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HighschoolName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PersnalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Weight = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
@@ -109,7 +111,6 @@ namespace gybitg.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     AAUId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Achievments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Lossess = table.Column<int>(type: "int", nullable: false),
                     PersnalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),

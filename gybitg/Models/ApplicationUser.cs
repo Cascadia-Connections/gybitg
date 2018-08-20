@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
+    
 
 namespace gybitg.Models
 {
@@ -24,5 +26,15 @@ namespace gybitg.Models
             }
         }
 
+        public string Position { get; set; }
+
+        public string City { get; set; }
+
+        public string State { get; set; }
+
+        [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid Zip")]
+        public string Zip { get; set; }
+  
+        public string AvatarImageUrl { get; set; }
     }
 }
