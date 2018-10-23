@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using gybitg.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace gybitg
 {
@@ -33,12 +34,52 @@ namespace gybitg
             //}
 
 
-            BuildWebHost(args).Run();
+            var host = BuildWebHost(args);
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    CreateRoles(services).Wait();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the DB Roles.");
+                }
+
+                async Task CreateRoles(IServiceProvider serviceProvider)
+                {
+                    // adding custom roles
+                    var RoleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                    string[] roleNames = { "Athlete", "Coach" };
+                    IdentityResult roleResult;
+
+                    foreach (var roleName in roleNames)
+                    {
+                        var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                        if (!roleExist)
+                        {
+                            // create the roles and seed them to the database
+                            roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                        }
+                    }
+
+                }
+            }
+
+            host.Run();
+             
+
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+                WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
+
+
     }
 }
