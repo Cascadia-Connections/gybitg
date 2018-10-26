@@ -79,7 +79,6 @@ namespace gybitg
             {
                 options.Conventions.AddPageRoute("/Account/Login", "landing");
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -106,28 +105,6 @@ namespace gybitg
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            CreateRoles(serviceProvider).Wait();
         }
-
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            // adding custom roles
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roleNames = { "Athlete", "Coach" };
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    // create the roles and seed them to the database
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-        }
-
     }
 }
