@@ -32,8 +32,19 @@ namespace gybitg
         {
             services.AddDistributedMemoryCache();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            // Use SQL Database if in Azure, otherwise, use local db
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development"  &&
+                Environment.GetEnvironmentVariable("ASPNETCORE_URLS") == "https://gybitg.azurewebsites.net") {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("GYBITG-dev")));
+            }
+            else{
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
+            // Automatically perform database migration
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -79,7 +90,6 @@ namespace gybitg
             {
                 options.Conventions.AddPageRoute("/Account/Login", "landing");
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -106,28 +116,6 @@ namespace gybitg
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            CreateRoles(serviceProvider).Wait();
         }
-
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            // adding custom roles
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roleNames = { "Athlete", "Coach" };
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    // create the roles and seed them to the database
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-        }
-
     }
 }
