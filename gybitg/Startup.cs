@@ -32,8 +32,19 @@ namespace gybitg
         {
             services.AddDistributedMemoryCache();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            // Use SQL Database if in Azure, otherwise, use SQLite
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production") {
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("GYBITG-dev")));
+                // Automatically perform database migration
+                services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            }
+            else{
+                //services.AddDbContext<ApplicationDbContext>(options =>
+                        //options.UseSqlite("Data Source=localdatabase.db"));
+                services.AddDbContext<ApplicationDbContext>(options =>
+                        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            }
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
