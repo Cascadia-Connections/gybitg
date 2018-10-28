@@ -37,7 +37,7 @@ namespace gybitg
                 services.AddDbContext<ApplicationDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("GYBITG-dev")));
                 // Automatically perform database migration
-                services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+                //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
             }
             else{
                 services.AddDbContext<ApplicationDbContext>(options =>
