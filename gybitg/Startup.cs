@@ -36,7 +36,7 @@ namespace gybitg
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
             // TODO: See if this in needed : Automatically perform database migration
-            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
