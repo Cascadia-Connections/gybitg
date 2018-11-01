@@ -7,18 +7,13 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using gybitg.Data;
 
-namespace gybitg
+namespace gybitg_api
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-
-
-
             BuildWebHost(args).Run();
         }
 
