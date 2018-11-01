@@ -135,10 +135,9 @@ namespace gybitg.Controllers
                 // if you want to store path of folder in database
                 PathDB = "avatars/" + newFilename;
 
-                //using (var ms = new FileStream(filename, FileMode.Create))
                 using (FileStream fs = System.IO.File.Create(filename))
                 {
-                    await model.AvatarImage.CopyToAsync(fs);
+                    await model.AvatarImage.CopyToAsync(fs);    // asynchronously copy the file to the avatar folder
                     fs.Flush();
                 }
 

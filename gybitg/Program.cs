@@ -18,20 +18,6 @@ namespace gybitg
         public static void Main(string[] args)
         {
 
-            //using (var scope = host.Services.CreateScope())
-            //{
-            //    var services = scope.ServiceProvider;
-            //    try
-            //    {
-            //        var context = services.GetRequiredService<ApplicationDbContext>();
-            //        DbInitializer.Initialize(context);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        var logger = services.GetRequiredService<ILogger<Program>>();
-            //        logger.LogError(ex, "An error occured while seeding the database.");
-            //    }
-            //}
 
 
             var host = BuildWebHost(args);

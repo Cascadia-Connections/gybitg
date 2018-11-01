@@ -328,3 +328,5 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/gybitg/Migrations/20181017200516_initial.Designer.cs
+/gybitg/Migrations/20181017200516_initial.cs
