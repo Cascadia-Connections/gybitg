@@ -25,6 +25,21 @@ using Newtonsoft.Json;
 
 namespace gybitg.Controllers
 {
+
+    public class LoggingEvents
+    {
+        public const int GenerateItems = 1000;
+        public const int ListItems = 1001;
+        public const int GetItem = 1002;
+        public const int InsertItem = 1003;
+        public const int UpdateItem = 1004;
+        public const int DeleteItem = 1005;
+
+        public const int GetItemNotFound = 4000;
+        public const int UpdateItemNotFound = 4001;
+    }
+
+
     [Produces("application/json")]
     [Route("api/User")]
     public class UserController : Controller
@@ -32,42 +47,83 @@ namespace gybitg.Controllers
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger _logger;
 
         public UserController(
             UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            ILogger<UserController> logger)
         {
             _userManager = userManager;
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/User
         [HttpGet]
-        public List<ApplicationUser> Get()
+        public IEnumerable<ApplicationUser> GetAll()
         {
-            var myUser = _context.Users.ToList();
-            return myUser;
+            return _userManager.Users.ToList();
         }
 
-        // GET: api/User/5
-        [HttpGet("{username}", Name = "Get")]
-        public ApplicationUser Get(string username)
+        // GET: api/User/dev
+        [HttpGet("{username}", Name = "GetUser")]
+        public IActionResult GetByUsername(string username)
         {
-            var user = _context.Users.SingleOrDefault(m => m.UserName == username);
-            
-            return user;
+            _logger.LogInformation(LoggingEvents.GetItem, "Getting User {userName}", username);
+
+            var user = _context.Users.FirstOrDefault(u => u.UserName == username);
+            if (user == null)
+            {
+                _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetByUsername({userName}) NOT FOUND", username);
+
+                return NotFound();
+            }
+            return new ObjectResult(user);
         }
 
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Create([FromBody] ApplicationUser user)
         {
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var _user = new ApplicationUser
+            {
+
+            };
+
+            _context.Users.Add(_user);
+            _context.SaveChanges();
+
+            return CreatedAtRoute("GetUser", new { UserName = user.UserName }, user);
+
         }
 
         // PUT: api/User/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Update(string id, [FromBody] ApplicationUser user)
         {
+            if (user == null || user.Id != id)
+            {
+                return BadRequest();
+            }
+
+            var _user = _context.Users.FirstOrDefault(t => t.Id == id);
+            if (_user == null)
+            {
+                return NotFound();
+            }
+
+
+
+            _context.Users.Update(_user);
+            _context.SaveChanges();
+            return new NoContentResult();
+
         }
 
         // DELETE: api/ApiWithActions/5
