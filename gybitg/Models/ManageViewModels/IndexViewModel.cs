@@ -50,6 +50,12 @@ namespace gybitg.Models.ManageViewModels
 
         public string AvatarImageUrl { get; set; }
 
+
+        [Display(Name = "Upload a profile video")]
+        public IFormFile PlayerVideo{ get; set; }
+
+        public string PlayerVideoUrl { get; set; }
+
         public string StatusMessage { get; set; }
     }
 }

@@ -149,7 +149,46 @@ namespace gybitg.Controllers
                     throw new ApplicationException($"Unexpected error occured setting avatar for the user with ID '{user.Id}'.");
                 }
             }
+            // Player Video upload process
+            if (model.PlayerVideo != null)
+            {
+                string PathDB = string.Empty;
+                var filename = string.Empty;
 
+                filename = ContentDispositionHeaderValue
+                                        .Parse(model.PlayerVideo.ContentDisposition)
+                                        .FileName
+                                        .Trim('"');
+
+                //Assigning Unique Filename (Guid)
+                var myUniqueFilename = Convert.ToString(Guid.NewGuid());
+
+                //Getting file Extension
+                var FileExtension = Path.GetExtension(filename);
+
+                // concating  FileName + FileExtension
+                newFilename = myUniqueFilename + FileExtension;
+
+                // Combines two strings into a path.
+                filename = Path.Combine(_environment.WebRootPath, "videos") + $@"\{newFilename}";
+
+                // if you want to store path of folder in database
+                PathDB = "videos/" + newFilename;
+
+                using (FileStream fs = System.IO.File.Create(filename))
+                {
+                    await model.PlayerVideo.CopyToAsync(fs);    // asynchronously copy the file to the avatar folder
+                    fs.Flush();
+                }
+
+                user.PlayerViedoUrl = PathDB;
+
+                var setPlayerVideoResult = await _userManager.UpdateAsync(user);
+                if (!setPlayerVideoResult.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occured setting player video for the user with ID '{user.Id}'.");
+                }
+            }
             var email = user.Email;
             if (model.Email != email)
             {

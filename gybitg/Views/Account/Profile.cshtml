@@ -22,14 +22,19 @@
         var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
         var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == _requestedProfileId);
 
+
         <div style="display:inline-block; padding-top: 20px;">
-            <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
+            <img src="~/@_user.AvatarImageUrl" type="video/mp4" width="200" height="200" />
             <p style="display:inline-grid">
                 <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
                 <br />
                 @_user.Position
                 <br />
                 Class of @_athleteProfile.HSGraduationDate.Year
+        </div>
+
+        <div class="video-container">
+            <iframe width="200" height="200" src="~/@_user.PlayerViedoUrl" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <center>
@@ -54,6 +59,11 @@
                 <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
                 <br />
                 @_user.Position for @_coachProfile.YearsCoaching years at @_coachProfile.AAUId
+        </div>
+
+
+        <div class="video-container">
+            <iframe width="200" height="200" src="~/@_user.PlayerViedoUrl" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
 
         <center>

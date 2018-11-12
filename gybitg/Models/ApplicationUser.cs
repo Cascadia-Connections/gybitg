@@ -36,5 +36,7 @@ namespace gybitg.Models
         public string Zip { get; set; }
   
         public string AvatarImageUrl { get; set; }
+
+        public string PlayerViedoUrl { get; set; }
     }
 }
