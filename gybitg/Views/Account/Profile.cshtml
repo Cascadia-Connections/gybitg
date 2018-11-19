@@ -25,23 +25,33 @@
         <div style="display:inline-block; padding-top: 20px;">
             <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
             <p style="display:inline-grid">
-                <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
+                <text style="font-size: x-large; font-weight: bold; color: darkorange;">@_user.FullName</text>
                 <br />
                 @_user.Position
                 <br />
                 Class of @_athleteProfile.HSGraduationDate.Year
         </div>
 
-        <center>
-            <div class="row dl-horizontal">
-                <div class="col-md-6">
-                    @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
+        
+            <div class="row">
+                <div class="col-md-4">
+                    <center>
+                        <div>
+                            @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
+                        </div>
+
+                        <div>
+                            @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
+                        </div>
+                        </center>
                 </div>
-                <div class="col-md-6">
-                    @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
+                <div class="col-md-8">
+                    <h2>Plays</h2>
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/gazoDjwHVJ4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
             </div>
-        </center>
 
     }
     else if (await UserManager.IsInRoleAsync(_user, "Coach")) // if User is Coach: load the Coach profile partial view
