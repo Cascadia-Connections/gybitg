@@ -52,7 +52,7 @@ namespace gybitg.Models.ManageViewModels
 
         public string StatusMessage { get; set; }
 
-        [Display (Name = "Enter URL for profile video")]
+        [Display (Name = "Paste YouTube Embed code for profile video")]
         public string ProfileVideoUrl { get; set; }
     }
 }
