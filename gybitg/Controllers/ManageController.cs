@@ -235,10 +235,6 @@ namespace gybitg.Controllers
             {
                 user.ProfileVideoUrl = model.ProfileVideoUrl;
 
-                //"<iframe title=\"YouTube video player\""
-                //+ "width=\"640\" height=\"390\" src=\"" + model.ProfileVideoUrl
-                //+ "\" frameborder=\"0\" allowfullscreen></iframe>";
-
                 var setProfileVideoUrl = await _userManager.UpdateAsync(user);
                 if (!setProfileVideoUrl.Succeeded)
                 {
