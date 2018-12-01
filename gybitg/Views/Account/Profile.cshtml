@@ -48,11 +48,9 @@
                 </div>
                 <div class="col-md-8">
                     <h2>Plays</h2>
-                    <div class="video-container">
-                       
-                        <iframe width="560" height="315" src="~/@_user.ProfileVideoUrl"
-                         frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
+                    <div>
+                       @Html.Raw( @_user.ProfileVideoUrl)
+                     </div>
                 </div>
             </div>
 
@@ -76,8 +74,8 @@
                     @await Html.PartialAsync("_CoachProfilePartial", _coachProfile)
                 </div>
             </div>
-            <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/SXDiunrtlIc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <div>
+                @Html.Raw(@_user.ProfileVideoUrl)
             </div>
         </center>
     }
