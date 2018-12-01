@@ -11,9 +11,10 @@ using System;
 namespace gybitg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181201175904_add profile video to database")]
+    partial class addprofilevideotodatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,7 +62,7 @@ namespace gybitg.Migrations
 
                     b.Property<string>("Position");
 
-                    b.Property<string>("ProfileVideoUrl");
+                    b.Property<string>("ProfileViedoUrl");
 
                     b.Property<string>("SecurityStamp");
 
