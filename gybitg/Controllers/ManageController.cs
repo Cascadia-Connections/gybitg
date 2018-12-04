@@ -230,6 +230,18 @@ namespace gybitg.Controllers
                 }
             }
 
+            var profileVideoUrl = user.ProfileVideoUrl;
+            if (model.ProfileVideoUrl != user.ProfileVideoUrl)
+            {
+                user.ProfileVideoUrl = model.ProfileVideoUrl;
+
+                var setProfileVideoUrl = await _userManager.UpdateAsync(user);
+                if (!setProfileVideoUrl.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
+                }
+            }
+
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }

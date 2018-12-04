@@ -51,5 +51,8 @@ namespace gybitg.Models.ManageViewModels
         public string AvatarImageUrl { get; set; }
 
         public string StatusMessage { get; set; }
+
+        [Display (Name = "Paste YouTube Embed code for profile video")]
+        public string ProfileVideoUrl { get; set; }
     }
 }
