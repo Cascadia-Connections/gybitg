@@ -36,7 +36,7 @@ namespace gybitg
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             
             // TODO: See if this in needed : Automatically perform database migration
-            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+            //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -87,7 +87,7 @@ namespace gybitg
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
-            if (env.IsDevelopment()||env.IsProduction())
+            if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
