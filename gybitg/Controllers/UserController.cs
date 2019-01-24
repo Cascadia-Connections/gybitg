@@ -25,21 +25,6 @@ using Newtonsoft.Json;
 
 namespace gybitg.Controllers
 {
-
-    public class LoggingEvents
-    {
-        public const int GenerateItems = 1000;
-        public const int ListItems = 1001;
-        public const int GetItem = 1002;
-        public const int InsertItem = 1003;
-        public const int UpdateItem = 1004;
-        public const int DeleteItem = 1005;
-
-        public const int GetItemNotFound = 4000;
-        public const int UpdateItemNotFound = 4001;
-    }
-
-
     [Produces("application/json")]
     [Route("api/User")]
     public class UserController : Controller
@@ -60,70 +45,110 @@ namespace gybitg.Controllers
         }
 
         // GET: api/User
+        // return all the users in the database and all their property fields
         [HttpGet]
-        public IEnumerable<ApplicationUser> GetAll()
+        public IActionResult Get()
         {
-            return _userManager.Users.ToList();
-        }
-
-        // GET: api/User/dev
-        [HttpGet("{username}", Name = "GetUser")]
-        public IActionResult GetByUsername(string username)
-        {
-            _logger.LogInformation(LoggingEvents.GetItem, "Getting User {userName}", username);
-
-            var user = _context.Users.FirstOrDefault(u => u.UserName == username);
-            if (user == null)
+            try
             {
-                _logger.LogWarning(LoggingEvents.GetItemNotFound, "GetByUsername({userName}) NOT FOUND", username);
-
-                return NotFound();
+                var AllUsers = _context.Users.ToList();
+                _logger.LogInformation($"Returned all users from the database");
+                return Ok(AllUsers);
             }
-            return new ObjectResult(user);
+            catch (Exception e)
+            {
+                _logger.LogError($"Something went wrong while retrieving users: {e.Message}");
+                return StatusCode(500, "Internal server errror");
+
+            }
         }
+
+        // GET: api/User/allfullnames
+        [HttpGet("allfullnames")]
+        public IActionResult GetAllFullNames()
+        {
+            try
+            {
+                // initialize new list of strings
+                List<string> ListOfNames = new List<string>();
+
+                // create list of all the users
+                var AllUsers = _context.Users.ToList();
+
+                // go through each user in the user list add their name to the ListOfNames list
+                foreach (var user in AllUsers)
+                {
+                    // if the user hasnt set their name in account settings
+                    if (user.FullName == " " || user.FullName == null)
+                    {
+                        ListOfNames.Add("User " + user.UserName + " has not set their full name");
+                    }
+                    else
+                    {
+                        ListOfNames.Add("Username: " + user.UserName + ", fullname: " + user.FullName);
+                    }
+                }
+                return Ok(ListOfNames);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Something went wrong with GetAllFullNames: {e.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        // GET: api/User/username
+        // Retrieve all specific user data
+        [HttpGet("{username}", Name = "Get")]
+        public IActionResult Get(string username)
+        {
+            try
+            {
+                var user = _context.Users.SingleOrDefault(m => m.UserName == username);
+
+                if (user.UserName == null)
+                {
+                    _logger.LogError($"User with username: {username}, hasn't been found in database");
+                    return NotFound();
+                }
+                else
+                {
+                    _logger.LogInformation($"Returned user with details for user: {username}");
+                    return Ok(user);
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Something went wrong with GET User/username action: {e.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+
+        }
+
+        // GET: api/User/username/fullname
+        // Retrieve the users fullname
+        [HttpGet("{username}/fullname", Name = "GetUserFullName")]
+        public IActionResult GetUserFullName(string username)
+        {
+            var user = _context.Users.SingleOrDefault(m => m.UserName == username);
+
+            var userFullName = user.FullName;
+
+            return Ok(userFullName);
+
+        }
+
 
         // POST: api/User
         [HttpPost]
-        public IActionResult Create([FromBody] ApplicationUser user)
+        public void Post([FromBody]string value)
         {
-            if (user == null)
-            {
-                return BadRequest();
-            }
-
-            var _user = new ApplicationUser
-            {
-
-            };
-
-            _context.Users.Add(_user);
-            _context.SaveChanges();
-
-            return CreatedAtRoute("GetUser", new { UserName = user.UserName }, user);
-
         }
 
         // PUT: api/User/5
         [HttpPut("{id}")]
-        public IActionResult Update(string id, [FromBody] ApplicationUser user)
+        public void Put(int id, [FromBody]string value)
         {
-            if (user == null || user.Id != id)
-            {
-                return BadRequest();
-            }
-
-            var _user = _context.Users.FirstOrDefault(t => t.Id == id);
-            if (_user == null)
-            {
-                return NotFound();
-            }
-
-
-
-            _context.Users.Update(_user);
-            _context.SaveChanges();
-            return new NoContentResult();
-
         }
 
         // DELETE: api/ApiWithActions/5
