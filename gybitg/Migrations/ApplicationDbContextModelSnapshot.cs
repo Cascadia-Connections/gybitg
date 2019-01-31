@@ -158,6 +158,21 @@ namespace gybitg.Migrations
                     b.ToTable("AthleteStats");
                 });
 
+            modelBuilder.Entity("gybitg.Models.CoachAhtlete", b =>
+                {
+                    b.Property<int>("CoachId");
+
+                    b.Property<int>("AthleteId");
+
+                    b.Property<string>("AthleteUserId");
+
+                    b.HasKey("CoachId", "AthleteId");
+
+                    b.HasIndex("AthleteUserId");
+
+                    b.ToTable("CoachAhtletes");
+                });
+
             modelBuilder.Entity("gybitg.Models.CoachProfile", b =>
                 {
                     b.Property<int>("Id")
@@ -291,6 +306,18 @@ namespace gybitg.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("gybitg.Models.CoachAhtlete", b =>
+                {
+                    b.HasOne("gybitg.Models.AthleteProfile", "Athlete")
+                        .WithMany()
+                        .HasForeignKey("AthleteUserId");
+
+                    b.HasOne("gybitg.Models.CoachProfile", "Coach")
+                        .WithMany()
+                        .HasForeignKey("CoachId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -37,5 +37,7 @@ namespace gybitg.Models
 
         [Display(Name = "AAU Team")]
         public string AAUId { get; set; }
+
+        public ICollection<CoachProfile> CoachProflies { get; } = new List<CoachProfile>();
     }
 }

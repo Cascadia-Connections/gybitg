@@ -110,7 +110,7 @@ namespace gybitg.Controllers
             }
 
             // Avatar image upload process
-            if (model.AvatarImage != null)  
+            if (model.AvatarImage != null)
             {
                 string PathDB = string.Empty;
                 var filename = string.Empty;
@@ -119,7 +119,7 @@ namespace gybitg.Controllers
                                         .Parse(model.AvatarImage.ContentDisposition)
                                         .FileName
                                         .Trim('"');
-                
+
                 //Assigning Unique Filename (Guid)
                 var myUniqueFilename = Convert.ToString(Guid.NewGuid());
 
@@ -246,6 +246,19 @@ namespace gybitg.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+        [HttpGet]
+        public IActionResult AthleteUsers ()
+        {
+            var usersOfRole = _userManager.GetUsersInRoleAsync("Athlete");
+            //var allusers = _context.Users.ToList();
+            //var users = allusers.Where(x => x.User.Select(role => role.Name).Contains("User")).ToList();
+            //var userVM = users.Select(user => new AthleteUserViewModel { UserId=user.Id, Roles = string.Join(",", user.Roles.Select(role => role.Name)) }).ToList();
+            //var usersOfRole = await _userManager.GetUsersInRoleAsync("Athlete");
+            
+
+            return View(usersOfRole);
+        }
         [HttpGet]
         public IActionResult EditAthleteProfile(string id)
         {
