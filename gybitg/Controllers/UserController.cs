@@ -22,43 +22,59 @@ using gybitg.Data;
 using gybitg.Models.AccountViewModels;
 using gybitg.Services;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace gybitg.Controllers
 {
     [Produces("application/json")]
-    [Route("api/User")]
+    [Route("api/[controller]")]
+    [RequireHttps]
     public class UserController : Controller
     {
 
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
 
         public UserController(
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext context,
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<UserController> logger)
         {
             _userManager = userManager;
             _context = context;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
             _logger = logger;
         }
 
         // GET: api/User
         // return all the users in the database and all their property fields
         [HttpGet]
-        public IActionResult Get()
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Get()
         {
             try
             {
-                var AllUsers = _context.Users.ToList();
-                _logger.LogInformation($"Returned all users from the database");
-                return Ok(AllUsers);
+                if (User.Identity.IsAuthenticated)
+                {
+                    ApplicationUser _user = await _userManager.FindByNameAsync(User.Identity.Name);
+                    _logger.LogInformation($"User found");
+                    return Ok(_user);
+                } else {
+                    return StatusCode(404, "No user currently logged in");     
+                }
             }
             catch (Exception e)
             {
-                _logger.LogError($"Something went wrong while retrieving users: {e.Message}");
-                return StatusCode(500, "Internal server errror");
+                _logger.LogError($"Something went wrong while retrieving user: {e.Message}");
+                return StatusCode(500, "Internal server error");
 
             }
         }
@@ -138,11 +154,113 @@ namespace gybitg.Controllers
 
         }
 
+        // This API method registers a new user by passing an email, password, and role from the form/body
+        // POST: api/user/registeruser
+        [HttpPost("register")]
+        public async Task<IActionResult> Register ([FromForm]string email,[FromForm]string password,[FromForm]string role)
+        {
+            try
+            {
+                // Get the username from the email
+                string mUserName = email.Substring(0, email.IndexOf('@'));
+            
+                // Initialize a new Application User
+                var mUser = new ApplicationUser { UserName = mUserName, Email = email };
+
+                var result = await _userManager.CreateAsync(mUser, password);   // Get the result of adding the new user to the AspNetUsers table
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(mUser, role); // Add the new user to the AspNetUserRoles table
+                    _logger.LogInformation($"Successfully registered new user:  { mUser}");
+                    return Ok(mUser);
+                }
+                else // If new user was unable to be registered; log the error
+                {
+                    _logger.LogError($"Unable to regiseter user {mUser}");
+                    return StatusCode(400, "New user was not created");
+                }
+            }
+            catch (Exception e) // Return any errors 
+            {
+                _logger.LogError($"Something went wrong with POST User/register action: {e.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromForm]string email,[FromForm] string password,[FromForm] bool rememberMe)
+        {
+            try
+            {
+                // Grab the user from the db from the provided username for password comparison
+                var _user = await _context.Users.SingleAsync(u => u.Email == email);
+
+                // Use the Signin Manager to compare the user:password provided
+                var result = await _signInManager.CheckPasswordSignInAsync(_user, password, false);
+                if (result.Succeeded)
+                {
+                    // After getting a confirmed user<->password result, go ahead and sign the user in
+                    await _signInManager.SignInAsync(_user, rememberMe);
+                    if (_signInManager.IsSignedIn(User) && User.Identity.Name == _user.UserName)  // Double check whether the right user was signed in
+                    {
+                        _logger.LogInformation($"Successfully logged in with user, {_user}");
+                        return Ok(_user);   // Return the signed in user
+                    } else     
+                    {
+                    _logger.LogError($"User {_user} was not successfully signed in");   
+                    return StatusCode(400, "Login failed");
+
+                    }
+                }
+                else    // If here - email or password was incorrect
+                {
+                    _logger.LogError($"Email or password was incorrect, please try again.");
+                    return StatusCode(400, "Login failed");
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Something went wrong with POST user/Login action: {e.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet("logout")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Logout()
+        {
+            try
+            {
+                if (User.Identity.IsAuthenticated)  // Check to make sure there is a user logged in
+                {
+                    await _signInManager.SignOutAsync();    // Log user out
+                    _logger.LogInformation($"User logged out.");
+                    return StatusCode(200, "User logged out");
+                }
+                else   // If here - then there wasnt a user logged in
+                {
+                    _logger.LogError($"No user logged in to logout");  
+                    return StatusCode(404, "no user logged in to logout");
+                }
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Something went wrong with GET user/Logout action: {e.Message}");
+                return StatusCode(500, "Internal server error with GET user/Logout action");
+            }
+        }
+
 
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromForm]string value)
         {
+            var mValue = value;
+
+            return Ok(mValue);
         }
 
         // PUT: api/User/5

@@ -273,11 +273,11 @@ namespace gybitg.Controllers
             if (ModelState.IsValid)
             {
                 string email = model.Email;
-                var userName = email.Substring(0, email.IndexOf('@'));
+                var userName = email.Substring(0, email.IndexOf('@')); // sets the username value in the identity table to everything before the '@' in the model's email
 
                 var user = new ApplicationUser { UserName = userName, Email = model.Email }; // initialize the new Application User entity
 
-                var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
+                var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully : returns true or false
 
                 if (result.Succeeded) // create the necessary athlete/ coach profile, stats, and assign the User to its Role
                 {
