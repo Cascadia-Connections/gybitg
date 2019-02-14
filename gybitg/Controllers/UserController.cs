@@ -68,7 +68,7 @@ namespace gybitg.Controllers
                     _logger.LogInformation($"User found");
                     return Ok(_user);
                 } else {
-                    return StatusCode(404, "No user currently logged in");     
+                    return StatusCode(404, "You are not signed in, please sign in first.");     
                 }
             }
             catch (Exception e)
@@ -188,6 +188,9 @@ namespace gybitg.Controllers
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Login([FromForm]string email,[FromForm] string password,[FromForm] bool rememberMe)
         {
             try
@@ -207,15 +210,15 @@ namespace gybitg.Controllers
                         return Ok(_user);   // Return the signed in user
                     } else     
                     {
-                    _logger.LogError($"User {_user} was not successfully signed in");   
-                    return StatusCode(400, "Login failed");
+                    _logger.LogError($"User, {_user}, could not log in.");   
+                    return StatusCode(400, "Login failed, Email/Password was incorrect, please try again.");
 
                     }
                 }
                 else    // If here - email or password was incorrect
                 {
-                    _logger.LogError($"Email or password was incorrect, please try again.");
-                    return StatusCode(400, "Login failed");
+                    _logger.LogError($"Email or password was incorrect, please try again");
+                    return StatusCode(400, "Login failed: Email/Password incorrect, please try agin.");
                 }
             }
             catch (Exception e)
@@ -225,10 +228,11 @@ namespace gybitg.Controllers
             }
         }
 
-        [HttpGet("logout")]
+        // POST: api/user/logout
+        [HttpPost("logout")]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Logout()
         {
             try
@@ -236,20 +240,49 @@ namespace gybitg.Controllers
                 if (User.Identity.IsAuthenticated)  // Check to make sure there is a user logged in
                 {
                     await _signInManager.SignOutAsync();    // Log user out
-                    _logger.LogInformation($"User logged out.");
-                    return StatusCode(200, "User logged out");
+                    _logger.LogInformation($"User successfully logged out.");
+                    return StatusCode(200, "Successfully logged out");
                 }
                 else   // If here - then there wasnt a user logged in
                 {
                     _logger.LogError($"No user logged in to logout");  
-                    return StatusCode(404, "no user logged in to logout");
+                    return StatusCode(404, "You are not logged in.");
                 }
 
             }
             catch (Exception e)
             {
-                _logger.LogError($"Something went wrong with GET user/Logout action: {e.Message}");
-                return StatusCode(500, "Internal server error with GET user/Logout action");
+                _logger.LogError($"Something went wrong with POST user/Logout action: {e.Message}");
+                return StatusCode(500, "Internal server error with POST user/Logout action");
+            }
+        }
+
+        // POST: api/user/addstat
+        [HttpPost("addstat")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [Authorize]
+        public async Task<IActionResult> AddStat()
+        {
+            if (!User.Identity.IsAuthenticated || User.IsInRole("Athlete") == false)    // Make sure current user is an Athlete
+            {
+                return StatusCode(400, "You must be logged in as an Athlete to access this action");
+            }
+            else
+            {
+                try
+                {
+                    ApplicationUser _user = await _userManager.FindByNameAsync(User.Identity.Name);     // Initialize application user to currently signed in user
+                    _logger.LogInformation($"You have been uthorized to add new game stat");
+                    return Ok(_user);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError($"Something went wrong with the POST user/addstat action: {e.Message}");
+                    return StatusCode(500, "Internal server error with POST user/addstat action");
+                }
             }
         }
 
