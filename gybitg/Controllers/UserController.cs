@@ -268,7 +268,7 @@ namespace gybitg.Controllers
         {
             if (!User.Identity.IsAuthenticated || User.IsInRole("Athlete") == false)    // Make sure current user is an Athlete
             {
-                return StatusCode(400, "You must be logged in as an Athlete to access this action");
+                return StatusCode(400, "You must be signed in as an Athlete to access this action");
             }
             else
             {
