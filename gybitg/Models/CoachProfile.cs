@@ -8,10 +8,8 @@ namespace gybitg.Models
 {
     public class CoachProfile
     {
-        [Key]
-        public int Id { get; set; }
 
-        [Required]
+        [Key]
         public string UserId { get; set; }
 
         [Display(Name = "AAU Team")]

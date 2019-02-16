@@ -35,6 +35,9 @@ namespace gybitg
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            // TODO: See if this in needed : Automatically perform database migration
+            //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
+
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Password settings
@@ -79,7 +82,6 @@ namespace gybitg
             {
                 options.Conventions.AddPageRoute("/Account/Login", "landing");
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -107,27 +109,8 @@ namespace gybitg
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            CreateRoles(serviceProvider).Wait();
+            // Make sure we have the database
+            serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
         }
-
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            // adding custom roles
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            string[] roleNames = { "Athlete", "Coach" };
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    // create the roles and seed them to the database
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-        }
-
     }
 }
