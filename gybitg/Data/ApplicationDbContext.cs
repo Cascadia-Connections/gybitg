@@ -19,7 +19,6 @@ namespace gybitg.Data
         public DbSet<AthleteProfile> AthleteProfiles { get; set; }
         public DbSet<AthleteStats> AthleteStats { get; set; }
         public DbSet<CoachProfile> CoachProfiles { get; set; }
-        //public DbSet<Membership> Memberships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

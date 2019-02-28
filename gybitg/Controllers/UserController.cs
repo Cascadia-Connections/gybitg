@@ -1,27 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using System.IO;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using gybitg.Models;
 using gybitg.Data;
-using gybitg.Models.AccountViewModels;
-using gybitg.Services;
-using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace gybitg.Controllers
@@ -174,10 +160,10 @@ namespace gybitg.Controllers
                     _logger.LogInformation($"Successfully registered new user:  { mUser}");
                     return Ok(mUser);
                 }
-                else // If new user was unable to be registered; log the error
+                else // If new user was unable to be registered; log the error. Most likely because duplicate user email
                 {
-                    _logger.LogError($"Unable to regiseter user {mUser}");
-                    return StatusCode(400, "New user was not created");
+                    _logger.LogError($"Unable to regiseter> {result.Errors}");
+                    return StatusCode(400, result.Errors.LastOrDefault().Description);
                 }
             }
             catch (Exception e) // Return any errors 
@@ -191,10 +177,16 @@ namespace gybitg.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> Login([FromForm]string email,[FromForm] string password,[FromForm] bool rememberMe)
+        public async Task<IActionResult> Login([FromForm]string email, [FromForm] string password, [FromForm] bool rememberMe)
         {
             try
             {
+                // Check to see if the user is already logged in
+                if (User.Identity.IsAuthenticated)
+                {
+                    return StatusCode(400, "You are already logged in");
+                }
+
                 // Grab the user from the db from the provided username for password comparison
                 var _user = await _context.Users.SingleAsync(u => u.Email == email);
 
@@ -202,29 +194,20 @@ namespace gybitg.Controllers
                 var result = await _signInManager.CheckPasswordSignInAsync(_user, password, false);
                 if (result.Succeeded)
                 {
-                    // After getting a confirmed user<->password result, go ahead and sign the user in
                     await _signInManager.SignInAsync(_user, rememberMe);
-                    if (_signInManager.IsSignedIn(User) && User.Identity.Name == _user.UserName)  // Double check whether the right user was signed in
-                    {
-                        _logger.LogInformation($"Successfully logged in with user, {_user}");
-                        return Ok(_user);   // Return the signed in user
-                    } else     
-                    {
-                    _logger.LogError($"User, {_user}, could not log in.");   
-                    return StatusCode(400, "Login failed, Email/Password was incorrect, please try again.");
-
-                    }
+                    _logger.LogInformation($"Successfully logged in with user, {_user}");
+                    return Ok(_user);   // Return the signed in user
                 }
                 else    // If here - email or password was incorrect
                 {
-                    _logger.LogError($"Email or password was incorrect, please try again");
-                    return StatusCode(400, "Login failed: Email/Password incorrect, please try agin.");
+                    _logger.LogError($"The email or password was incorrect.");
+                    return StatusCode(400, "The email or password is incorrect.");
                 }
             }
             catch (Exception e)
             {
                 _logger.LogError($"Something went wrong with POST user/Login action: {e.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Internal server error, please try again.");
             }
         }
 
@@ -262,19 +245,21 @@ namespace gybitg.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
         [Authorize]
-        public async Task<IActionResult> AddStat()
+        public async Task<IActionResult> AddStat([FromForm] int points, [FromForm] int rebounds, [FromForm] int steals,
+            [FromForm] int assists, [FromForm] int blocks, [FromForm] int minutesPlayed)
         {
+
             if (!User.Identity.IsAuthenticated || User.IsInRole("Athlete") == false)    // Make sure current user is an Athlete
             {
-                return StatusCode(400, "You must be signed in as an Athlete to access this action");
+                return StatusCode(400, "You must be logged in as an Athlete to access this action");
             }
             else
             {
                 try
                 {
-                    ApplicationUser _user = await _userManager.FindByNameAsync(User.Identity.Name);     // Initialize application user to currently signed in user
+                    AthleteStats _athleteStat = new AthleteStats();
+                    ApplicationUser _user = await _userManager.GetUserAsync(User);     // Initialize application user to currently signed in user
                     _logger.LogInformation($"You have been uthorized to add new game stat");
                     return Ok(_user);
                 }

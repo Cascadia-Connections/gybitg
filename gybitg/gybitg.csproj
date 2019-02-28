@@ -28,4 +28,10 @@
     <None Include="wwwroot\images\settings-icon.svg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Account\_StatusMessage.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>

@@ -125,7 +125,7 @@ namespace gybitg.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "The username or password was incorrect.");
                     return View(model);
                 }
             }
@@ -282,6 +282,7 @@ namespace gybitg.Controllers
                 if (result.Succeeded) // create the necessary athlete/ coach profile, stats, and assign the User to its Role
                 {
                     var roleModel = _roleManager.Roles.SingleOrDefault(r => r.Id == model.RoleId);  // get the new User role type: 1 - Athlete, 2 - Coach
+                    ViewData["RegisterStatusMessage"] = "New user registered";
                     switch (roleModel.Name)
                     {
                         case "Athlete":
@@ -318,7 +319,11 @@ namespace gybitg.Controllers
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
-                AddErrors(result);
+                else
+                {
+                    TempData["ErrorMessage"] = result.Errors.LastOrDefault().Description;
+                    return RedirectToAction(nameof(Register));
+                }
             }
 
             // If we got this far, something failed, redisplay form
