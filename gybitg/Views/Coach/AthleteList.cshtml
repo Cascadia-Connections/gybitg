@@ -1,0 +1,93 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views.Manage
+@using gybitg.Data
+@using gybitg.Views
+@model IEnumerable<gybitg.Models.ManageViewModels.AthleteUserViewModel>
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "AthleteList";
+    ViewData.AddActivePage(ManageNavPages.AthleteList);
+    var _requestedProfileId = (string)ViewData["RequestedProfileId"];
+    var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId);
+}
+<h2>AthleteList</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AvatarImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProfileVideoUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HSGraduationDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HSGraduationDate)
+            </td>
+            <td>
+                <div style="display:inline-block; padding-top: 20px;">
+                    <img src="~/@Html.DisplayFor(modelItem => item.AvatarImageUrl)" width="200" height="200" />
+
+                </div>
+
+            </td>
+            <td>
+                <div class="col-md-8">
+                    @Html.Raw(item.ProfileVideoUrl)
+                </div>
+            </td>
+
+        </tr>
+            <tr>
+                <td colspan="3">
+                    
+                    <form asp-action="Follow" @*asp-route-id="@item.UserId"*@ asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                        @*<p>*@
+                        <button type="submit" id="UserId" class="btn-success btn-lg btn-block" name="UserId" value=@item.UserId >Follow @item.FullName</button>
+                         @*<input type="button" style="color:black" name="SearchString">*@
+                        @*< button type="follow"  class="btn-btn-default" value="Follow" />*@
+                        @*</p>*@
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
