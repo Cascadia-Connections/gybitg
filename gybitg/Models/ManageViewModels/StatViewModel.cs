@@ -12,9 +12,6 @@ namespace gybitg.Models.ManageViewModels
         public int Id { get; set; }
 
         [Required]
-        public string UserId { get; set; }
-
-        [Required]
         [DataType(DataType.Date)]
         [Display(Name = "Game Date")]
         public DateTime DateOfEntry { get; set; }

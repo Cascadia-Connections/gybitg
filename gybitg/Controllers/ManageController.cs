@@ -37,8 +37,6 @@ namespace gybitg.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _environment;
 
-
-
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
         public ManageController(
@@ -333,28 +331,72 @@ namespace gybitg.Controllers
         }
 
         [HttpGet]
-        public IActionResult GameStats()
-        {       
-            var statList = _context.Stats.ToList().Where(s => s.Id == _userManager.GetUserAsync(User).Id);
-            if (statList.Count() > 0)
-            {
-                return View(statList);
-            }
-            return View(new StatViewModel()); ;
+        public void GameStats()
+        {
+            //var _tempUser = await _userManager.GetUserAsync(User);
+            //var statList = _context.Stats.ToList().Where(s => s.UserId == _tempUser.Id);
+
+            //if (statList.Count() > 0)
+            //{
+            //    return View(statList);
+            //}
+            //return View(new StatViewModel());
+            return;
         }
 
         [HttpPost]
-        public IActionResult GameStats(StatViewModel vModel)
-            {
+        public void GameStats() {
+            return;
+        }
+
+        [HttpGet]
+        public IActionResult StatList()
+        {
+
+        }
+
+        [HttpPost]
+        public IActionResult StatList()
+        {
+
+        }
+
+        [HttpGet]
+        public IActionResult StatAdd()
+        {
+            var vModel = new StatViewModel();
+
+            return View(vModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> StatAdd(StatViewModel vModel)
+        {
+
             if (!ModelState.IsValid)
             {
                 return View(vModel);
             }
+            var _stat = new Stat();
+            var _tempUser = await _userManager.GetUserAsync(User);
 
+            _stat.UserId = _tempUser.Id;
+            _stat.Points = vModel.Points;
+            _stat.Rebounds = vModel.Rebounds;
+            _stat.Assists = vModel.Assists;
+            _stat.Steals = vModel.Steals;
+            _stat.Blocks = vModel.Blocks;
+            _stat.MinutesPlayed = vModel.MinutesPlayed;
+
+            _context.Stats.Add(_stat);
+            await _context.SaveChangesAsync();
+
+            StatusMessage = "New Stat Added";
 
             return RedirectToAction("GameStats");
-        }
 
+        }
+        
         //[HttpGet]
         //public IActionResult EditAthleteStats(string id)
         //{
