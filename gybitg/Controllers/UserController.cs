@@ -258,7 +258,7 @@ namespace gybitg.Controllers
             {
                 try
                 {
-                    AthleteStats _athleteStat = new AthleteStats();
+                    //AthleteStats _athleteStat = new AthleteStats();
                     ApplicationUser _user = await _userManager.GetUserAsync(User);     // Initialize application user to currently signed in user
                     _logger.LogInformation($"You have been uthorized to add new game stat");
                     return Ok(_user);

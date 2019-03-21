@@ -17,7 +17,7 @@ namespace gybitg.Data
         }
 
         public DbSet<AthleteProfile> AthleteProfiles { get; set; }
-        public DbSet<AthleteStats> AthleteStats { get; set; }
+        public DbSet<Stat> Stats { get; set; }
         public DbSet<CoachProfile> CoachProfiles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -35,6 +35,10 @@ namespace gybitg.Data
             if (Environment.GetEnvironmentVariable("LOCAL_ENVIRONMENT") == "Mac-Docker")
                 optionsBuilder.UseSqlServer("Server=localhost,1433; Database=GYBITGv1;User=SA; Password=P@ssword909");
         }
+
+        //TODO: on VS-MAC use the reference https://www.ciclosoftware.com/2018/03/14/sql-server-with-net-core-and-entityframework-on-mac/
+        //TODO: Update with your Database, User, and Password
+        public DbSet<gybitg.Models.ManageViewModels.StatViewModel> StatViewModel { get; set; }
 
     }
 }

@@ -10,13 +10,6 @@
 @model gybitg.Models.AthleteStats
 
 <div>
-    <h3>Stats</h3>
-    @if (Model.UserId == (string)UserManager.GetUserId(User))
-    {
-        @Html.ActionLink("Edit Stats", "EditAthleteStats", "Manage", new { id = Model.UserId });
-    }
-
-    <hr />
     <dl class="d2-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.PPG)

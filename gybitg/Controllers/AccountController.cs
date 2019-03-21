@@ -74,7 +74,7 @@ namespace gybitg.Controllers
             if (await _userManager.IsInRoleAsync(_profile, "Athlete")) // check if the user is an Athlete: return Profile & Stats
             {
                 var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == id);
-                var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == id);
+                var _athleteStats = _context.Stats.SingleOrDefault(m => m.UserId == id);
                 return View(_athleteProfile);
             }
             else if (await _userManager.IsInRoleAsync(_profile, "Coach"))   // check if the user is a Coach: return Profile
@@ -112,6 +112,7 @@ namespace gybitg.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -272,10 +273,10 @@ namespace gybitg.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                string email = model.Email;
-                var userName = email.Substring(0, email.IndexOf('@')); // sets the username value in the identity table to everything before the '@' in the model's email
+                //string email = model.Email;
+                //var userName = email.Substring(0, email.IndexOf('@')); // sets the username value in the identity table to everything before the '@' in the model's email
 
-                var user = new ApplicationUser { UserName = userName, Email = model.Email }; // initialize the new Application User entity
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email }; // initialize the new Application User entity
 
                 var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully : returns true or false
 
@@ -287,9 +288,7 @@ namespace gybitg.Controllers
                     {
                         case "Athlete":
                             var athleteProfile = new AthleteProfile { UserId = user.Id }; // initialize a new Athlete Profile entity
-                            var athleteStats = new AthleteStats { UserId = user.Id, DateOFEntry = DateTime.Now }; // initialize a new Athlete Stats entity and add to Athlete role
                             _context.AthleteProfiles.Add(athleteProfile);
-                            _context.AthleteStats.Add(athleteStats);
                             await _userManager.AddToRoleAsync(user, roleModel.Name);
                             break;
                         case "Coach":
@@ -302,8 +301,8 @@ namespace gybitg.Controllers
                             break;
                     }
 
-                    await _userManager.SetUserNameAsync(user, userName);    // set the Username within the User.Identity
-                    await _userManager.UpdateAsync(user);
+                    //await _userManager.SetUserNameAsync(user, userName);    // set the Username within the User.Identity
+                    //await _userManager.UpdateAsync(user);
 
                     _context.SaveChanges();
 

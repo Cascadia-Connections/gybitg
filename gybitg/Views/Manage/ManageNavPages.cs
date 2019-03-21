@@ -15,7 +15,9 @@ namespace gybitg.Views.Manage
 
         public static string EditAthleteProfile => "EditAthleteProfile";
 
-        public static string EditAthleteStats => "EditAthleteStats";
+        //public static string EditAthleteStats => "EditAthleteStats";
+
+        public static string GameStats => "GameStats";
 
         public static string EditCoachProfile => "EditCoachProfile";
 
@@ -29,7 +31,9 @@ namespace gybitg.Views.Manage
 
         public static string EditAthleteProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditAthleteProfile);
 
-        public static string EditAthleteStatsNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditAthleteStats);
+        //public static string EditAthleteStatsNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditAthleteStats);
+
+        public static string GameStatsNavClass(ViewContext viewContext) => PageNavClass(viewContext, GameStats);
 
         public static string EditCoachProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditCoachProfile);
 

@@ -1,0 +1,50 @@
+﻿@model gybitg.Models.ManageViewModels.StatViewModel
+
+<h3><strong>Add New Game Stat</strong></h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="StatAdd">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DateOfEntry" class="control-label"></label>
+                <input asp-for="DateOfEntry" class="form-control" />
+                <span asp-validation-for="DateOfEntry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Points" class="control-label"></label>
+                <input asp-for="Points" class="form-control" />
+                <span asp-validation-for="Points" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rebounds" class="control-label"></label>
+                <input asp-for="Rebounds" class="form-control" />
+                <span asp-validation-for="Rebounds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Assists" class="control-label"></label>
+                <input asp-for="Assists" class="form-control" />
+                <span asp-validation-for="Assists" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Steals" class="control-label"></label>
+                <input asp-for="Steals" class="form-control" />
+                <span asp-validation-for="Steals" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Blocks" class="control-label"></label>
+                <input asp-for="Blocks" class="form-control" />
+                <span asp-validation-for="Blocks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinutesPlayed" class="control-label"></label>
+                <input asp-for="MinutesPlayed" class="form-control" />
+                <span asp-validation-for="MinutesPlayed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+

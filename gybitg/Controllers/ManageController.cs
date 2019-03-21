@@ -333,142 +333,165 @@ namespace gybitg.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditAthleteStats(string id)
-        {
-            id = _userManager.GetUserId(User);
-
-            var _userStats = _context.AthleteStats.SingleOrDefault(p => p.UserId == id);
-
-            var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
-
-            if (_userStats == null)
+        public IActionResult GameStats()
+        {       
+            var statList = _context.Stats.ToList().Where(s => s.Id == _userManager.GetUserAsync(User).Id);
+            if (statList.Count() > 0)
             {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return View(statList);
             }
-
-            var vModel = new AthleteStatsViewModel
-            {
-                UserId = id,
-                PPG = _userStats.PPG,
-                RPG = _userStats.RPG,
-                APG = _userStats.APG,
-                GP = _userStats.GP,
-                GS = _userStats.GS,
-                MPG = _userStats.MPG,
-                FGAG = _userStats.FGAG,
-                FGMG = _userStats.FGMG,
-                FGG = _userStats.FGG,
-                FTAG = _userStats.FTAG,
-                FTMG = _userStats.FTMG,
-                FTP = _userStats.FTP,
-                TPAG = _userStats.TPAG,
-                TPMG = _userStats.TPMG,
-                TPP = _userStats.TPP,
-                StatusMessage = StatusMessage
-            };
-
-            return View(vModel);
+            return View(new StatViewModel()); ;
         }
 
         [HttpPost]
-        public IActionResult EditAthleteStats(AthleteStatsViewModel vmodel, string id)
-        {
+        public IActionResult GameStats(StatViewModel vModel)
+            {
             if (!ModelState.IsValid)
             {
-                return View(vmodel);
+                return View(vModel);
             }
 
-            var userStats = _context.AthleteStats.SingleOrDefault(u => u.UserId == vmodel.UserId);
-            id = userStats.UserId;
 
-            if (userStats == null)
-            {
-                throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-            var PPG = userStats.PPG;
-            var RPG = userStats.RPG;
-            var APG = userStats.APG;
-            var GP = userStats.GP;
-            var GS = userStats.GS;
-            var MPG = userStats.MPG;
-            var FGAG = userStats.FGAG;
-            var FGMG = userStats.FGMG;
-            var FGG = userStats.FGG;
-            var FTAG = userStats.FTAG;
-            var FTMG = userStats.FTMG;
-            var FTP = userStats.FTP;
-            var TPAG = userStats.TPAG;
-            var TPMG = userStats.TPMG;
-            var TPP = userStats.TPMG;
-
-            if (vmodel.PPG != PPG)
-            {
-                userStats.PPG = vmodel.PPG;
-            }
-            if (vmodel.RPG != RPG)
-            {
-                userStats.RPG = vmodel.RPG;
-            }
-            if (vmodel.APG != APG)
-            {
-                userStats.APG = vmodel.APG;
-            }
-            if (vmodel.GP != GP)
-            {
-                userStats.GP = vmodel.GP;
-            }
-            if (vmodel.GS != GS)
-            {
-                userStats.GS = vmodel.GS;
-            }
-            if (vmodel.MPG != MPG)
-            {
-                userStats.MPG = vmodel.MPG;
-            }
-            if (vmodel.FGAG != FGAG)
-            {
-                userStats.FGAG = vmodel.FGAG;
-            }
-            if (vmodel.FGMG != FGMG)
-            {
-                userStats.FGMG = vmodel.FGMG;
-            }
-            if (vmodel.FGG != FGG)
-            {
-                userStats.FGG = vmodel.FGG;
-            }
-            if (vmodel.FTAG != FTAG)
-            {
-                userStats.FTAG = vmodel.FTAG;
-            }
-            if (vmodel.FTMG != FTMG)
-            {
-                userStats.FTMG = vmodel.FTMG;
-            }
-            if (vmodel.FTP != FTP)
-            {
-                userStats.FTP = vmodel.FTP;
-            }
-            if (vmodel.TPAG != TPAG)
-            {
-                userStats.TPAG = vmodel.TPAG;
-            }
-            if (vmodel.TPMG != TPMG)
-            {
-                userStats.TPMG = vmodel.TPMG;
-            }
-            if (vmodel.TPP != TPP)
-            {
-                userStats.TPP = vmodel.TPP;
-            }
-
-            _context.Update(userStats);
-            _context.SaveChanges();
-
-            StatusMessage = "Your statistics have been updated.";
-
-            return RedirectToAction(nameof(EditAthleteStats), "Manage", userStats, id);
+            return RedirectToAction("GameStats");
         }
+
+        //[HttpGet]
+        //public IActionResult EditAthleteStats(string id)
+        //{
+        //    id = _userManager.GetUserId(User);
+
+        //    var _userStats = _context.Stats.SingleOrDefault(p => p.UserId == id);
+
+        //    var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
+
+        //    if (_userStats == null)
+        //    {
+        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        //    }
+
+        //    var vModel = new AthleteStatsViewModel
+        //    {
+        //        UserId = id,
+        //        PPG = _userStats.PPG,
+        //        RPG = _userStats.RPG,
+        //        APG = _userStats.APG,
+        //        GP = _userStats.GP,
+        //        GS = _userStats.GS,
+        //        MPG = _userStats.MPG,
+        //        FGAG = _userStats.FGAG,
+        //        FGMG = _userStats.FGMG,
+        //        FGG = _userStats.FGG,
+        //        FTAG = _userStats.FTAG,
+        //        FTMG = _userStats.FTMG,
+        //        FTP = _userStats.FTP,
+        //        TPAG = _userStats.TPAG,
+        //        TPMG = _userStats.TPMG,
+        //        TPP = _userStats.TPP,
+        //        StatusMessage = StatusMessage
+        //    };
+
+        //    return View(vModel);
+        //}
+
+        //[HttpPost]
+        //public IActionResult EditAthleteStats(AthleteStatsViewModel vmodel, string id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return View(vmodel);
+        //    }
+
+        //    var userStats = _context.Stats.SingleOrDefault(u => u.UserId == vmodel.UserId);
+        //    id = userStats.UserId;
+
+        //    if (userStats == null)
+        //    {
+        //        throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+        //    }
+        //    var PPG = userStats.PPG;
+        //    var RPG = userStats.RPG;
+        //    var APG = userStats.APG;
+        //    var GP = userStats.GP;
+        //    var GS = userStats.GS;
+        //    var MPG = userStats.MPG;
+        //    var FGAG = userStats.FGAG;
+        //    var FGMG = userStats.FGMG;
+        //    var FGG = userStats.FGG;
+        //    var FTAG = userStats.FTAG;
+        //    var FTMG = userStats.FTMG;
+        //    var FTP = userStats.FTP;
+        //    var TPAG = userStats.TPAG;
+        //    var TPMG = userStats.TPMG;
+        //    var TPP = userStats.TPMG;
+
+        //    if (vmodel.PPG != PPG)
+        //    {
+        //        userStats.PPG = vmodel.PPG;
+        //    }
+        //    if (vmodel.RPG != RPG)
+        //    {
+        //        userStats.RPG = vmodel.RPG;
+        //    }
+        //    if (vmodel.APG != APG)
+        //    {
+        //        userStats.APG = vmodel.APG;
+        //    }
+        //    if (vmodel.GP != GP)
+        //    {
+        //        userStats.GP = vmodel.GP;
+        //    }
+        //    if (vmodel.GS != GS)
+        //    {
+        //        userStats.GS = vmodel.GS;
+        //    }
+        //    if (vmodel.MPG != MPG)
+        //    {
+        //        userStats.MPG = vmodel.MPG;
+        //    }
+        //    if (vmodel.FGAG != FGAG)
+        //    {
+        //        userStats.FGAG = vmodel.FGAG;
+        //    }
+        //    if (vmodel.FGMG != FGMG)
+        //    {
+        //        userStats.FGMG = vmodel.FGMG;
+        //    }
+        //    if (vmodel.FGG != FGG)
+        //    {
+        //        userStats.FGG = vmodel.FGG;
+        //    }
+        //    if (vmodel.FTAG != FTAG)
+        //    {
+        //        userStats.FTAG = vmodel.FTAG;
+        //    }
+        //    if (vmodel.FTMG != FTMG)
+        //    {
+        //        userStats.FTMG = vmodel.FTMG;
+        //    }
+        //    if (vmodel.FTP != FTP)
+        //    {
+        //        userStats.FTP = vmodel.FTP;
+        //    }
+        //    if (vmodel.TPAG != TPAG)
+        //    {
+        //        userStats.TPAG = vmodel.TPAG;
+        //    }
+        //    if (vmodel.TPMG != TPMG)
+        //    {
+        //        userStats.TPMG = vmodel.TPMG;
+        //    }
+        //    if (vmodel.TPP != TPP)
+        //    {
+        //        userStats.TPP = vmodel.TPP;
+        //    }
+
+        //    _context.Update(userStats);
+        //    _context.SaveChanges();
+
+        //    StatusMessage = "Your statistics have been updated.";
+
+        //    return RedirectToAction(nameof(EditAthleteStats), "Manage", userStats, id);
+        //}
 
 
         [HttpGet]

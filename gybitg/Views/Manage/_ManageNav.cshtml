@@ -15,7 +15,7 @@
     @if (await UserManager.IsInRoleAsync(_curUser, "Athlete")) // athlete profile & stats 
     {
         <li class="@ManageNavPages.EditAthleteProfileNavClass(ViewContext)"><a asp-action="EditAthleteProfile" asp-route-id="@_curUser.Id">Profile</a></li>
-        <li class="@ManageNavPages.EditAthleteStatsNavClass(ViewContext)"><a asp-action="EditAthleteStats" asp-route-id="@_curUser.Id">Stats</a> </li>
+        <li class="@ManageNavPages.GameStatsNavClass(ViewContext)"><a asp-action="GameStats">Game Stats</a> </li>
     }
     else if (await UserManager.IsInRoleAsync(_curUser, "Coach")) // coach profile 
     {
