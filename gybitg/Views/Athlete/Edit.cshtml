@@ -1,0 +1,66 @@
+﻿@model gybitg.Models.AthleteProfile
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>AthleteProfile</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersnalBio" class="control-label"></label>
+                <input asp-for="PersnalBio" class="form-control" />
+                <span asp-validation-for="PersnalBio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HighschoolName" class="control-label"></label>
+                <input asp-for="HighschoolName" class="form-control" />
+                <span asp-validation-for="HighschoolName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HighschoolCoach" class="control-label"></label>
+                <input asp-for="HighschoolCoach" class="form-control" />
+                <span asp-validation-for="HighschoolCoach" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HSGraduationDate" class="control-label"></label>
+                <input asp-for="HSGraduationDate" class="form-control" />
+                <span asp-validation-for="HSGraduationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AAUId" class="control-label"></label>
+                <input asp-for="AAUId" class="form-control" />
+                <span asp-validation-for="AAUId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

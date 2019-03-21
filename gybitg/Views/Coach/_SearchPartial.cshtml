@@ -1,0 +1,71 @@
+﻿@model IEnumerable<gybitg.Models.AthleteProfile>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateOfBirth)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Height)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Weight)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PersnalBio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HighschoolName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HighschoolCoach)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HSGraduationDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AAUId)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersnalBio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HighschoolName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HighschoolCoach)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HSGraduationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AAUId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

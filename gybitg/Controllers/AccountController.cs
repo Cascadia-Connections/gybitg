@@ -112,8 +112,16 @@ namespace gybitg.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
+
+                    var _tempUser = _context.Users.SingleOrDefault(m=> m.UserName == model.Username);
+
+                    if (await _userManager.IsInRoleAsync(_tempUser, "Coach"))
+                    {
+                        return RedirectToAction("Index", "Coach");
+                    }
+                    return RedirectToAction("Index", "Athlete");
                 }
+                
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
@@ -331,7 +339,7 @@ namespace gybitg.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(AccountController.Login), "Login");
         }
 
         [HttpPost]
@@ -419,7 +427,7 @@ namespace gybitg.Controllers
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(AccountController.Login), "Login");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -541,7 +549,7 @@ namespace gybitg.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(AccountController.Login), "Login");
             }
         }
 
