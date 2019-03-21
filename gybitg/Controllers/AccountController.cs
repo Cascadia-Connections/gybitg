@@ -114,11 +114,12 @@ namespace gybitg.Controllers
                 {
                     _logger.LogInformation("User logged in.");
 
-                    //if (await _userManager.IsInRoleAsync(model.Username, "Coach"))
-                    //{
+                    var _tempuser = _context.Users.SingleOrDefault(m => m.UserName == model.Username);
+                    if (await _userManager.IsInRoleAsync(_tempuser, "Coach"))
+                    {
                         return RedirectToAction("AthleteList", "Coach");
-                    //}else
-                    //return RedirectToLocal(returnUrl);
+                    }else
+                    return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
