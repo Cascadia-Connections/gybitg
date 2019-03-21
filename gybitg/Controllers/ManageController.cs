@@ -21,6 +21,7 @@ using gybitg.Models;
 using gybitg.Data;
 using gybitg.Models.ManageViewModels;
 using gybitg.Services;
+using Korzh.EasyQuery.Linq;
 
 namespace gybitg.Controllers
 {
@@ -247,18 +248,11 @@ namespace gybitg.Controllers
         }
 
 
-        [HttpGet]
-        public IActionResult AthleteUsers ()
-        {
-            var usersOfRole = _userManager.GetUsersInRoleAsync("Athlete");
-            //var allusers = _context.Users.ToList();
-            //var users = allusers.Where(x => x.User.Select(role => role.Name).Contains("User")).ToList();
-            //var userVM = users.Select(user => new AthleteUserViewModel { UserId=user.Id, Roles = string.Join(",", user.Roles.Select(role => role.Name)) }).ToList();
-            //var usersOfRole = await _userManager.GetUsersInRoleAsync("Athlete");
-            
 
-            return View(usersOfRole);
-        }
+
+
+        
+
         [HttpGet]
         public IActionResult EditAthleteProfile(string id)
         {

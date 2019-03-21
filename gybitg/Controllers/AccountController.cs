@@ -80,6 +80,7 @@ namespace gybitg.Controllers
             else if (await _userManager.IsInRoleAsync(_profile, "Coach"))   // check if the user is a Coach: return Profile
             {
                 var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == id);
+               
                 return View(_coachProfile);
             }
 
@@ -112,7 +113,12 @@ namespace gybitg.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
+
+                    //if (await _userManager.IsInRoleAsync(model.Username, "Coach"))
+                    //{
+                        return RedirectToAction("AthleteList", "Coach");
+                    //}else
+                    //return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -274,7 +280,8 @@ namespace gybitg.Controllers
             {
                 string email = model.Email;
                 var userName = email.Substring(0, email.IndexOf('@'));
-
+               
+              
                 var user = new ApplicationUser { UserName = userName, Email = model.Email }; // initialize the new Application User entity
 
                 var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 

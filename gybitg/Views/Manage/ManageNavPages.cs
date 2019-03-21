@@ -23,6 +23,8 @@ namespace gybitg.Views.Manage
 
         public static string ExternalLogins => "ExternalLogins";
 
+        public static string AthleteList => "AthleteList";
+
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
@@ -33,6 +35,7 @@ namespace gybitg.Views.Manage
 
         public static string EditCoachProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditCoachProfile);
 
+        public static string AthleteListNavClass(ViewContext viewContext) => PageNavClass(viewContext, AthleteList);
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 
         public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);

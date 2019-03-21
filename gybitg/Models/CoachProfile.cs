@@ -8,10 +8,9 @@ namespace gybitg.Models
 {
     public class CoachProfile
     {
-        [Key]
-        public int Id { get; set; }
 
-        [Required]
+
+        [Key]
         public string UserId { get; set; }
 
         [Display(Name = "AAU Team")]
@@ -39,7 +38,9 @@ namespace gybitg.Models
 
         public bool Verified { get; set; }
 
-        public ICollection<AthleteProfile> AthleteProfiles { get; } = new List<AthleteProfile>();
-
+        public ICollection<CoachAthlete> CoachAthletes { get; set; }
+       
+        
     }
 }
+

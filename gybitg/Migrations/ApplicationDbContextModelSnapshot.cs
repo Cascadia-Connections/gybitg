@@ -158,24 +158,22 @@ namespace gybitg.Migrations
                     b.ToTable("AthleteStats");
                 });
 
-            modelBuilder.Entity("gybitg.Models.CoachAhtlete", b =>
+            modelBuilder.Entity("gybitg.Models.CoachAthlete", b =>
                 {
-                    b.Property<int>("CoachId");
+                    b.Property<string>("CoachId");
 
-                    b.Property<int>("AthleteId");
-
-                    b.Property<string>("AthleteUserId");
+                    b.Property<string>("AthleteId");
 
                     b.HasKey("CoachId", "AthleteId");
 
-                    b.HasIndex("AthleteUserId");
+                    b.HasIndex("AthleteId");
 
-                    b.ToTable("CoachAhtletes");
+                    b.ToTable("CoachAthletes");
                 });
 
             modelBuilder.Entity("gybitg.Models.CoachProfile", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("AAUId");
@@ -186,18 +184,39 @@ namespace gybitg.Migrations
 
                     b.Property<string>("PersnalBio");
 
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
                     b.Property<bool>("Verified");
 
                     b.Property<int>("Wins");
 
                     b.Property<decimal>("YearsCoaching");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("CoachProfiles");
+                });
+
+            modelBuilder.Entity("gybitg.Models.ManageViewModels.AthleteUserViewModel", b =>
+                {
+                    b.Property<string>("UserId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AvatarImageUrl");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<DateTime>("HSGraduationDate");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("Position");
+
+                    b.Property<string>("ProfileVideoUrl");
+
+                    b.Property<string>("Text");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("AthleteUserViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -286,7 +305,11 @@ namespace gybitg.Migrations
 
                     b.Property<string>("RoleId");
 
+                    b.Property<string>("ApplicationUserId");
+
                     b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("RoleId");
 
@@ -308,14 +331,15 @@ namespace gybitg.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("gybitg.Models.CoachAhtlete", b =>
+            modelBuilder.Entity("gybitg.Models.CoachAthlete", b =>
                 {
                     b.HasOne("gybitg.Models.AthleteProfile", "Athlete")
-                        .WithMany()
-                        .HasForeignKey("AthleteUserId");
+                        .WithMany("CoachAthletes")
+                        .HasForeignKey("AthleteId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("gybitg.Models.CoachProfile", "Coach")
-                        .WithMany()
+                        .WithMany("CoachAthletes")
                         .HasForeignKey("CoachId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -346,6 +370,10 @@ namespace gybitg.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
+                    b.HasOne("gybitg.Models.ApplicationUser")
+                        .WithMany("Roles")
+                        .HasForeignKey("ApplicationUserId");
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
