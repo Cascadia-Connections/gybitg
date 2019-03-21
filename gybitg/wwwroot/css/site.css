@@ -5,10 +5,7 @@
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
+
 
 /* Carousel */
 .carousel-caption p {
@@ -48,6 +45,12 @@ body {
     border-radius: 6px;
     height: 800px;
     color: #ffffff;
+}
+
+dt {
+    color: #F7941D;
+    position: relative;
+    text-align: left;
 }
 
 img {

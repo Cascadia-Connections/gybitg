@@ -21,6 +21,7 @@
     {
         var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
         var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == _requestedProfileId);
+        
 
         <div style="display:inline-block; padding-top: 20px;">
             <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
@@ -36,6 +37,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <center>
+
+                        <h3>Stats</h3>
                         <div>
                             @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
                         </div>
@@ -43,13 +46,13 @@
                         <div>
                             @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
                         </div>
-                        </center>
+                    </center>
                 </div>
                 <div class="col-md-8">
                     <h2>Plays</h2>
-                    <div class="video-container">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/gazoDjwHVJ4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
+                    <div>
+                       @Html.Raw( @_user.ProfileVideoUrl)
+                     </div>
                 </div>
             </div>
 
@@ -60,6 +63,7 @@
 
         <div style="display:inline-block; padding-top: 20px;">
             <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
+
             <p style="display:inline-grid">
                 <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
                 <br />
@@ -71,6 +75,9 @@
                 <div class="col-md-6">
                     @await Html.PartialAsync("_CoachProfilePartial", _coachProfile)
                 </div>
+            </div>
+            <div>
+                @Html.Raw(@_user.ProfileVideoUrl)
             </div>
         </center>
     }
