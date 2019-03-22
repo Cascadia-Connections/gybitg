@@ -21,6 +21,7 @@ using gybitg.Models;
 using gybitg.Data;
 using gybitg.Models.ManageViewModels;
 using gybitg.Services;
+using Korzh.EasyQuery.Linq;
 
 namespace gybitg.Controllers
 {
@@ -110,7 +111,7 @@ namespace gybitg.Controllers
             }
 
             // Avatar image upload process
-            if (model.AvatarImage != null)  
+            if (model.AvatarImage != null)
             {
                 string PathDB = string.Empty;
                 var filename = string.Empty;
@@ -119,7 +120,7 @@ namespace gybitg.Controllers
                                         .Parse(model.AvatarImage.ContentDisposition)
                                         .FileName
                                         .Trim('"');
-                
+
                 //Assigning Unique Filename (Guid)
                 var myUniqueFilename = Convert.ToString(Guid.NewGuid());
 
@@ -245,6 +246,12 @@ namespace gybitg.Controllers
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
+
+        
 
         [HttpGet]
         public IActionResult EditAthleteProfile(string id)
