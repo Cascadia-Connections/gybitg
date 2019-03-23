@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using gybitg.Data;
 using gybitg.Models;
 using gybitg.Models.ManageViewModels;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using gybitg.Data;
+using Microsoft.Extensions.Logging;
+using gybitg.Services;
+
+
+
 
 namespace gybitg.Controllers
 {
@@ -16,21 +22,40 @@ namespace gybitg.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailSender _emailSender;
+        private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
 
         public CoachController(
-          UserManager<ApplicationUser> userManager,
-          SignInManager<ApplicationUser> signInManager,
-          RoleManager<IdentityRole> roleManager,
-          ApplicationDbContext context
-         )
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
+            IEmailSender emailSender,
+            ILogger<CoachController> logger,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _emailSender = emailSender;
+            _logger = logger;
             _context = context;
         }
+        
 
+       
+
+        // GET: Coach
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.CoachProfiles.ToListAsync());
+        }
+        public async Task<IActionResult> _SearchPartial()
+        {
+            return View(await _context.AthleteProfiles.ToListAsync());
+        }
+
+       
         [HttpGet]
         public async Task<IActionResult> AthleteList()
         {
@@ -135,12 +160,12 @@ namespace gybitg.Controllers
         [HttpPost]
         public IActionResult Follow(string UserId)
         {
-         
+
 
             CoachAthlete following = new CoachAthlete();
             following.AthleteId = UserId;
             following.Athlete = _context.AthleteProfiles.SingleOrDefault(a => a.UserId == UserId);
-           
+
             following.CoachId = _userManager.GetUserId(User);
             following.Coach = _context.CoachProfiles.SingleOrDefault(c => c.UserId == following.CoachId);
 
@@ -154,3 +179,5 @@ namespace gybitg.Controllers
 
 
 }
+    
+
