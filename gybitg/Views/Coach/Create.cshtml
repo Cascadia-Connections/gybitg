@@ -1,0 +1,95 @@
+﻿
+@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+sing Microsoft.AspNetCore.Mvc
+@using gybitg.Data
+
+@model IEnumerable<gybitg.Models.AthleteProfile>
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext _context
+@{
+    ViewData["Title"] = "Create";
+}
+<h2>Index</h2>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersnalBio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HighschoolName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HighschoolCoach)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HSGraduationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AAUId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{var item = await _context.AthleteProfiles.ToListAsync();
+                foreach (var item in Model)
+            {
+                var _user = UserManager.Users.SingleOrDefault(m => m.Id == item.UserId); // grab the desired User entity
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => _user.FirstName)
+                    </td>
+                    <td>
+                        <img src="~/@_user.AvatarImageUrl" width="50" height="50" />
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Height)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Weight)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PersnalBio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HighschoolName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HighschoolCoach)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HSGraduationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AAUId)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                    </td>
+                </tr>
+                }
+            }
+        </tbody>
+</table>
