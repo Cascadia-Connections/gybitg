@@ -52,10 +52,10 @@ namespace gybitg.Data
         }
 
         //TODO: on VS-MAC use the reference https://www.ciclosoftware.com/2018/03/14/sql-server-with-net-core-and-entityframework-on-mac/
-        //TODO: Update with your Database, User, and Password
+        //      Update with your LOCAL_ENVIRONMENT variable, Database, User, and Password
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //if (Environment.GetEnvironmentVariable("LOCAL_ENVIRONMENT") == "Mac-Docker")
+            if (Environment.GetEnvironmentVariable("LOCAL_ENVIRONMENT") == "Mac-Docker")
                 optionsBuilder.UseSqlServer("Server=localhost,1433; Database=GYBITGv1;User=SA; Password=Pa$$word!");
         }
 
