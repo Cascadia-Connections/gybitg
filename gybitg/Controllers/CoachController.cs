@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using gybitg.Data;
 using gybitg.Models;
-using gybitg.Models.ManageViewModels;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using gybitg.Services;
@@ -21,7 +21,6 @@ namespace gybitg.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
@@ -29,14 +28,12 @@ namespace gybitg.Controllers
         public CoachController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager,
             IEmailSender emailSender,
             ILogger<CoachController> logger,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _emailSender = emailSender;
             _logger = logger;
             _context = context;
@@ -55,129 +52,131 @@ namespace gybitg.Controllers
             return View(await _context.AthleteProfiles.ToListAsync());
         }
 
-       
-        [HttpGet]
-        public async Task<IActionResult> AthleteList()
+        // GET: Coach/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-            string roleName = "Athlete";
-
-            var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
-
-            List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
-
-            foreach (var u in usersOfRole)
+            if (id == null)
             {
-                AthleteUserViewModel au = new AthleteUserViewModel();
-                au.UserId = u.Id;
-                au.FirstName = u.FirstName;
-                au.LastName = u.LastName;
-                au.Position = u.Position;
-                au.AvatarImageUrl = u.AvatarImageUrl;
-                au.ProfileVideoUrl = u.ProfileVideoUrl;
-
-                athletes.Add(au);
-
-
+                return NotFound();
             }
 
-            return View(athletes);
+            var coachProfile = await _context.CoachProfiles
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (coachProfile == null)
+            {
+                return NotFound();
+            }
 
+            return View(coachProfile);
         }
 
-        [HttpGet]
-        public IActionResult Follow()
+        // GET: Coach/Create
+        public IActionResult Create()
         {
-            //string roleName = "Athlete";
-
-            //var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
-
-            //List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
-
-            //foreach (var u in usersOfRole)
-            //{
-            //    AthleteUserViewModel au = new AthleteUserViewModel();
-            //    au.UserId = u.UserName;
-            //    au.FirstName = u.FirstName;
-            //    au.LastName = u.LastName;
-            //    au.Position = u.Position;
-            //    au.AvatarImageUrl = u.AvatarImageUrl;
-            //    au.ProfileVideoUrl = u.ProfileVideoUrl;
-
-            //    athletes.Add(au);
-
-
-            //}
-
             return View();
-
+            //added this to load athletes for view
+            //return View(await _context.AthleteProfiles.ToListAsync());
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AthleteList(string SearchString)
-        //{
-        //    string roleName = "Athlete";
-
-        //    var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
-
-        //         List<AthleteUserViewModel> searchusers = new List<AthleteUserViewModel>();
-
-        //    if (!string.IsNullOrEmpty(SearchString))
-        //    {
-        //        foreach (var u in usersOfRole)
-        //    {
-        //            if (u.LastName.Contains(SearchString) || u.FirstName.Contains(SearchString)|| u.Position.Contains(SearchString))
-        //            {
-        //                AthleteUserViewModel sau = new AthleteUserViewModel();
-        //                sau.FirstName = u.FirstName;
-        //                sau.LastName = u.LastName;
-        //                sau.Position = u.Position;
-        //                sau.AvatarImageUrl = u.AvatarImageUrl;
-        //                sau.ProfileVideoUrl = u.ProfileVideoUrl;
-        //                searchusers.Add(sau);
-        //            }
-
-        //    } if (string.IsNullOrEmpty(SearchString))
-        //            foreach (var u in usersOfRole)
-        //            {
-
-        //                    AthleteUserViewModel sau = new AthleteUserViewModel();
-        //                    sau.FirstName = u.FirstName;
-        //                    sau.LastName = u.LastName;
-        //                    sau.Position = u.Position;
-        //                    sau.AvatarImageUrl = u.AvatarImageUrl;
-        //                    sau.ProfileVideoUrl = u.ProfileVideoUrl;
-        //                    searchusers.Add(sau);
-
-
-        //            }
-
-        //    }
-        //    return View(searchusers);
-        //}
-
-
-
+        // POST: Coach/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Follow(string UserId)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,UserId,AAUId,PersnalBio,Wins,Lossess,YearsCoaching,Achievments,Verified")] CoachProfile coachProfile)
         {
+            if (ModelState.IsValid)
+            {
+                _context.Add(coachProfile);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(coachProfile);
+        }
 
+        // GET: Coach/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            CoachAthlete following = new CoachAthlete();
-            following.AthleteId = UserId;
-            following.Athlete = _context.AthleteProfiles.SingleOrDefault(a => a.UserId == UserId);
+            var coachProfile = await _context.CoachProfiles.SingleOrDefaultAsync(m => m.Id == id);
+            if (coachProfile == null)
+            {
+                return NotFound();
+            }
+            return View(coachProfile);
+        }
 
-            following.CoachId = _userManager.GetUserId(User);
-            following.Coach = _context.CoachProfiles.SingleOrDefault(c => c.UserId == following.CoachId);
+        // POST: Coach/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,AAUId,PersnalBio,Wins,Lossess,YearsCoaching,Achievments,Verified")] CoachProfile coachProfile)
+        {
+            if (id != coachProfile.Id)
+            {
+                return NotFound();
+            }
 
-            _context.CoachAthletes.Add(following);
-            _context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(coachProfile);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CoachProfileExists(coachProfile.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(coachProfile);
+        }
 
-            return View();
+        // GET: Coach/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var coachProfile = await _context.CoachProfiles
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (coachProfile == null)
+            {
+                return NotFound();
+            }
+
+            return View(coachProfile);
+        }
+
+        // POST: Coach/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var coachProfile = await _context.CoachProfiles.SingleOrDefaultAsync(m => m.Id == id);
+            _context.CoachProfiles.Remove(coachProfile);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool CoachProfileExists(int id)
+        {
+            return _context.CoachProfiles.Any(e => e.Id == id);
         }
     }
-
-
 }
-    
-
