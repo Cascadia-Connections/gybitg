@@ -20,9 +20,10 @@ namespace gybitg.Data
         public DbSet<AthleteStats> AthleteStats { get; set; }
         public DbSet<CoachProfile> CoachProfiles { get; set; }
         public DbSet<CoachAthlete> CoachAthletes { get; set; }
-       
-   
-       
+        public DbSet<gybitg.Models.ManageViewModels.AthleteUserViewModel> AthleteUserViewModel { get; set; }
+
+
+
         //public DbSet<Membership> Memberships { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -54,17 +55,9 @@ namespace gybitg.Data
         //TODO: Update with your Database, User, and Password
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (Environment.GetEnvironmentVariable("LOCAL_ENVIRONMENT") == "Mac-Docker")
-                optionsBuilder.UseSqlServer("Server=localhost,1433; Database=GYBITGv1;User=SA; Password=P@ssword909");
+            //if (Environment.GetEnvironmentVariable("LOCAL_ENVIRONMENT") == "Mac-Docker")
+                optionsBuilder.UseSqlServer("Server=localhost,1433; Database=GYBITGv1;User=SA; Password=Pa$$word!");
         }
-
-        //TODO: on VS-MAC use the reference https://www.ciclosoftware.com/2018/03/14/sql-server-with-net-core-and-entityframework-on-mac/
-        //TODO: Update with your Database, User, and Password
-        public DbSet<gybitg.Models.ManageViewModels.AthleteUserViewModel> AthleteUserViewModel { get; set; }
-
-        //TODO: on VS-MAC use the reference https://www.ciclosoftware.com/2018/03/14/sql-server-with-net-core-and-entityframework-on-mac/
-        //TODO: Update with your Database, User, and Password
-
 
     }
 }

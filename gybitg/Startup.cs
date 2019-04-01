@@ -85,17 +85,13 @@ namespace gybitg
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
@@ -105,12 +101,12 @@ namespace gybitg
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "Default",
+                    template: "{controller=Manage}/{action=Index}/{id?}");
             });
 
             // Make sure we have the database
-            serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
+            //serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
         }
     }
 }

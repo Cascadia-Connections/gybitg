@@ -334,7 +334,7 @@ namespace gybitg.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(AccountController.Login), "Login");
+            return RedirectToAction((nameof(AccountController.Login)));
         }
 
         [HttpPost]
