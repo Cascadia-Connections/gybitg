@@ -11,7 +11,7 @@
 
 @{
     ViewData["Title"] = "SearchResults";
-    ViewData.AddActivePage(ManageNavPages.AthleteList);
+    ViewData.AddActivePage(ManageNavPages.SearchResults);
     var _requestedProfileId = (string)ViewData["RequestedProfileId"];
     var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId);
 }
