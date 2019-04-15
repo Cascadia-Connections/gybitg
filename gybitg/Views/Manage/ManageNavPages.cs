@@ -25,6 +25,8 @@ namespace gybitg.Views.Manage
 
         public static string AthleteList => "AthleteList";
 
+        public static string SearchResults => "SearchResults";
+
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);

@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views.Manage
+@using gybitg.Data
+@using gybitg.Views
+
+@model IEnumerable<gybitg.Models.SearchViewModels.SearchResultsViewModel>
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "SearchResults";
+    ViewData.AddActivePage(ManageNavPages.AthleteList);
+    var _requestedProfileId = (string)ViewData["RequestedProfileId"];
+    var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId);
+}
+<h2>Search Results</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HSGraduationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PPG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MPG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TPMG)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FTMG)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HSGraduationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PPG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MPG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TPMG)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FTMG)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
