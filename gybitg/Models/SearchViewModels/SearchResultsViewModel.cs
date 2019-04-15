@@ -21,7 +21,7 @@ namespace gybitg.Models.SearchViewModels
         public virtual string FullName { get; set; }
 
         [Display(Name = "Position")]
-        public string Position { get; set; }
+        public PositionType Position { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
@@ -38,5 +38,14 @@ namespace gybitg.Models.SearchViewModels
 
         [Display(Name = "Free Throws Made per Game")]
         public decimal FTMG { get; set; }
+
+        public enum PositionType
+        {
+            PointGuard,
+            ShootingGuard,
+            SmallForward,
+            PowerForward,
+            Center
+        }
     }
 }
