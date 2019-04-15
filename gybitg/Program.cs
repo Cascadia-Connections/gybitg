@@ -70,9 +70,28 @@ namespace gybitg
                 }
             }
 
+            InitializeDatabase(host);//call the seed data method below
             host.Run();
              
 
+        }
+
+        // make sure the seed data is used to populate DB
+        private static void InitializeDatabase(IWebHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    SeedData.InitializeAsync(services).Wait();
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "An error occurred seeding the database");
+                }
+            }
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

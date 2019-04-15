@@ -56,7 +56,6 @@ namespace gybitg.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Profile(string id)
