@@ -34,6 +34,9 @@ namespace gybitg.Views.Manage
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
+        //added by Kevin 4/15/19
+        public static string BasicSearchNavClass(ViewContext viewContext) => PageNavClass(viewContext, BasicSearch);
+
         public static string EditAthleteProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditAthleteProfile);
 
         public static string EditAthleteStatsNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditAthleteStats);

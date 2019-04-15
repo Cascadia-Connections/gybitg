@@ -1,4 +1,4 @@
-﻿//File and code created by Kevin Durgan on 4/15/19
+﻿//File created by Kevin Durgan on 4/15/19
 
 using System;
 using System.Collections.Generic;
