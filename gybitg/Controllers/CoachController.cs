@@ -155,55 +155,6 @@ namespace gybitg.Controllers
         //    return View(searchusers);
         //}
 
-
-        
-        //Basic athlete search method
-        //Not sure if this is the correct idea to use the model below or if that needs to be tweaked
-        [HttpPost]
-        public IActionResult BasicAthleteSearch(ApplicationUser athletes)
-        {
-            if (athletes.LastName == null && athletes.FirstName != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.FirstName.Contains(athletes.FirstName));
-                return View(athletesToDisplay);
-            }
-            if (athletes.FirstName == null && athletes.LastName != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.LastName.Contains(athletes.LastName)); 
-                return View(athletesToDisplay);
-            }
-            if (athletes.FirstName != null && athletes.LastName != null && athletes.Position != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.LastName.Contains(athletes.LastName) && 
-                                a.FirstName.Contains(athletes.FirstName) &&
-                                a.Position == athletes.Position);
-                return View(athletesToDisplay);
-            }
-            if (athletes.FirstName != null && athletes.LastName != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.LastName.Contains(athletes.LastName) &&
-                                a.FirstName.Contains(athletes.FirstName));
-                return View(athletesToDisplay);
-            }
-            if (athletes.Position == null)
-            {
-                //if we come into here no info was entered for athlete search so grab all athletes?
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    ;
-                return View(athletesToDisplay);
-            }
-            else
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Select(a => a.Position == athletes.Position);
-                return View(athletesToDisplay);
-            }
-        }
-
         [HttpPost]
         public IActionResult Follow(string UserId)
         {
