@@ -12,19 +12,13 @@ namespace gybitg.Models.SearchViewModels
         [Key]
         public string UserId { get; set; }
 
-        [Display(Name = "First Name")]
-        public virtual string FirstName { get; set; }
+        //[Display(Name = "First Name")]
+        //public virtual string FirstName { get; set; }
 
-        [Display(Name = "Last Name")]
-        public virtual string LastName { get; set; }
-
-        public virtual string FullName
-        {
-            get
-            {
-                return FirstName + " " + LastName;
-            }
-        }
+        //[Display(Name = "Last Name")]
+        //public virtual string LastName { get; set; }
+        [Display(Name = "Full Name")]
+        public virtual string FullName { get; set; }
 
         [Display(Name = "Position")]
         public string Position { get; set; }

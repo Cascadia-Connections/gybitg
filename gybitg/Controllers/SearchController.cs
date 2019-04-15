@@ -64,14 +64,13 @@ namespace gybitg.Controllers
                 foreach(var a in usersOfRole)
                 {
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
-                    if(a.FirstName.Contains(SearchName) || a.LastName.Contains(SearchName) || a.FullName.Contains(SearchName) || a.Position.Contains(SearchPosition) 
+                    if(/*a.FirstName.Contains(SearchName) || a.LastName.Contains(SearchName) ||*/ a.FullName.Contains(SearchName) || a.Position.Contains(SearchPosition) 
                       || _athleteRepository.HSGraduationDate.Where(ap => ap.UserId == a.Id) == SearchGraduation || _statsRepository.PPG.Where(ap => ap.UserId == a.Id) == SearchPPG 
                       || _statsRepository.MPG.Where(ap => ap.UserId == a.Id) == SearchMPG || _statsRepository.TPMG.Where(ap => ap.UserId == a.Id) == SearchTPMG 
                       || _statsRepository.FTMG.Where(ap => ap.UserId == a.Id) == SearchFTMG)
                     {
                         SearchResultsViewModel srA = new SearchResultsViewModel();
-                        srA.FirstName = a.FirstName;
-                        srA.LastName = a.LastName;
+                        srA.FullName = a.FullName;
                         srA.Position = a.Position;
                         srA.HSGraduationDate = _athleteRepository.HSGraduationDate.Where(ap => ap.UserId == a.Id);
                         srA.PPG = _statsRepository.PPG.Where(ap => ap.UserId == a.Id);
@@ -89,8 +88,7 @@ namespace gybitg.Controllers
                 foreach (var a in usersOfRole)
                 {
                     SearchResultsViewModel srA = new SearchResultsViewModel();
-                    srA.FirstName = a.FirstName;
-                    srA.LastName = a.LastName;
+                    srA.FullName = a.FullName;
                     srA.Position = a.Position;
                     srA.HSGraduationDate = _athleteRepository.HSGraduationDate.Where(ap => ap.UserId == a.Id);
                     srA.PPG = _statsRepository.PPG.Where(ap => ap.UserId == a.Id);
