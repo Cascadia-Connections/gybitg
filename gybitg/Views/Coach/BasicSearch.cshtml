@@ -1,0 +1,22 @@
+﻿@model gybitg.ViewModels.BasicSearchViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout";
+}
+
+<h3>Find Athlete</h3>
+<form asp-action="BasicSearch" asp-controller="Coach">
+    <div>
+        First Name: <input asp-for="FirstName" />
+    </div>
+    <div>
+        Last Name: <input asp-for="LastName" />
+    </div>
+    <div>
+        Postition: <input asp-for="Position" />
+    </div>
+    <div>
+        <input type="submit" value="BasicSearch" />
+    </div>
+</form>
