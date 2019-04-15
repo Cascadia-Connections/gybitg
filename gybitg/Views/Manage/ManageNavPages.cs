@@ -25,6 +25,9 @@ namespace gybitg.Views.Manage
 
         public static string AthleteList => "AthleteList";
 
+        //added by Kevin on 4/15/19
+        public static string BasicSearch => "BasicSearch";
+
         public static string SearchResults => "SearchResults";
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
