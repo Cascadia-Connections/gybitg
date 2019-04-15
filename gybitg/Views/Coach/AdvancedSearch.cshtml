@@ -5,12 +5,9 @@
     ViewBag.Title = "Search";
 }
 <h3>Find athletes</h3>
-<form asp-action="Search" asp-controller="Search">
+<form asp-action="SearchResults" asp-controller="Search">
     <div>
-        First Name: <input asp-for="FirstName" />
-    </div>
-    <div>
-        Last Name: <input asp-for="LastName"/>
+        Name: <input asp-for="FullName" />
     </div>
     <div>
         Position: <input asp-for="Position" />
@@ -32,6 +29,6 @@
     </div>
 
     <div>
-        <input type="submit" value="SearchResults" />
+        <input type="submit" value="Search" />
     </div>
 </form>
