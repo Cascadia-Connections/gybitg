@@ -70,6 +70,7 @@ namespace gybitg.Controllers
                       || _statsRepository.FTMG.Where(ap => ap.UserId == a.Id) == SearchFTMG)
                     {
                         SearchResultsViewModel srA = new SearchResultsViewModel();
+                        srA.UserId = a.Id;
                         srA.FullName = a.FullName;
                         srA.Position = a.Position;
                         srA.HSGraduationDate = _athleteRepository.HSGraduationDate.Where(ap => ap.UserId == a.Id);
