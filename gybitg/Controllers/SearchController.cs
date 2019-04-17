@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*File created by Daniel Watkins*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,8 +12,6 @@ using Microsoft.Extensions.Logging;
 using gybitg.Services;
 using gybitg.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace gybitg.Controllers
 {
@@ -36,7 +35,7 @@ namespace gybitg.Controllers
             _athleteRepository = athleteRepository;
         }
 
-        //Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
+        //IMPORTANT: Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
         [HttpGet]
         public async Task<IActionResult> SearchResults(string SearchName, string SearchPosition, DateTime SearchGraduation, decimal SearchPPG, decimal SearchMPG, decimal SearchTPMG, decimal SearchFTMG)
         {
@@ -46,7 +45,7 @@ namespace gybitg.Controllers
 
             List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
 
-            /*This if statement checks to see that at least some search parameters are not default*/
+            /*This if statement checks to see that at least one search parameters is not default*/
             if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || SearchGraduation != DateTime.MinValue 
                 || SearchPPG != 0M || SearchMPG != 0M || SearchTPMG != 0M || SearchFTMG != 0M)
             {
@@ -72,10 +71,10 @@ namespace gybitg.Controllers
                     }
                 }
             }
-            /*default search returns all athletes*/
+            /*default search returns all athletes - only happens when all search fields are left blank*/
             else
             {
-                //runs through all athlete users
+                //runs through all athlete users and adds them to the list of athletes to return
                 foreach (var a in usersOfRole)
                 {
                     SearchResultsViewModel srA = new SearchResultsViewModel();
