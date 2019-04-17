@@ -19,8 +19,7 @@
     </div>
     <div>
         <label asp-for="Position"></label>
-        <select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(PositionType)))">@* PositionType does not register on my PC(Alex), but the exact code does with Kevins view. Ignoring for now *@
-            <option disabled selected value="">Select a Position</option>
+        <select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))">
         </select>
     </div>
     <div>
