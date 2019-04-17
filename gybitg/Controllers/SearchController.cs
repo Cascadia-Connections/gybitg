@@ -84,6 +84,7 @@ namespace gybitg.Controllers
                 if (athletes == null)
                 {
                     ViewBag.Error = "No results were found";
+                    return View();                
                 }
             }
             /*default search returns all athletes*/
