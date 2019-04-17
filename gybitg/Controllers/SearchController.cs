@@ -18,17 +18,7 @@ namespace gybitg.Controllers
 {
     public class SearchController : Controller
     {
-        //Start of old Idea
-        //private IAthleteProfileRepository athleteRepository;
-        //private IApplicationUserRepository userRepository;
-        //private IAthleteStatsRepository statsRepository;
 
-        //public ViewResult SearchResults(string SearchName, string SearchPosition, DateTime SearchGraduation, decimal SearchPPG, decimal SearchMPG, decimal SearchTPMG, decimal SearchFTMG)         
-        //    => View(new SearchResultsViewModel
-        //    {
-
-        //    });
-        //Start of new Idea
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly IAthleteStatsRepository _statsRepository;
