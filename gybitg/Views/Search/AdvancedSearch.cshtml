@@ -19,9 +19,10 @@
     </div>
     <div>
         <label asp-for="Position"></label>
-        <select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(PositionType)))">
-            <option disabled selected value="">Select a Program</option>
-        </select>
+        <input asp-for="Position" />
+        @*<select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(PositionType)))">
+            <option disabled selected value="">Select a Position</option>
+        </select>*@
     </div>
     <div>
         Graduation Date <input asp-for="HSGraduationDate" />
