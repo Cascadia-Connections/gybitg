@@ -1,25 +1,15 @@
-﻿/*File Created by Daniel Watkins 4/13/2019*/
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using gybitg.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace gybitg.Models.SearchViewModels
 {
-    public class SearchResultsViewModel
+    public class SearchViewModel
     {
-        [Key]
-        public string UserId { get; set; }
-
-        //[Display(Name = "First Name")]
-        //public virtual string FirstName { get; set; }
-
-        //[Display(Name = "Last Name")]
-        //public virtual string LastName { get; set; }
-        [Display(Name = "Full Name")]
-        public virtual string FullName { get; set; }
+        [Display(Name = "Name")]
+        public virtual string Name { get; set; }
 
         [Display(Name = "Position")]
         public PositionType Position { get; set; }
@@ -40,6 +30,7 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "Free Throws Made per Game")]
         public decimal FTMG { get; set; }
 
+        //Designate only specific types of Positions
         public enum PositionType
         {
             PointGuard,
