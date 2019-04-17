@@ -1,0 +1,57 @@
+﻿@using gybitg.Models.SearchViewModels;
+@using gybitg.Views.Manage;
+@model SearchViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "AdvancedSearch";
+    ViewData.AddActivePage(ManageNavPages.AdvancedSearch);
+    var _requestedProfileId = (string)ViewData["RequestedProfileId"];
+    var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId);
+}
+<h3>Find athletes</h3>
+<form asp-action="SearchResults" asp-controller="Search">
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <label asp-for="Position"></label>
+        <select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))">
+        </select>
+    </div>
+    <div>
+        Graduation Date <input asp-for="HSGraduationDate" />
+    </div>
+    <div>
+        Minimum Points per Game: <input asp-for="MinPPG" />
+    </div>
+    <div>
+        Maximum Points per Game: <input asp-for="MaxPPG" />
+    </div>
+    <div>
+        Mimumum Minutes per Game: <input asp-for="MinMPG" />
+    </div>
+    <div>
+        Maximum Minutes per Game: <input asp-for="MaxMPG" />
+    </div>
+    <div>
+        Minimum Three Pointers per Game: <input asp-for="MinTPMG" />
+    </div>
+    <div>
+        Maximum Three Pointers per Game: <input asp-for="MaxTPMG" />
+    </div>
+    <div>
+        Minimum Free Throws per Game <input asp-for="MinFTMG" />
+    </div>
+    <div>
+        Maximum Free Throws per Game <input asp-for="MaxFTMG" />
+    </div>
+
+    <div>
+        <input type="submit" value="Search" />
+    </div>
+</form>
+
