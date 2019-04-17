@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*File created by Daniel Watkins*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,23 +13,11 @@ using gybitg.Services;
 using gybitg.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace gybitg.Controllers
 {
     public class SearchController : Controller
     {
-        //Start of old Idea
-        //private IAthleteProfileRepository athleteRepository;
-        //private IApplicationUserRepository userRepository;
-        //private IAthleteStatsRepository statsRepository;
 
-        //public ViewResult SearchResults(string SearchName, string SearchPosition, DateTime SearchGraduation, decimal SearchPPG, decimal SearchMPG, decimal SearchTPMG, decimal SearchFTMG)         
-        //    => View(new SearchResultsViewModel
-        //    {
-
-        //    });
-        //Start of new Idea
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly IAthleteStatsRepository _statsRepository;
@@ -46,17 +35,40 @@ namespace gybitg.Controllers
             _athleteRepository = athleteRepository;
         }
 
-        //Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
+        [HttpPost]
+        public IActionResult AdvancedSearch(SearchViewModel athleteSearched)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("SearchResults", athleteSearched);
+            }
+            else
+            {
+                //there is something wrong with the data values
+                return View(athleteSearched);
+            }
+        }
+
+        //IMPORTANT: Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
         [HttpGet]
-        public async Task<IActionResult> SearchResults(string SearchName, string SearchPosition, DateTime SearchGraduation, decimal SearchPPG, decimal SearchMPG, decimal SearchTPMG, decimal SearchFTMG)
+        public async Task<IActionResult> SearchResults(SearchViewModel SearchParam)
         {
             //Next two lines splits the athlete users from the coach users 
             string roleName = "Athlete";
             var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
 
+            //Splits up SearchViewModel SearchParam in to components to save typing later
+            string SearchName = SearchParam.Name;
+            string SearchPosition = SearchParam.Position.ToString();
+            DateTime SearchGraduation = SearchParam.HSGraduationDate;
+            decimal SearchPPG = SearchParam.PPG;
+            decimal SearchMPG = SearchParam.MPG;
+            decimal SearchTPMG = SearchParam.TPMG;
+            decimal SearchFTMG = SearchParam.FTMG;
+
             List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
 
-            /*This if statement checks to see that at least some search parameters are not default*/
+            /*This if statement checks to see that at least one search parameters is not default*/
             if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || SearchGraduation != DateTime.MinValue 
                 || SearchPPG != 0M || SearchMPG != 0M || SearchTPMG != 0M || SearchFTMG != 0M)
             {
@@ -64,12 +76,13 @@ namespace gybitg.Controllers
                 foreach(var a in usersOfRole)
                 {
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
-                    if(/*a.FirstName.Contains(SearchName) || a.LastName.Contains(SearchName) ||*/ a.FullName.Contains(SearchName) || a.Position.Contains(SearchPosition) 
+                    if(a.FullName.Contains(SearchName) || a.Position.Contains(SearchPosition) 
                       || _athleteRepository.HSGraduationDate.Where(ap => ap.UserId == a.Id) == SearchGraduation || _statsRepository.PPG.Where(ap => ap.UserId == a.Id) == SearchPPG 
                       || _statsRepository.MPG.Where(ap => ap.UserId == a.Id) == SearchMPG || _statsRepository.TPMG.Where(ap => ap.UserId == a.Id) == SearchTPMG 
                       || _statsRepository.FTMG.Where(ap => ap.UserId == a.Id) == SearchFTMG)
                     {
                         SearchResultsViewModel srA = new SearchResultsViewModel();
+                        srA.UserId = a.Id;
                         srA.FullName = a.FullName;
                         srA.Position = a.Position;
                         srA.HSGraduationDate = _athleteRepository.HSGraduationDate.Where(ap => ap.UserId == a.Id);
@@ -87,10 +100,10 @@ namespace gybitg.Controllers
                     return View();                
                 }
             }
-            /*default search returns all athletes*/
+            /*default search returns all athletes - only happens when all search fields are left blank*/
             else
             {
-                //runs through all athlete users
+                //runs through all athlete users and adds them to the list of athletes to return
                 foreach (var a in usersOfRole)
                 {
                     SearchResultsViewModel srA = new SearchResultsViewModel();
