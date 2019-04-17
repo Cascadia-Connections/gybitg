@@ -38,79 +38,22 @@ namespace gybitg.Controllers
         //Basic Search [get][post]
         //Basic athlete search method
         [HttpGet] // --- Adam
-        public IActionResult Index()
+        public IActionResult BasicSearch()
         {
             return View();
         }
 
         [HttpPost] //Post method for the BasicAthleteSearch --- Adam
-        public IActionResult BasicAthleteSearch(SearchViewModel athleteSearched)
+        public IActionResult BasicSearch(SearchViewModel athleteSearched)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("BasicAthleteSearch", athleteSearched);
+                return RedirectToAction("SearchResults", athleteSearched);
             }
             else
             {
                 //there is something wrong with the data values
                 return View(athleteSearched);
-            }
-        }
-
-        //Not sure if this is the correct idea to use the model below
-        //  or if it needs to be tweaked --- Adam
-        [HttpGet]
-        public IActionResult BasicAthleteSearch(ApplicationUser athletes)
-        {
-            //if searching by first name
-            if (athletes.LastName == null && athletes.FirstName != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.FirstName.Contains(athletes.FirstName));
-                return View(athletesToDisplay);
-            }
-
-            //if searching by last name
-            if (athletes.FirstName == null && athletes.LastName != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.LastName.Contains(athletes.LastName));
-                return View(athletesToDisplay);
-            }
-
-            //if searching by name and position
-            if (athletes.FirstName != null && athletes.LastName != null && athletes.Position != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.LastName.Contains(athletes.LastName) &&
-                                a.FirstName.Contains(athletes.FirstName) &&
-                                a.Position == athletes.Position);
-                return View(athletesToDisplay);
-            }
-
-            //if searching by name and not position
-            if (athletes.FirstName != null && athletes.LastName != null)
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Where(a => a.LastName.Contains(athletes.LastName) &&
-                                a.FirstName.Contains(athletes.FirstName));
-                return View(athletesToDisplay);
-            }
-
-            //if searching by only position
-            if (athletes.Position == null)
-            {
-                //if we come into here no info was entered for athlete search so grab all athletes?
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    ;
-                return View(athletesToDisplay);
-            }
-
-            else//no search parameters enters, grab all athletes
-            {
-                var athletesToDisplay = _context.AthleteUserViewModel
-                    .Select(a => a.Position == athletes.Position);
-                return View(athletesToDisplay);
             }
         }
 
