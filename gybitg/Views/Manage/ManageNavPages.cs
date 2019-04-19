@@ -34,7 +34,9 @@ namespace gybitg.Views.Manage
 
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
-        //public static string BasicSearchClass(ViewContext viewContext) => BasicSearchClass(viewContext, BasicSearch);
+        public static string BasicSearchNavClass(ViewContext viewContext) => PageNavClass(viewContext, BasicSearch);
+
+        public static string AdvancedSearchNavClass(ViewContext viewContext) => PageNavClass(viewContext, AdvancedSearch);
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
