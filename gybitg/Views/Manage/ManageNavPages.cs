@@ -27,9 +27,13 @@ namespace gybitg.Views.Manage
         //added by daniel
         public static string SearchResults => "SearchResults";
 
+        public static string AdvancedSearch => "AdvancedSearch";
+
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
+
+        public static string AdvancedSearchNavClass(ViewContext viewcontext) => PageNavClass(viewcontext, AdvancedSearch);
 
         public static string EditAthleteProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditAthleteProfile);
 
