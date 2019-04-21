@@ -48,6 +48,8 @@ namespace gybitg
             */
 
             //second idea - in progress 
+            //
+            // What more information do athletes need?
             //athlete 0
             AthleteUserViewModel athlete = new AthleteUserViewModel();
             athlete.FirstName = "Adam";
