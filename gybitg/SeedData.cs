@@ -177,8 +177,9 @@ namespace gybitg
             context.AthleteUserViewModel.Add(athlete4);
 
 
-
-            context.SaveChanges();
+            // For now comment out the saveChanges to the DB so it does not actually
+            //   save the changes above while I work on a local repo for these athletes
+            //context.SaveChanges();
             
         }
     }
