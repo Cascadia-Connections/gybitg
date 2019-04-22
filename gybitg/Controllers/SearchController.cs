@@ -115,6 +115,12 @@ namespace gybitg.Controllers
                         athletes.Add(srA);
                     }
                 }
+                //if no users were added to the athletes list, no results were found
+                if (athletes == null)
+                {
+                    ViewBag.Error = "No results were found";//populates viewbag with error message
+                    return View("AdvancedSearch");                
+                }
             }
             /*default search returns all athletes - only happens when all search fields are left blank*/
             else
