@@ -155,8 +155,6 @@ namespace gybitg.Controllers
         //    return View(searchusers);
         //}
 
-
-
         [HttpPost]
         public IActionResult Follow(string UserId)
         {
