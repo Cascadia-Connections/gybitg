@@ -193,5 +193,11 @@ namespace gybitg.Controllers
             }
             return View(athletes);
         }
+        [HttpPost]
+        public IActionResult SearchResults(string athleteId)
+        {
+            //There currently does not exist an athlete profile view that a coach can view so this currently redirects to nothing
+            return RedirectToAction("AthleteProfile", athleteId);
+        }
     }
 }
