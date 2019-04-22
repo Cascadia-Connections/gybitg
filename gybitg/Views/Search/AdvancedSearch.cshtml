@@ -12,6 +12,7 @@
     var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId);
 }
 <h3>Find athletes</h3>
+@ViewBag.Error
 <form asp-action="SearchResults" asp-controller="Search">
     <div>
         <label asp-for="Name"></label>
