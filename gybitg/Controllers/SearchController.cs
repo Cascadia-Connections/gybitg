@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using gybitg.Models.SearchViewModels;
 using gybitg.Models;
+using gybitg.Models.Repositories;
 using gybitg.Models.ManageViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -22,17 +23,23 @@ namespace gybitg.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IAthleteStatsRepository _statsRepository;
         private readonly IAthleteProfileRepository _athleteRepository;
+        //
+        private readonly FakeAthleteRepository _athleteRepo;
 
         public SearchController(
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext context,
             IAthleteStatsRepository statsRepository,
-            IAthleteProfileRepository athleteRepository)
+            IAthleteProfileRepository athleteRepository,
+            //
+            FakeAthleteRepository athleteRepo)
         {
             _userManager = userManager;
             _context = context;
             _statsRepository = statsRepository;
             _athleteRepository = athleteRepository;
+            //Trying some things, not sure if this is correct or will work
+            _athleteRepo = athleteRepo;
         }
 
         [HttpPost]
