@@ -34,6 +34,29 @@ namespace gybitg.Controllers
             _statsRepository = statsRepository;
             _athleteRepository = athleteRepository;
         }
+
+        //Basic Search [get][post]
+        //Basic athlete search method
+        [HttpGet] // --- Adam
+        public IActionResult BasicSearch()
+        {
+            return View();
+        }
+
+        [HttpPost] //Post method for the BasicAthleteSearch --- Adam
+        public IActionResult BasicSearch(SearchViewModel athleteSearched)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("SearchResults", athleteSearched);
+            }
+            else
+            {
+                //there is something wrong with the data values
+                return View(athleteSearched);
+            }
+        }
+
         //Get for AdvancedSearch view
         [HttpGet]
         public IActionResult AdvancedSearch()
