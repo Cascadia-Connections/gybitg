@@ -6,12 +6,14 @@
 @using gybitg.Views.Manage
 @using gybitg.Data
 @using gybitg.Views
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @model IEnumerable<gybitg.Models.SearchViewModels.SearchResultsViewModel>
 
 @inject UserManager<ApplicationUser> UserManager
 
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "SearchResults";
     ViewData.AddActivePage(ManageNavPages.SearchResults);
     var _requestedProfileId = (string)ViewData["RequestedProfileId"];
@@ -43,35 +45,42 @@
             <th>
                 @Html.DisplayNameFor(model => model.FTMG)
             </th>
-            <th></th>
+            <th>
+                Profile Link
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Position)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HSGraduationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PPG)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MPG)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TPMG)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FTMG)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HSGraduationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PPG)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MPG)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TPMG)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FTMG)
+                </td>
+                <td>
+                    <a asp-action="SearchResults" method="post" class="btn btn-sm btn-primary" asp-route-athleteId="@item.UserId">
+                        Profile
+                    </a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
