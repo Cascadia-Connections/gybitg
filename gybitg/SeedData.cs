@@ -73,8 +73,9 @@ namespace gybitg
             stats.TPMG = 4;
             stats.TPP = stats.TPAG / stats.TPMG;
             stats.UserId = athlete.UserId;
-            context.AthleteStats.Add(stats);
-            context.AthleteUserViewModel.Add(athlete);
+            //context.AthleteStats.Add(stats);
+            //context.AthleteUserViewModel.Add(athlete);
+
             //athlete 1
             AthleteUserViewModel athlete1 = new AthleteUserViewModel();
             athlete1.FirstName = "Alex";
@@ -98,8 +99,9 @@ namespace gybitg
             stats1.TPMG = 2;
             stats1.TPP = stats.TPAG / stats.TPMG;
             stats1.UserId = athlete1.UserId;
-            context.AthleteStats.Add(stats1);
-            context.AthleteUserViewModel.Add(athlete1);
+            //context.AthleteStats.Add(stats1);
+            //context.AthleteUserViewModel.Add(athlete1);
+
             //athlete 2
             AthleteUserViewModel athlete2 = new AthleteUserViewModel();
             athlete2.FirstName = "Kevin";
@@ -123,8 +125,9 @@ namespace gybitg
             stats2.TPMG = 2;
             stats2.TPP = stats.TPAG / stats.TPMG;
             stats2.UserId = athlete2.UserId;
-            context.AthleteStats.Add(stats2);
-            context.AthleteUserViewModel.Add(athlete2);
+            //context.AthleteStats.Add(stats2);
+            //context.AthleteUserViewModel.Add(athlete2);
+
             //athlete 3
             AthleteUserViewModel athlete3 = new AthleteUserViewModel();
             athlete3.FirstName = "Daniel";
@@ -148,8 +151,9 @@ namespace gybitg
             stats3.TPMG = 2;
             stats3.TPP = stats.TPAG / stats.TPMG;
             stats3.UserId = athlete3.UserId;
-            context.AthleteStats.Add(stats3);
-            context.AthleteUserViewModel.Add(athlete3);
+            //context.AthleteStats.Add(stats3);
+            //context.AthleteUserViewModel.Add(athlete3);
+
             //athlete 4
             AthleteUserViewModel athlete4 = new AthleteUserViewModel();
             athlete4.FirstName = "Kieth";
@@ -173,10 +177,10 @@ namespace gybitg
             stats2.TPMG = 2;
             stats2.TPP = stats.TPAG / stats.TPMG;
             stats4.UserId = athlete4.UserId;
-            context.AthleteStats.Add(stats4);
-            context.AthleteUserViewModel.Add(athlete4);
+            //context.AthleteStats.Add(stats4);
+            //context.AthleteUserViewModel.Add(athlete4);
 
-
+            // Need to connect these athletes/stats to the repositories created in other branch
             // For now comment out the saveChanges to the DB so it does not actually
             //   save the changes above while I work on a local repo for these athletes
             //context.SaveChanges();
