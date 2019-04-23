@@ -1,7 +1,12 @@
-﻿@model gybitg.Models.ManageViewModels.StatViewModel
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models.ManageViewModels
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views
+@using gybitg.Data
+
+@model gybitg.Models.ManageViewModels.StatViewModel
 
 <h3><strong>Add New Game Stat</strong></h3>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="StatAdd">

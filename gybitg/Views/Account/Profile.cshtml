@@ -17,14 +17,14 @@
     //var avatarSrc = String.Format("data:image/gif;base64,{0}", base64);
 
 
-    if (await UserManager.IsInRoleAsync(_user, "Athlete")) // if User is Athlete: load the Athlete profile and stats partial views
+    if (await UserManager.IsInRoleAsync(_user, "Athlete") ) // if User is Athlete: load the Athlete profile and stats partial views
     {
         var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
-        var _athleteStats = _context.Stats.SingleOrDefault(m => m.UserId == _requestedProfileId);
+        IEnumerable<Stat> _athleteStats = _context.Stats.ToList().Where(m => m.UserId == _requestedProfileId);
 
 
         <div style="display:inline-block; padding-top: 20px;">
-            <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
+            <img src="~/@_user.AvatarImageUrl" width="200" height="200" /> 
             <p style="display:inline-grid">
                 <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
                 <br />
@@ -39,19 +39,20 @@
                     @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
                 </div>
                 <div class="col-md-6">
+                    <h3>Stats</h3>
+                    @if (Model.UserId == (string)UserManager.GetUserId(User))
+                    {
+                        @Html.ActionLink("Edit Stats", "GameStats", "Manage");
+
+                    }
+                    <br />
+                    <hr />
                     @if (_athleteStats != null)
                     {
-                        await Html.PartialAsync("_AthleteStatsPartial", _athleteStats);
+                        await Html.RenderPartialAsync("_AthleteStatsPartial", _athleteStats);
                     }
                     else
                     {
-                        <h3>Stats</h3>
-                        @if (Model.UserId == (string)UserManager.GetUserId(User))
-                        {
-                            @Html.ActionLink("Add Game", "GameStats", "Manage");
-                        }
-                        <br />
-                        <hr />
                         <span>User hasn't uploaded any game stats yet.</span><br />
                     }
                 </div>

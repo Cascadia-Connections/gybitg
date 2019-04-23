@@ -331,42 +331,22 @@ namespace gybitg.Controllers
         }
 
         [HttpGet]
-        public void GameStats()
+        public IActionResult GameStats()
         {
-            //var _tempUser = await _userManager.GetUserAsync(User);
-            //var statList = _context.Stats.ToList().Where(s => s.UserId == _tempUser.Id);
-
-            //if (statList.Count() > 0)
-            //{
-            //    return View(statList);
-            //}
-            //return View(new StatViewModel());
-            return;
+            return View(); 
         }
 
-        [HttpPost]
-        public void GameStats() {
-            return;
-        }
 
         [HttpGet]
         public IActionResult StatList()
         {
-
-        }
-
-        [HttpPost]
-        public IActionResult StatList()
-        {
-
+            return View();
         }
 
         [HttpGet]
         public IActionResult StatAdd()
         {
-            var vModel = new StatViewModel();
-
-            return View(vModel);
+            return View();
         }
 
         [HttpPost]
@@ -387,11 +367,12 @@ namespace gybitg.Controllers
             _stat.Steals = vModel.Steals;
             _stat.Blocks = vModel.Blocks;
             _stat.MinutesPlayed = vModel.MinutesPlayed;
+            _stat.DateOfEntry = vModel.DateOfEntry;
 
             _context.Stats.Add(_stat);
             await _context.SaveChangesAsync();
 
-            StatusMessage = "New Stat Added";
+            TempData["StatusMessage"] = "New Stat Added";
 
             return RedirectToAction("GameStats");
 

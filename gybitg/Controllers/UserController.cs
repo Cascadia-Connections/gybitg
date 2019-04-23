@@ -24,7 +24,7 @@ namespace gybitg.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
 
-        public UserController(
+        public UserController (
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext context,
             RoleManager<IdentityRole> roleManager,
@@ -65,7 +65,7 @@ namespace gybitg.Controllers
             }
         }
 
-        // GET: api/User/allfullnames
+        // GET: api/user/allfullnames
         [HttpGet("allfullnames")]
         public IActionResult GetAllFullNames()
         {
@@ -99,7 +99,7 @@ namespace gybitg.Controllers
             }
         }
 
-        // GET: api/User/username
+        // GET: api/user/username
         // Retrieve all specific user data
         [HttpGet("{username}", Name = "Get")]
         public IActionResult Get(string username)
@@ -127,7 +127,7 @@ namespace gybitg.Controllers
 
         }
 
-        // GET: api/User/username/fullname
+        // GET: api/user/username/fullname
         // Retrieve the users fullname
         [HttpGet("{username}/fullname", Name = "GetUserFullName")]
         public IActionResult GetUserFullName(string username)
@@ -146,17 +146,34 @@ namespace gybitg.Controllers
         public async Task<IActionResult> Register ([FromForm]string email,[FromForm]string password,[FromForm]string role)
         {
             try
-            {
-                // Get the username from the email
-                string mUserName = email.Substring(0, email.IndexOf('@'));
-            
+            {            
                 // Initialize a new Application User
-                var mUser = new ApplicationUser { UserName = mUserName, Email = email };
+                var mUser = new ApplicationUser { UserName = email, Email = email };
 
                 var result = await _userManager.CreateAsync(mUser, password);   // Get the result of adding the new user to the AspNetUsers table
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(mUser, role); // Add the new user to the AspNetUserRoles table
+                    // add the user to the appropriate 'Profile' table
+                    switch (role)
+                    {
+                        case "Athlete":
+                            AthleteProfile mAthleteProfile = new AthleteProfile
+                            {
+                                UserId = mUser.Id
+                            };
+                            _context.AthleteProfiles.Add(mAthleteProfile);
+                            _context.SaveChanges();
+                            break;
+                        case "Coach":
+                            CoachProfile mCoachProfile = new CoachProfile
+                            {
+                                UserId = mUser.Id
+                            };
+                            _context.CoachProfiles.Add(mCoachProfile);
+                            _context.SaveChanges();
+                            break;
+                    }
                     _logger.LogInformation($"Successfully registered new user:  { mUser}");
                     return Ok(mUser);
                 }
@@ -245,9 +262,8 @@ namespace gybitg.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
         [ProducesResponseType(400)]
-        [Authorize]
         public async Task<IActionResult> AddStat([FromForm] int points, [FromForm] int rebounds, [FromForm] int steals,
-            [FromForm] int assists, [FromForm] int blocks, [FromForm] int minutesPlayed)
+            [FromForm] int assists, [FromForm] int blocks, [FromForm] int minutesPlayed, [FromForm] DateTime dateOfGame)
         {
 
             if (!User.Identity.IsAuthenticated || User.IsInRole("Athlete") == false)    // Make sure current user is an Athlete
@@ -258,10 +274,28 @@ namespace gybitg.Controllers
             {
                 try
                 {
-                    //AthleteStats _athleteStat = new AthleteStats();
+                    // initialize the new stat entity
+                    Stat mStat = new Stat();
                     ApplicationUser _user = await _userManager.GetUserAsync(User);     // Initialize application user to currently signed in user
+
+                    // Create the new Stat entity with the stat values
+                    mStat.UserId = _user.Id;
+                    mStat.DateOfEntry = dateOfGame;
+                    mStat.Points = points;
+                    mStat.Rebounds = rebounds;
+                    mStat.Steals = steals;
+                    mStat.Assists = assists;
+                    mStat.Blocks = blocks;
+                    mStat.MinutesPlayed = minutesPlayed;
+
+                    // add the new stat to the db
+                    _context.Stats.Add(mStat);
+                    // save the db
+                    _context.SaveChanges();
+
+                    // log result
                     _logger.LogInformation($"You have been uthorized to add new game stat");
-                    return Ok(_user);
+                    return Ok(mStat);
                 }
                 catch (Exception e)
                 {

@@ -7,99 +7,72 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@model gybitg.Models.AthleteStats
+@model IEnumerable<gybitg.Models.Stat>
+
+@{ 
+    var mStats = Model.AsQueryable();
+
+    double mTotalPoints = 0, mTotalRebounds = 0, mTotalAssists = 0, mTotalSteals = 0, mTotalBlocks = 0, mTotalMinutesPlayed = 0;
+    double mAvgPoints = 0, mAvgRebounds = 0, mAvgAssists = 0, mAvgSteals = 0, mAvgBlocks = 0, mAvgMinutesPlayed = 0;
+
+    int mTotalGames = Model.Count();
+
+    foreach(var game in Model)
+    {
+        mTotalPoints += game.Points;
+        mTotalRebounds += game.Rebounds;
+        mTotalAssists += game.Assists;
+        mTotalSteals += game.Steals;
+        mTotalBlocks += game.Blocks;
+        mTotalMinutesPlayed += game.MinutesPlayed;
+    }
+
+    mAvgPoints = mTotalPoints / mTotalGames;
+    mAvgRebounds = mTotalRebounds / mTotalGames;
+    mAvgAssists = mTotalAssists / mTotalGames;
+    mAvgSteals = mTotalSteals / mTotalGames;
+    mAvgBlocks = mTotalBlocks / mTotalGames;
+    mAvgMinutesPlayed = mTotalMinutesPlayed / mTotalGames;
+
+}
 
 <div>
-    <dl class="d2-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.PPG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PPG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.RPG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RPG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.APG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.APG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.GP)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.GP)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.GS)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.GS)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.MPG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MPG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FGAG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FGAG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FGMG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FGMG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FGG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FGG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FTAG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FTAG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FTMG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FTMG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FTP)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FTP)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TPAG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TPAG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TPMG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TPMG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TPP)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TPP)
-        </dd>
-    </dl>
-</div>
+        <dl class="d2-horizontal">
+            <dt>
+                Points per Game
+            </dt>
+            <dd>
+                @mAvgPoints
+            </dd>
+            <dt>
+                Rebounds per Game
+            </dt>
+            <dd>
+                @mAvgRebounds
+            </dd>
+            <dt>
+                Assists per Game
+            </dt>
+            <dd>
+                @mAvgAssists
+            </dd>
+            <dt>
+                Steals per Game
+            </dt>
+            <dd>
+                @mAvgSteals
+            </dd>
+            <dt>
+                Blocks per Game
+            </dt>
+            <dd>
+                @mAvgBlocks
+            </dd>
+            <dt>
+                Minutes per Game
+            </dt>
+            <dd>
+                @mAvgMinutesPlayed
+            </dd>
+        </dl>
+    </div>

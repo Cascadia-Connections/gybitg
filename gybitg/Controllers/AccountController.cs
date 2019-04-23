@@ -74,7 +74,7 @@ namespace gybitg.Controllers
             if (await _userManager.IsInRoleAsync(_profile, "Athlete")) // check if the user is an Athlete: return Profile & Stats
             {
                 var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == id);
-                var _athleteStats = _context.Stats.SingleOrDefault(m => m.UserId == id);
+                IEnumerable<Stat> _athleteStats = _context.Stats.ToList().Where(m => m.UserId == id);
                 return View(_athleteProfile);
             }
             else if (await _userManager.IsInRoleAsync(_profile, "Coach"))   // check if the user is a Coach: return Profile

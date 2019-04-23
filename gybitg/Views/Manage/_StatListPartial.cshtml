@@ -1,0 +1,69 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views
+@using gybitg.Data
+
+@model IEnumerable<gybitg.Models.Stat>
+
+<h3><strong>Game Stats</strong></h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+Game Date            
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Points)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rebounds)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assists)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Steals)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Blocks)
+            </th>
+            <th>
+Minutes Played
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stat in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => stat.DateOfEntry)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => stat.Points)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => stat.Rebounds)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => stat.Assists)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => stat.Steals)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => stat.Blocks)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => stat.MinutesPlayed)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@stat.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@stat.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

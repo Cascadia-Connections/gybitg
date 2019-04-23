@@ -3,7 +3,6 @@
 @using Microsoft.AspNetCore.Mvc
 @using gybitg.Data
 
-@inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject ApplicationDbContext _context
 
@@ -11,22 +10,27 @@
 @{
     ViewData["Title"] = "GameStats";
     ViewData.AddActivePage(ManageNavPages.GameStats);
+    Html.RenderPartial("_StatusMessage", TempData["StatusMessage"]);
 
-    var hasStats = _context.Stats.SingleOrDefault(m => m.UserId == UserManager.GetUserId(User));
+    IEnumerable<Stat> statList = _context.Stats.Where(s => s.UserId == UserManager.GetUserId(User));
 
-    if (hasStats != null)
+    if (statList.Count() > 0)
     {
-        await Html.PartialAsync("StatList");
+
+        await Html.RenderPartialAsync("_StatListPartial", statList);
     }
     else
     {
         <h4>You have not saved any game stats.</h4>
-        <hr />
     }
 }
-<br />
-<br />
-@await Html.PartialAsync("StatAdd")
+<hr />
+@{
+    StatViewModel statVM = new StatViewModel();
+
+    await Html.RenderPartialAsync("_StatAddPartial", statVM);
+}
+
 <br />
 
 
