@@ -8,6 +8,6 @@ namespace gybitg.Models.Repositories
     public interface IAthleteRepository
     {
         IQueryable<AthleteProfile> athleteProfiles { get; }
-        IQueryable<AthleteStats> athleteStats { get; }
+        //IQueryable<AthleteStats> athleteStats { get; }
     }
 }

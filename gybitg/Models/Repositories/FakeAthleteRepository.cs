@@ -11,12 +11,15 @@ namespace gybitg.Models.Repositories
         // I have in another file?
         public IQueryable<AthleteProfile> athleteProfiles => new List<AthleteProfile>
         {
-            new AthleteProfile{}
+            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(2020-05), UserId = "1" }
         }.AsQueryable<AthleteProfile>();
 
-        public IQueryable<AthleteStats> athleteStats => new List<AthleteStats>
+
+
+       /* public IQueryable<AthleteStats> athleteStats => new List<AthleteStats>
         {
 
         }.AsQueryable<AthleteStats>();
+        */
     }
 }

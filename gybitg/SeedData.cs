@@ -7,6 +7,7 @@ using gybitg.Data;
 using gybitg.Models;
 using gybitg.Models.ManageViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using gybitg.Models.Repositories;
 
 namespace gybitg
 {
@@ -14,16 +15,16 @@ namespace gybitg
     {
         public static async Task InitializeAsync(IServiceProvider services)
         {
-            await Seed(services.GetRequiredService<ApplicationDbContext>());
+            await Seed(services.GetRequiredService<FakeAthleteRepository>());//ApplicationDbContext>());
         }
 
-        public static async Task Seed(ApplicationDbContext context)
+        public static async Task Seed(FakeAthleteRepository context )//ApplicationDbContext context)
         {
-            if (context.AthleteUserViewModel.Any())
+            if (context.athleteProfiles.Any())//context.AthleteUserViewModel.Any())
             {
                 return; //already has data, don't add any more test data
             }
-            if (context.AthleteStats.Any())
+            if (context.athleteStats.Any())//context.AthleteStats.Any())
             {
                 return;
             }

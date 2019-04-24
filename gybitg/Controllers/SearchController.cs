@@ -21,6 +21,7 @@ namespace gybitg.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+
         private readonly FakeAthleteRepository _statsRepository;//_fakeRepo;
         private readonly FakeAthleteRepository _athleteRepository;
 
@@ -38,7 +39,7 @@ namespace gybitg.Controllers
             //IAthleteProfileRepository athleteRepository,
 
             // Repo Constructor
-            FakeAthleteRepository athleteRepo)
+            IAthleteRepository athleteRepo)
         {
             _userManager = userManager;
             _context = context;
