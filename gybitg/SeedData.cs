@@ -48,6 +48,17 @@ namespace gybitg
             var athletes = testAthletes.Generate(5); // (2) create a collection of 5 athletes
             */
 
+            ApplicationUser user1 = new ApplicationUser();
+            user1.FirstName = "Athlete";
+            user1.LastName = "1";
+            ApplicationUser user2 = new ApplicationUser();
+            user2.FirstName = "Athlete";
+            user2.LastName = "2";
+
+            ApplicationUser user3 = new ApplicationUser();
+            user3.FirstName = "Coach";
+            user3.LastName = "1";
+            user3.Id = "3";
             //second idea - in progress 
             //
             // What more information do athletes need?
