@@ -104,7 +104,7 @@ namespace gybitg
             {
                 routes.MapRoute(
                     name: "Default",
-                    template: "{controller=Manage}/{action=Index}/{id?}");
+                    template: "{controller=Search}/{action=BasicSearch}/{id?}");
             });
 
             // Make sure we have the database
