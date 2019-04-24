@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using gybitg.Data;
 using gybitg.Models;
 using gybitg.Services;
-
+using gybitg.Models.Repositories;
 namespace gybitg
 {
     public class Startup
@@ -75,6 +75,8 @@ namespace gybitg
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+
+            services.AddTransient<IAthleteRepository, FakeAthleteRepository>();
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
