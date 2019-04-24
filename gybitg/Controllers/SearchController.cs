@@ -21,33 +21,16 @@ namespace gybitg.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
-
-        private readonly FakeAthleteRepository _statsRepository;//_fakeRepo;
-        private readonly FakeAthleteRepository _athleteRepository;
-
-        //private readonly IAthleteStatsRepository _statsRepository;
-        //private readonly IAthleteProfileRepository _athleteRepository;
-
-        // Repo initialize
-        private readonly FakeAthleteRepository _athleteRepo;
+        private readonly IAthleteRepository _athleteRepository;
 
         public SearchController(
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext context,
-
-            //IAthleteStatsRepository statsRepository,
-            //IAthleteProfileRepository athleteRepository,
-
-            // Repo Constructor
-            IAthleteRepository athleteRepo)
+            IAthleteRepository athleteRepository)
         {
             _userManager = userManager;
             _context = context;
-
-            _statsRepository = athleteRepo;//statsRepository;
-            _athleteRepository = athleteRepo;//athleteRepository;
-            //Trying some things, not sure if this is correct or will work
-            _athleteRepo = athleteRepo;
+            _athleteRepository = athleteRepository;
         }
 
         //Basic Search [get][post]

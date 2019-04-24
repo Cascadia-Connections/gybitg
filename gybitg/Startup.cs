@@ -79,6 +79,8 @@ namespace gybitg
 
             services.AddTransient<IAthleteRepository, FakeAthleteRepository>();
 
+            services.AddTransient<IApplicationUserRepository, FakeApplicationUserRepository>();
+
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
             services.AddMvc().AddRazorPagesOptions(options =>

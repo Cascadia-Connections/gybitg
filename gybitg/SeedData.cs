@@ -24,10 +24,10 @@ namespace gybitg
             {
                 return; //already has data, don't add any more test data
             }
-            if (context.athleteStats.Any())//context.AthleteStats.Any())
+            /*if (context.athleteStats.Any())//context.AthleteStats.Any())
             {
                 return;
-            }
+            }*/
 
             // Trying to get data for the db context for testing
             //this was not working correctly
