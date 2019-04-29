@@ -15,12 +15,12 @@ namespace gybitg
     {
         public static async Task InitializeAsync(IServiceProvider services)
         {
-            await Seed(services.GetRequiredService<FakeAthleteRepository>());//ApplicationDbContext>());
+            await Seed(services.GetRequiredService<ApplicationDbContext>());
         }
 
-        public static async Task Seed(FakeAthleteRepository context )//ApplicationDbContext context)
+        public static async Task Seed(ApplicationDbContext context)
         {
-            if (context.athleteProfiles.Any())//context.AthleteUserViewModel.Any())
+            if (context.AthleteUserViewModel.Any())
             {
                 return; //already has data, don't add any more test data
             }
@@ -29,25 +29,10 @@ namespace gybitg
                 return;
             }*/
 
-            // Trying to get data for the db context for testing
-            //this was not working correctly
-            //var firstName = new[] { "Adam", "Alex", "Kevin", "Daniel", "Keith" };
-            //var lastName = new[] { "A", "B", "C", "D", "E" };
-            //var Position = new[] { "Point Guard", "Center", "Shooting Guard", "Small Forward", "Power Forward" };
-            //  (1) Import NuGet Package "Bogus" fake data generator, then
-            //  Use "dotnet ef database drop", and run the application and inspect your data
-            /*
-             * Some trial and error, first ideas
-             * Randomizer.Seed = new Random(8672309);
-            var athleteIndex = 0;
-            //Athletes
-            var testAthletes = new Faker<ApplicationUser>()
-                .RuleFor(fn => fn.FirstName, f => firstName[athleteIndex++])
-                .RuleFor(ln => ln.LastName, f => lastName[athleteIndex++])
-                .RuleFor(w => w.Position, t => t.PickRandom(Position));
-            var athletes = testAthletes.Generate(5); // (2) create a collection of 5 athletes
-            */
+            //Removed some unnecessary comments from previous ideas.
 
+
+            // 
             ApplicationUser user1 = new ApplicationUser();
             user1.FirstName = "Athlete";
             user1.LastName = "1";
@@ -58,11 +43,15 @@ namespace gybitg
             ApplicationUser user3 = new ApplicationUser();
             user3.FirstName = "Coach";
             user3.LastName = "1";
-            user3.Id = "3";
-            //second idea - in progress 
-            //
-            // What more information do athletes need?
-            //athlete 0
+            
+
+
+            context.Users.AddRange(user1, user2, user3);
+            context.SaveChanges();
+
+
+            /* Commented out, will not seed the DB, rather using a FakeAthleteRepository
+             * 
             AthleteUserViewModel athlete = new AthleteUserViewModel();
             athlete.FirstName = "Adam";
             athlete.LastName = "A";
@@ -191,10 +180,8 @@ namespace gybitg
             stats4.UserId = athlete4.UserId;
             //context.AthleteStats.Add(stats4);
             //context.AthleteUserViewModel.Add(athlete4);
+            */
 
-            // Need to connect these athletes/stats to the repositories created in other branch
-            // For now comment out the saveChanges to the DB so it does not actually
-            //   save the changes above while I work on a local repo for these athletes
             //context.SaveChanges();
             
         }
