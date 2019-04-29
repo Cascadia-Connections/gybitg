@@ -36,9 +36,11 @@ namespace gybitg
             ApplicationUser user1 = new ApplicationUser();
             user1.FirstName = "Athlete";
             user1.LastName = "1";
+            user1.Id = "1";
             ApplicationUser user2 = new ApplicationUser();
             user2.FirstName = "Athlete";
             user2.LastName = "2";
+            user2.Id = "2";
 
             ApplicationUser user3 = new ApplicationUser();
             user3.FirstName = "Coach";
