@@ -1,5 +1,4 @@
-﻿/*File Created by Daniel Watkins 4/13/2019*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,11 +12,6 @@ namespace gybitg.Models.SearchViewModels
         [Key]
         public string UserId { get; set; }
 
-        //[Display(Name = "First Name")]
-        //public virtual string FirstName { get; set; }
-
-        //[Display(Name = "Last Name")]
-        //public virtual string LastName { get; set; }
         [Display(Name = "Full Name")]
         public virtual string FullName { get; set; }
 

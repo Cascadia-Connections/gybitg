@@ -13,44 +13,35 @@
 }
 <h3>Find athletes</h3>
 @ViewBag.Error
-<form asp-action="SearchResults" asp-controller="Search">
+<form asp-action="SearchResults" asp-controller="Search" method="get">
     <div>
         <label asp-for="Name"></label>
         <input asp-for="Name" />
     </div>
     <div>
         <label asp-for="Position"></label>
-        <select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))">
-        </select>
+        <select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))"></select>
     </div>
     <div>
-        Graduation Date <input asp-for="HSGraduationDate" />
+        <label asp-for="HSGraduationDate"></label>
+        <input asp-for="HSGraduationDate"> 
     </div>
     <div>
-        Minimum Points per Game: <input asp-for="MinPPG" />
+        <label asp-for="HighSchool"></label>
+        <input asp-for="HighSchool" />
     </div>
     <div>
-        Maximum Points per Game: <input asp-for="MaxPPG" />
+        <label asp-for="AAUId"></label>
+        <input asp-for="AAUId" />
     </div>
     <div>
-        Mimumum Minutes per Game: <input asp-for="MinMPG" />
+        <label asp-for="HighScoolCoach"></label>
+        <input asp-for="HighScoolCoach" />
     </div>
     <div>
-        Maximum Minutes per Game: <input asp-for="MaxMPG" />
+        <label asp-for="AAUCoach"></label>
+        <input asp-for="AAUCoach" />
     </div>
-    <div>
-        Minimum Three Pointers per Game: <input asp-for="MinTPMG" />
-    </div>
-    <div>
-        Maximum Three Pointers per Game: <input asp-for="MaxTPMG" />
-    </div>
-    <div>
-        Minimum Free Throws per Game <input asp-for="MinFTMG" />
-    </div>
-    <div>
-        Maximum Free Throws per Game <input asp-for="MaxFTMG" />
-    </div>
-
     <div>
         <input type="submit" value="Search" />
     </div>
