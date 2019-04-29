@@ -25,11 +25,13 @@ namespace gybitg.Models.Repositories
         public IQueryable<ApplicationUser> applicationUser => new List<ApplicationUser>
         {
             //Will this link with the above athleteProfiles?
-            new ApplicationUser {Position = "Point Guard"},
-            new ApplicationUser {Position = "Shooting Guard"},
-            new ApplicationUser {Position = "Small Forward"},
-            new ApplicationUser {Position = "Power Forward"},
-            new ApplicationUser {Position = "Center Forward"}
+            new ApplicationUser {Position = "Point Guard", Id = "1"},
+            new ApplicationUser {Position = "Shooting Guard", Id = "2"},
+            new ApplicationUser {Position = "Small Forward", Id = "3"},
+            new ApplicationUser {Position = "Power Forward", Id = "4"},
+            new ApplicationUser {Position = "Center Forward", Id = "5"},
+            new ApplicationUser {Position = "Shooting Guard", Id = "6"},
+            new ApplicationUser {Position = "Small Forward", Id = "7"},
         }.AsQueryable<ApplicationUser>();
 
 
