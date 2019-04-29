@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using gybitg.Data;
 using gybitg.Models;
 using gybitg.Services;
-
+using gybitg.Models.Repositories;
 namespace gybitg
 {
     public class Startup
@@ -30,6 +30,7 @@ namespace gybitg
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDistributedMemoryCache();
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -76,6 +77,10 @@ namespace gybitg
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddTransient<IAthleteRepository, FakeAthleteRepository>();
+
+           // services.AddTransient<IApplicationUserRepository, FakeApplicationUserRepository>();
+
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
             services.AddMvc().AddRazorPagesOptions(options =>
@@ -102,7 +107,7 @@ namespace gybitg
             {
                 routes.MapRoute(
                     name: "Default",
-                    template: "{controller=Search}/{action=BasicSearch}/{id?}");
+                    template: "{controller=Manage}/{action=Index}/{id?}");
             });
 
             // Make sure we have the database

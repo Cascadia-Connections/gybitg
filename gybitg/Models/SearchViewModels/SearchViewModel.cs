@@ -17,7 +17,7 @@ namespace gybitg.Models.SearchViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
         public DateTime HSGraduationDate { get; set; }
-
+      
         [Display(Name = "Minimum Points per Game")]
         public decimal MinPPG { get; set; }
 
