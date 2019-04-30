@@ -28,7 +28,7 @@ namespace gybitg.Models.ManageViewModels
         public decimal Weight { get; set; }
 
         [Display(Name = "Personal Bio")]
-        public string PersnalBio { get; set; }
+        public string PersonalBio { get; set; }
 
         [Display(Name = "Current Highschool")]
         public string HighschoolName { get; set; }
