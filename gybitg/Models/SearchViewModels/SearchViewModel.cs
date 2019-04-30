@@ -21,7 +21,7 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "Minimum Points per Game")]
         public decimal MinPPG { get; set; }
 
-        [Display(Name = "Maximim Points per Game")]
+        [Display(Name = "Maximum Points per Game")]
         public decimal MaxPPG { get; set; }
 
         [Display(Name = "Minimum Minutes per Game")]
