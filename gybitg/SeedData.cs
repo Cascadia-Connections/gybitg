@@ -33,6 +33,7 @@ namespace gybitg
 
 
             // 
+            /*
             ApplicationUser user1 = new ApplicationUser();
             user1.FirstName = "Athlete";
             user1.LastName = "1";
@@ -45,11 +46,11 @@ namespace gybitg
             ApplicationUser user3 = new ApplicationUser();
             user3.FirstName = "Coach";
             user3.LastName = "1";
-            
+            */
 
 
-            context.Users.AddRange(user1, user2, user3);
-            context.SaveChanges();
+            //context.Users.AddRange(user1, user2, user3);
+            //context.SaveChanges();
 
 
             /* Commented out, will not seed the DB, rather using a FakeAthleteRepository

@@ -32,6 +32,8 @@ namespace gybitg.Models.Repositories
             new ApplicationUser {Position = "Center Forward", Id = "5", FirstName = "Angelina", LastName = "Jolee"},
             new ApplicationUser {Position = "Shooting Guard", Id = "6", FirstName = "Sabrina", LastName = "Witch"},
             new ApplicationUser {Position = "Small Forward", Id = "7", FirstName = "Alicia", LastName = "Avenger"},
+
+            new ApplicationUser {Id = "10", FirstName = "Bill", LastName = "Bob"}
         }.AsQueryable<ApplicationUser>();
 
 
