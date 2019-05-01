@@ -30,30 +30,6 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "High School Coach")]
         public string HighScoolCoach { get; set; }
 
-        //[Display(Name = "Minimum Points per Game")]
-        //public decimal MinPPG { get; set; }
-
-        //[Display(Name = "Maximim Points per Game")]
-        //public decimal MaxPPG { get; set; }
-
-        //[Display(Name = "Minimum Minutes per Game")]
-        //public decimal MinMPG { get; set; }
-
-        //[Display(Name = "Maximum Minutes per Game")]
-        //public decimal MaxMPG { get; set; }
-
-        //[Display(Name = "Mimimum Three Pointers Made per Game")]
-        //public decimal MinTPMG { get; set; }
-
-        //[Display(Name = "Maximum Three Pointers Made per Game")]
-        //public decimal MaxTPMG { get; set; }
-
-        //[Display(Name = "Minimum Free Throws Made per Game")]
-        //public decimal MinFTMG { get; set; }
-
-        //[Display(Name = "Maximum Free Throws Made per Game")]
-
-        //public decimal MaxFTMG { get; set; }
         //Designate only specific types of Positions
         public enum PositionType
         {

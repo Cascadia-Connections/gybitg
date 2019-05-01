@@ -1,5 +1,4 @@
-﻿/*File created by Daniel Watkins*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -93,17 +92,6 @@ namespace gybitg.Controllers
             string SearchAAU = SearchParam.AAUId;
             string SearchHSCoach = SearchParam.HighScoolCoach;
             string SearchAAUCoach = SearchParam.AAUCoach;
-            //decimal SearchMaxPPG = SearchParam.MaxPPG;
-            //decimal SearchMinPPG = SearchParam.MinPPG;
-
-            //decimal SearchMaxMPG = SearchParam.MaxMPG;
-            //decimal SearchMinMPG = SearchParam.MinMPG;
-
-            //decimal SearchMaxTPMG = SearchParam.MaxTPMG;
-            //decimal SearchMinTPMG = SearchParam.MinTPMG;
-
-            //decimal SearchMaxFTMG = SearchParam.MaxFTMG;
-            //decimal SearchMinFTMG = SearchParam.MinFTMG;
 
             List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
 
@@ -121,44 +109,7 @@ namespace gybitg.Controllers
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach == SearchAAUCoach)
-                      //|| (
-                      ////Checks to see if both Max and Min values are not default
-                      //(SearchMaxPPG != 0M && SearchMinPPG != 0M)?
-                      ////If both Max and Min values are not default search to see if the athlete stat is between the two
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG <= SearchMaxPPG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG >= SearchMinPPG)
-                      //:
-                      ////If either Max or Min are default need to check based on which one is not default
-                      //((SearchMinPPG != 0M)?
-                      ////If Min is not default search to see if athlete stat is greater than or equal to Min
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG >= SearchMinPPG)
-                      //:
-                      ////If Min is default then check if Max is default and if not, search to see if athlete stat is less than or equal to Max, and if Max is default move on to next stat
-                      //((SearchMaxPPG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG <= SearchMaxPPG))))
-                      //|| (
-                      //(SearchMaxMPG != 0M && SearchMinMPG != 0M) ?
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG <= SearchMaxMPG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG >= SearchMinMPG)
-                      //:
-                      //((SearchMinMPG != 0M) ?
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG >= SearchMinMPG)
-                      //:
-                      //((SearchMaxMPG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG <= SearchMaxMPG))))
-                      //|| (
-                      //(SearchMaxTPMG != 0M && SearchMinTPMG != 0M) ?
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG <= SearchMaxTPMG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG >= SearchMinTPMG)
-                      //:
-                      //((SearchMinTPMG != 0M) ?
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG >= SearchMinTPMG)
-                      //:
-                      //((SearchMaxTPMG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG <= SearchMaxTPMG))))
-                      //|| (
-                      //(SearchMaxFTMG != 0M && SearchMinFTMG != 0M) ?
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG <= SearchMaxFTMG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG >= SearchMinFTMG)
-                      //:
-                      //((SearchMinFTMG != 0M) ?
-                      //(_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG >= SearchMinFTMG)
-                      //:
-                      //((SearchMaxFTMG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG <= SearchMaxFTMG))))
-                      //)
+
                     {
                         SearchResultsViewModel srA = new SearchResultsViewModel();
                         srA.UserId = a.Id;

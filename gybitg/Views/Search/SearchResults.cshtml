@@ -1,6 +1,4 @@
-﻿@*File created by Daniel Watkins 4/10/2019*@
-
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using gybitg.Models
 @using Microsoft.AspNetCore.Mvc
 @using gybitg.Views.Manage
@@ -76,6 +74,7 @@
                     @Html.DisplayFor(modelItem => item.FTMG)
                 </td>
                 <td>
+
                     <a asp-action="SearchResults" method="post" class="btn btn-sm btn-primary" asp-route-athleteId="@item.UserId">
                         Profile
                     </a>
