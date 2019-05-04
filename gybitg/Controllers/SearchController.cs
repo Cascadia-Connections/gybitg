@@ -116,10 +116,10 @@ namespace gybitg.Controllers
                         srA.FullName = a.FullName;
                         srA.Position = a.Position;
                         srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
-                        srA.PPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG;
-                        srA.MPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG;
-                        srA.TPMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG;
-                        srA.FTMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG;
+                        srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                        srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                        srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                        srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach; 
                         athletes.Add(srA);
                     }
                 }
@@ -140,10 +140,10 @@ namespace gybitg.Controllers
                     srA.FullName = a.FullName;
                     srA.Position = a.Position;
                     srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
-                    srA.PPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG;
-                    srA.MPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG;
-                    srA.TPMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG;
-                    srA.FTMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG;
+                    srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                    srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                    srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                    srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
                     athletes.Add(srA);
                 }
             }

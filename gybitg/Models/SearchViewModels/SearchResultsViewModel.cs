@@ -22,20 +22,17 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
         public DateTime HSGraduationDate { get; set; }
 
-        [Range(0, 100, ErrorMessage = "Please enter only a number between 0 and 100")]
-        [Display(Name = "Points per Game")]
-        public decimal PPG { get; set; }
+        [Display(Name = "High School")]
+        public string HighSchool { get; set; }
 
-        [Range(0, 1000, ErrorMessage = "Please enter only a number from 0 to 1000")]
-        [Display(Name = "Average Minutes per Game")]
-        public decimal MPG { get; set; }
+        [Display(Name = "AAU Team")]
+        public string AAUId { get; set; }
 
-        [Range(0, 100, ErrorMessage = "Please enter year between 1900 and 2100")]
-        [Display(Name = "Three Pointers Made per Game")]
-        public decimal TPMG { get; set; }
+        [Display(Name = "AAU Coach")]
+        public string AAUCoach { get; set; }
 
-        [Display(Name = "Free Throws Made per Game")]
-        public decimal FTMG { get; set; }
+        [Display(Name = "High School Coach")]
+        public string HighScoolCoach { get; set; }
 
 
     }
