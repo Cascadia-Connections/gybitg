@@ -11,13 +11,13 @@ namespace gybitg.Models.Repositories
     {
         public IQueryable<AthleteProfile> athleteProfiles => new List<AthleteProfile>
         {
-            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(2020-06), UserId = "1", HighschoolCoach = "Bob" }, //, ClubCoach = "Mary", Postition = "Point Guard"},
-            new AthleteProfile {HighschoolName = "Inglemoor", HSGraduationDate = new DateTime(2021-06), UserId = "2", HighschoolCoach = "Cindy" }, //, ClubCoach = "Susan", Position = "Shooting Guard"},
-            new AthleteProfile {HighschoolName = "Woodinville", HSGraduationDate = new DateTime(2021-06), UserId = "3", HighschoolCoach = "Prudence" }, //, ClubCoach = "Sarah", Position ="Small Forward"},
-            new AthleteProfile {HighschoolName = "Jackson", HSGraduationDate = new DateTime(2023-06), UserId = "4", HighschoolCoach = "Zack" }, // ClubCoach = "Emily", Position = "Power Forward"},
-            new AthleteProfile {HighschoolName = "Juanita", HSGraduationDate = new DateTime(2023-06), UserId = "5", HighschoolCoach = "Teresa" }, // ClubCoach = "Tina", Position = "Center"},
-            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(2023-96), UserId = "6", HighschoolCoach = "Sally"}, // ClubCoach = "Ashley", Position = "Power Forward"},
-            new AthleteProfile {HighschoolName = "Mariner", HSGraduationDate = new DateTime(2021-06), UserId = "7", HighschoolCoach = "Betty"} //, ClubCoach = "Denise", Position = "Center"}
+            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(2020-06), UserId = "1", HighschoolCoach = "Bob" }, //, AAUCoach = "Mary", AAUId = "3"},
+            new AthleteProfile {HighschoolName = "Inglemoor", HSGraduationDate = new DateTime(2021-06), UserId = "2", HighschoolCoach = "Cindy" }, //, AAUCoach = "Susan", AAUId = "7"},
+            new AthleteProfile {HighschoolName = "Woodinville", HSGraduationDate = new DateTime(2021-06), UserId = "3", HighschoolCoach = "Prudence" }, //, AAUCoach = "Sarah", AAUId = "17"},
+            new AthleteProfile {HighschoolName = "Jackson", HSGraduationDate = new DateTime(2023-06), UserId = "4", HighschoolCoach = "Zack" }, // AAUCoach = "Emily", AAUId = "2"},
+            new AthleteProfile {HighschoolName = "Juanita", HSGraduationDate = new DateTime(2023-06), UserId = "5", HighschoolCoach = "Teresa" }, // AAUCoachh = "Tina", AAUId = "11"},
+            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(2023-96), UserId = "6", HighschoolCoach = "Sally"}, // AAUCoach = "Ashley", AAUId = "0"},
+            new AthleteProfile {HighschoolName = "Mariner", HSGraduationDate = new DateTime(2021-06), UserId = "7", HighschoolCoach = "Betty"} //, AAUCoach = "Denise", AAUId = "6"}
 
 
         }.AsQueryable<AthleteProfile>();
@@ -29,7 +29,7 @@ namespace gybitg.Models.Repositories
             new ApplicationUser {Position = "Shooting Guard", Id = "2", FirstName = "Daisey", LastName = "Shield"},
             new ApplicationUser {Position = "Small Forward", Id = "3", FirstName = "Black", LastName = "Widow"},
             new ApplicationUser {Position = "Power Forward", Id = "4", FirstName = "Wasp", LastName = "B"},
-            new ApplicationUser {Position = "Center Forward", Id = "5", FirstName = "Angelina", LastName = "Jolee"},
+            new ApplicationUser {Position = "Center Forward", Id = "5", FirstName = "Angela", LastName = "Jole"},
             new ApplicationUser {Position = "Shooting Guard", Id = "6", FirstName = "Sabrina", LastName = "Witch"},
             new ApplicationUser {Position = "Small Forward", Id = "7", FirstName = "Alicia", LastName = "Avenger"},
 
