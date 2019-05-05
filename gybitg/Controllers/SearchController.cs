@@ -1,5 +1,4 @@
-﻿/*File created by Daniel Watkins*/
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -42,17 +41,14 @@ namespace gybitg.Controllers
         }
 
         [HttpPost] //Post method for the BasicAthleteSearch --- Adam
-        public IActionResult BasicSearch(SearchViewModel athleteSearched)
+        public IActionResult BasicSearch(string SearchParam)
         {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("SearchResults", athleteSearched);
-            }
-            else
-            {
-                //there is something wrong with the data values
-                return View(athleteSearched);
-            }
+            SearchViewModel basic = new SearchViewModel();
+
+            basic.Name = SearchParam;
+            basic.HighSchool = SearchParam;
+
+            return RedirectToAction("SearchResults", basic);
         }
 
         //Get for AdvancedSearch view
@@ -89,24 +85,16 @@ namespace gybitg.Controllers
             string SearchPosition = SearchParam.Position.ToString();
             DateTime SearchGraduation = SearchParam.HSGraduationDate;
 
-            decimal SearchMaxPPG = SearchParam.MaxPPG;
-            decimal SearchMinPPG = SearchParam.MinPPG;
-
-            decimal SearchMaxMPG = SearchParam.MaxMPG;
-            decimal SearchMinMPG = SearchParam.MinMPG;
-
-            decimal SearchMaxTPMG = SearchParam.MaxTPMG;
-            decimal SearchMinTPMG = SearchParam.MinTPMG;
-
-            decimal SearchMaxFTMG = SearchParam.MaxFTMG;
-            decimal SearchMinFTMG = SearchParam.MinFTMG;
+            string SearchHS = SearchParam.HighSchool;
+            string SearchAAU = SearchParam.AAUId;
+            string SearchHSCoach = SearchParam.HighScoolCoach;
+            string SearchAAUCoach = SearchParam.AAUCoach;
 
             List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
 
             /*This if statement checks to see that at least one search parameters is not default*/
             if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || SearchGraduation != DateTime.MinValue 
-                || SearchMaxPPG != 0M || SearchMaxMPG != 0M || SearchMaxTPMG != 0M || SearchMaxFTMG != 0M
-                || SearchMinPPG != 0M || SearchMinMPG != 0M || SearchMinTPMG != 0M || SearchMinFTMG != 0M)
+                || !string.IsNullOrEmpty(SearchHS) || !string.IsNullOrEmpty(SearchAAU) || !string.IsNullOrEmpty(SearchHSCoach) || !string.IsNullOrEmpty(SearchAAUCoach))
             {
                 //runs through all athlete users
                 foreach(var a in usersOfRole)
@@ -114,54 +102,21 @@ namespace gybitg.Controllers
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
                     if(a.FullName.Contains(SearchName) || a.Position.Contains(SearchPosition) 
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate == SearchGraduation 
-                      || (
-                      //Checks to see if both Max and Min values are not default
-                      (SearchMaxPPG != 0M && SearchMinPPG != 0M)?
-                      //If both Max and Min values are not default search to see if the athlete stat is between the two
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG <= SearchMaxPPG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG >= SearchMinPPG)
-                      :
-                      //If either Max or Min are default need to check based on which one is not default
-                      ((SearchMinPPG != 0M)?
-                      //If Min is not default search to see if athlete stat is greater than or equal to Min
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG >= SearchMinPPG)
-                      :
-                      //If Min is default then check if Max is default and if not, search to see if athlete stat is less than or equal to Max, and if Max is default move on to next stat
-                      ((SearchMaxPPG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG <= SearchMaxPPG))))
-                      || (
-                      (SearchMaxMPG != 0M && SearchMinMPG != 0M) ?
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG <= SearchMaxMPG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG >= SearchMinMPG)
-                      :
-                      ((SearchMinMPG != 0M) ?
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG >= SearchMinMPG)
-                      :
-                      ((SearchMaxMPG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG <= SearchMaxMPG))))
-                      || (
-                      (SearchMaxTPMG != 0M && SearchMinTPMG != 0M) ?
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG <= SearchMaxTPMG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG >= SearchMinTPMG)
-                      :
-                      ((SearchMinTPMG != 0M) ?
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG >= SearchMinTPMG)
-                      :
-                      ((SearchMaxTPMG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG <= SearchMaxTPMG))))
-                      || (
-                      (SearchMaxFTMG != 0M && SearchMinFTMG != 0M) ?
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG <= SearchMaxFTMG && _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG >= SearchMinFTMG)
-                      :
-                      ((SearchMinFTMG != 0M) ?
-                      (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG >= SearchMinFTMG)
-                      :
-                      ((SearchMaxFTMG != 0M) && (_athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG <= SearchMaxFTMG))))
-                      )
+                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchHS
+                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU
+                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach
+                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach == SearchAAUCoach)
+
                     {
                         SearchResultsViewModel srA = new SearchResultsViewModel();
                         srA.UserId = a.Id;
                         srA.FullName = a.FullName;
                         srA.Position = a.Position;
                         srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
-                        srA.PPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG;
-                        srA.MPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG;
-                        srA.TPMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG;
-                        srA.FTMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG;
+                        srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                        srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                        srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                        srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach; 
                         athletes.Add(srA);
                     }
                 }
@@ -182,10 +137,10 @@ namespace gybitg.Controllers
                     srA.FullName = a.FullName;
                     srA.Position = a.Position;
                     srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
-                    srA.PPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).PPG;
-                    srA.MPG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).MPG;
-                    srA.TPMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).TPMG;
-                    srA.FTMG = _athleteRepository.athleteStats.SingleOrDefault<AthleteStats>(ap => ap.UserId == a.Id).FTMG;
+                    srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                    srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                    srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                    srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
                     athletes.Add(srA);
                 }
             }
