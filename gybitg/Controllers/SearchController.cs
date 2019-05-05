@@ -48,7 +48,7 @@ namespace gybitg.Controllers
             basic.Name = SearchParam;
             basic.HighSchool = SearchParam;
 
-            return RedirectToAction("SearchResults", SearchParam);
+            return RedirectToAction("SearchResults", basic);
         }
 
         //Get for AdvancedSearch view
