@@ -41,17 +41,14 @@ namespace gybitg.Controllers
         }
 
         [HttpPost] //Post method for the BasicAthleteSearch --- Adam
-        public IActionResult BasicSearch(SearchViewModel athleteSearched)
+        public IActionResult BasicSearch(string SearchParam)
         {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("SearchResults", athleteSearched);
-            }
-            else
-            {
-                //there is something wrong with the data values
-                return View(athleteSearched);
-            }
+            SearchViewModel basic = new SearchViewModel();
+
+            basic.Name = SearchParam;
+            basic.HighSchool = SearchParam;
+
+            return RedirectToAction("SearchResults", SearchParam);
         }
 
         //Get for AdvancedSearch view
