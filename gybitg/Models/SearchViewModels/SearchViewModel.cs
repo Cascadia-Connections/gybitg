@@ -33,6 +33,7 @@ namespace gybitg.Models.SearchViewModels
         //Designate only specific types of Positions
         public enum PositionType
         {
+            Default,
             PointGuard,
             ShootingGuard,
             SmallForward,
