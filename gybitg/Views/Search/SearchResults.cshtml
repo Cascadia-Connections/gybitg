@@ -1,6 +1,4 @@
-﻿@*File created by Daniel Watkins 4/10/2019*@
-
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
 @using gybitg.Models
 @using Microsoft.AspNetCore.Mvc
 @using gybitg.Views.Manage
@@ -34,16 +32,16 @@
                 @Html.DisplayNameFor(model => model.HSGraduationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PPG)
+                @Html.DisplayNameFor(model => model.HighSchool)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MPG)
+                @Html.DisplayNameFor(model => model.HighScoolCoach)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TPMG)
+                @Html.DisplayNameFor(model => model.AAUId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FTMG)
+                @Html.DisplayNameFor(model => model.AAUCoach)
             </th>
             <th>
                 Profile Link
@@ -64,18 +62,19 @@
                     @Html.DisplayFor(modelItem => item.HSGraduationDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PPG)
+                    @Html.DisplayFor(modelItem => item.HighSchool)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MPG)
+                    @Html.DisplayFor(modelItem => item.HighScoolCoach)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TPMG)
+                    @Html.DisplayFor(modelItem => item.AAUId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FTMG)
+                    @Html.DisplayFor(modelItem => item.AAUCoach)
                 </td>
                 <td>
+
                     <a asp-action="SearchResults" method="post" class="btn btn-sm btn-primary" asp-route-athleteId="@item.UserId">
                         Profile
                     </a>
