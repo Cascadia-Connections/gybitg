@@ -38,6 +38,9 @@ namespace gybitg.Models
         [Display(Name = "AAU Team")]
         public string AAUId { get; set; }
 
+        [Display(Name = "Current AAU Coach")]
+        public string AAUCoach { get; set; }
+
 
         public ICollection<CoachAthlete> CoachAthletes { get; set; }
     }

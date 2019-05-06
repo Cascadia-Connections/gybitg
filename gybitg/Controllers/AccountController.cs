@@ -543,7 +543,7 @@ namespace gybitg.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(AccountController.Login), "Login");
+                return RedirectToAction(nameof(AccountController.Login), "Account");
             }
         }
 
