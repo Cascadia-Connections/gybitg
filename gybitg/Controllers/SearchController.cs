@@ -82,7 +82,15 @@ namespace gybitg.Controllers
 
             //Splits up SearchViewModel SearchParam in to components to save typing later
             string SearchName = SearchParam.Name;
-            string SearchPosition = SearchParam.Position.ToString();
+            string SearchPosition;
+            if(SearchParam.Position.ToString() != "Default")
+            {
+                SearchPosition = SearchParam.Position.ToString();
+            }
+            else
+            {
+                SearchPosition = null;
+            }
             DateTime SearchGraduation = SearchParam.HSGraduationDate;
 
             string SearchHS = SearchParam.HighSchool;
