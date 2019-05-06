@@ -104,7 +104,7 @@ namespace gybitg.Migrations
 
                     b.Property<string>("HighschoolName");
 
-                    b.Property<string>("PersnalBio");
+                    b.Property<string>("PersonalBio");
 
                     b.Property<decimal>("Weight");
 
@@ -178,11 +178,11 @@ namespace gybitg.Migrations
 
                     b.Property<string>("AAUId");
 
-                    b.Property<string>("Achievments");
+                    b.Property<string>("Achievements");
 
-                    b.Property<int>("Lossess");
+                    b.Property<int>("Losses");
 
-                    b.Property<string>("PersnalBio");
+                    b.Property<string>("PersonalBio");
 
                     b.Property<bool>("Verified");
 
