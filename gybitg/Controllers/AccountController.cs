@@ -273,8 +273,9 @@ namespace gybitg.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                string email = model.Email;
-                var userName = email.Substring(0, email.IndexOf('@'));
+                //string email = model.Email;
+                //var userName = email.Substring(0, email.IndexOf('@'));
+                var userName = model.Email;
                
               
                 var user = new ApplicationUser { UserName = userName, Email = model.Email }; // initialize the new Application User entity
