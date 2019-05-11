@@ -30,7 +30,7 @@ namespace gybitg.Models.ManageViewModels
         public string Position { get; set; }
 
         public string AvatarImageUrl { get; set; }
-
+        
         public string ProfileVideoUrl { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]

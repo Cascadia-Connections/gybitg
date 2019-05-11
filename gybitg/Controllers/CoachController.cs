@@ -85,75 +85,76 @@ namespace gybitg.Controllers
         }
 
         [HttpGet]
-        public IActionResult Follow()
+        public async Task<IActionResult> Follow()
         {
-            //string roleName = "Athlete";
+            string roleName = "Athlete";
 
-            //var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
+            var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
 
-            //List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
+            List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
 
-            //foreach (var u in usersOfRole)
-            //{
-            //    AthleteUserViewModel au = new AthleteUserViewModel();
-            //    au.UserId = u.UserName;
-            //    au.FirstName = u.FirstName;
-            //    au.LastName = u.LastName;
-            //    au.Position = u.Position;
-            //    au.AvatarImageUrl = u.AvatarImageUrl;
-            //    au.ProfileVideoUrl = u.ProfileVideoUrl;
+            foreach (var u in usersOfRole)
+            {
+                AthleteUserViewModel au = new AthleteUserViewModel();
+                au.UserId = u.UserName;
+                au.FirstName = u.FirstName;
+                au.LastName = u.LastName;
+                au.Position = u.Position;
+                au.AvatarImageUrl = u.AvatarImageUrl;
+                au.ProfileVideoUrl = u.ProfileVideoUrl;
 
-            //    athletes.Add(au);
+                athletes.Add(au);
 
 
-            //}
+            }
 
             return View();
 
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> AthleteList(string SearchString)
-        //{
-        //    string roleName = "Athlete";
+        [HttpPost]
+        public async Task<IActionResult> AthleteList(string SearchString)
+        {
+            string roleName = "Athlete";
 
-        //    var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
+            var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
 
-        //         List<AthleteUserViewModel> searchusers = new List<AthleteUserViewModel>();
+            List<AthleteUserViewModel> searchusers = new List<AthleteUserViewModel>();
 
-        //    if (!string.IsNullOrEmpty(SearchString))
-        //    {
-        //        foreach (var u in usersOfRole)
-        //    {
-        //            if (u.LastName.Contains(SearchString) || u.FirstName.Contains(SearchString)|| u.Position.Contains(SearchString))
-        //            {
-        //                AthleteUserViewModel sau = new AthleteUserViewModel();
-        //                sau.FirstName = u.FirstName;
-        //                sau.LastName = u.LastName;
-        //                sau.Position = u.Position;
-        //                sau.AvatarImageUrl = u.AvatarImageUrl;
-        //                sau.ProfileVideoUrl = u.ProfileVideoUrl;
-        //                searchusers.Add(sau);
-        //            }
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                foreach (var u in usersOfRole)
+                {
+                    if (u.LastName.Contains(SearchString) || u.FirstName.Contains(SearchString) || u.Position.Contains(SearchString))
+                    {
+                        AthleteUserViewModel sau = new AthleteUserViewModel();
+                        sau.FirstName = u.FirstName;
+                        sau.LastName = u.LastName;
+                        sau.Position = u.Position;
+                        sau.AvatarImageUrl = u.AvatarImageUrl;
+                        sau.ProfileVideoUrl = u.ProfileVideoUrl;
+                        searchusers.Add(sau);
+                    }
 
-        //    } if (string.IsNullOrEmpty(SearchString))
-        //            foreach (var u in usersOfRole)
-        //            {
+                }
+                if (string.IsNullOrEmpty(SearchString))
+                    foreach (var u in usersOfRole)
+                    {
 
-        //                    AthleteUserViewModel sau = new AthleteUserViewModel();
-        //                    sau.FirstName = u.FirstName;
-        //                    sau.LastName = u.LastName;
-        //                    sau.Position = u.Position;
-        //                    sau.AvatarImageUrl = u.AvatarImageUrl;
-        //                    sau.ProfileVideoUrl = u.ProfileVideoUrl;
-        //                    searchusers.Add(sau);
+                        AthleteUserViewModel sau = new AthleteUserViewModel();
+                        sau.FirstName = u.FirstName;
+                        sau.LastName = u.LastName;
+                        sau.Position = u.Position;
+                        sau.AvatarImageUrl = u.AvatarImageUrl;
+                        sau.ProfileVideoUrl = u.ProfileVideoUrl;
+                        searchusers.Add(sau);
 
 
-        //            }
+                    }
 
-        //    }
-        //    return View(searchusers);
-        //}
+            }
+            return View(searchusers);
+        }
 
         [HttpPost]
         public IActionResult Follow(string UserId)
