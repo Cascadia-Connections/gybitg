@@ -276,8 +276,14 @@ namespace gybitg.Controllers
                 //string email = model.Email;
                 //var userName = email.Substring(0, email.IndexOf('@'));
                 var userName = model.Email;
-               
-              
+
+                var tempUser = _context.Users.Where(u => u.Email == model.Email);
+                if (tempUser != null)
+                {
+                    ViewBag.NewUser = "User with this email already exists.";
+                    return RedirectToLocal(returnUrl);
+                }
+
                 var user = new ApplicationUser { UserName = userName, Email = model.Email }; // initialize the new Application User entity
 
                 var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
