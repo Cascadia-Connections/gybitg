@@ -15,24 +15,23 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "Position")]
         public PositionType Position { get; set; }
 
-        [RegularExpression("^[0-9]{4}$", ErrorMessage = "Only Numeric 0-9 characters allowed: yyyy.")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
         public DateTime HSGraduationDate { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-_]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "High School")]
         public string HighSchool { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-_]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "AAU Team")]
         public string AAUId { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-_]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "AAU Coach")]
         public string AAUCoach { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-_]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "High School Coach")]
         public string HighScoolCoach { get; set; }
 
