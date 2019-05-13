@@ -84,7 +84,7 @@ namespace gybitg.Controllers
 
         //IMPORTANT: Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
         [HttpGet]
-        public async Task<IActionResult> SearchResults(IList<ApplicationUser> athleteUsers, SearchViewModel SearchParam)
+        public IActionResult SearchResults(IList<ApplicationUser> athleteUsers, SearchViewModel SearchParam)
         {
             
             //Splits up SearchViewModel SearchParam in to components to save typing later
