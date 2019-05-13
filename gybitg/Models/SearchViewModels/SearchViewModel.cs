@@ -8,7 +8,7 @@ namespace gybitg.Models.SearchViewModels
 {
     public class SearchViewModel
     {
-        [RegularExpression("^[a-zA-Z .&'-_]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "Name")]
         public virtual string Name { get; set; }
 
