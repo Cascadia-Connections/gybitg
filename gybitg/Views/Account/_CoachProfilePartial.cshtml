@@ -13,54 +13,51 @@
 <div>
     @if (Model.UserId == (string)UserManager.GetUserId(User))
     {
-        // @Html.ActionLink("Edit Profile", "EditCoachProfile", "Manage", new { id = Model.UserId });
+        @Html.ActionLink("Edit Profile", "EditCoachProfile", "Manage", new { id = Model.UserId });
     }
-
-   
-        <hr />
-        <div class="col-md-9">
-            <dl class="d2-horizontal">
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.PersnalBio)
-                </dt>
-                <dd>
-                    <p>
-                        @Html.DisplayFor(model => model.PersnalBio)
-                    </p>
-
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.AAUId)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.AAUId)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.YearsCoaching)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.YearsCoaching)
-                </dd>
-                <dt>
-                    Career Coching Record
-                <dd>
-                    @Html.DisplayFor(model => model.Wins) -  @Html.DisplayFor(model => model.Lossess)
-                </dd>
-
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Achievments)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Achievments)
-                </dd>
-                <dt>
-                    @Html.DisplayNameFor(model => model.Verified)
-                </dt>
-                <dd>
-                    @Html.DisplayFor(model => model.Verified)
-                </dd>
-            </dl>
-
-        </div>
+    <hr />
+    <dl class="d2-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AAUId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AAUId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonalBio)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PersonalBio)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Wins)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Wins)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Losses)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Losses)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.YearsCoaching)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.YearsCoaching)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Achievements)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Achievements)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Verified)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Verified)
+        </dd>
+    </dl>
+</div>
