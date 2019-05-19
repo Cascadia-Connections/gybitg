@@ -91,8 +91,8 @@ namespace gybitg.Controllers
             {
                 SearchPosition = null;
             }
-            //DateTime SearchGraduation = SearchParam.HSGraduationDate;
 
+            string SearchGraduation = SearchParam.HSGraduationDate;
             string SearchHS = SearchParam.HighSchool;
             string SearchAAU = SearchParam.AAUId;
             string SearchHSCoach = SearchParam.HighScoolCoach;
@@ -101,7 +101,7 @@ namespace gybitg.Controllers
             List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
 
             /*This if statement checks to see that at least one search parameters is not default*/
-            if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) /*|| SearchGraduation != DateTime.MinValue */
+            if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || !string.IsNullOrEmpty(SearchGraduation)
                 || !string.IsNullOrEmpty(SearchHS) || !string.IsNullOrEmpty(SearchAAU) || !string.IsNullOrEmpty(SearchHSCoach) || !string.IsNullOrEmpty(SearchAAUCoach))
             {
                 //runs through all athlete users
@@ -109,7 +109,7 @@ namespace gybitg.Controllers
                 {
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
                     if(a.FullName.Contains(SearchName) || a.Position.Contains(SearchPosition) 
-                      //|| _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate == SearchGraduation 
+                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate.ToShortDateString().Contains(SearchGraduation) 
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchHS
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach
@@ -120,7 +120,7 @@ namespace gybitg.Controllers
                         srA.UserId = a.Id;
                         srA.FullName = a.FullName;
                         srA.Position = a.Position;
-                        //srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+                        srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
                         srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
                         srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
                         srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
@@ -144,7 +144,7 @@ namespace gybitg.Controllers
                     SearchResultsViewModel srA = new SearchResultsViewModel();
                     srA.FullName = a.FullName;
                     srA.Position = a.Position;
-                    //srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+                    srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
                     srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
                     srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
                     srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
