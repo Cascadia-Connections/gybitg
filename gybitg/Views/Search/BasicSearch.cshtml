@@ -18,6 +18,7 @@
 <form asp-action="BasicSearch" asp-controller="Search">
     <div>
         First Name: <input asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Position"></label>
