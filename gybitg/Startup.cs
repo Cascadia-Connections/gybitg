@@ -77,7 +77,7 @@ namespace gybitg
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddTransient<IAthleteRepository, FakeAthleteRepository>();
+            services.AddTransient<IAthleteRepository, EFAthleteRepository>();
 
            // services.AddTransient<IApplicationUserRepository, FakeApplicationUserRepository>();
 
