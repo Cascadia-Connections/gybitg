@@ -343,7 +343,8 @@ namespace gybitg.Controllers
 
                     AddErrors(result);
                 }
-                ViewBag.NewUser = "User with this email already exists.";
+                string errormessage = "User with this email already exists.";
+                ViewBag.NewUser = errormessage;
                 return RedirectToAction("Register");
             }
 
