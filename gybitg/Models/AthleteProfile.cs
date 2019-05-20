@@ -23,7 +23,7 @@ namespace gybitg.Models
         public decimal Weight { get; set; }
 
         [Display(Name = "Personal Bio")]
-        public string PersonalBio { get; set; }
+        public string PersnalBio { get; set; }
 
         [Display(Name = "Current Highschool")]
         public string HighschoolName { get; set; }

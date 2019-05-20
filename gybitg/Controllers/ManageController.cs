@@ -274,7 +274,7 @@ namespace gybitg.Controllers
                 DateOfBirth = _userProfile.DateOfBirth,
                 Height = _userProfile.Height,
                 Weight = _userProfile.Weight,
-                PersonalBio = _userProfile.PersonalBio,
+                PersnalBio = _userProfile.PersnalBio,
                 HighschoolName = _userProfile.HighschoolName,
                 HighschoolCoach = _userProfile.HighschoolCoach,
                 HSGraduationDate = _userProfile.HSGraduationDate,
@@ -318,10 +318,10 @@ namespace gybitg.Controllers
             {
                 userProfile.Weight = vmodel.Weight;
             }
-            var personalBio = userProfile.PersonalBio;
-            if (vmodel.PersonalBio != personalBio)
+            var personalBio = userProfile.PersnalBio;
+            if (vmodel.PersnalBio != personalBio)
             {
-                userProfile.PersonalBio = vmodel.PersonalBio;
+                userProfile.PersnalBio = vmodel.PersnalBio;
             }
 
             var hsCoach = userProfile.HighschoolCoach;
@@ -507,11 +507,11 @@ namespace gybitg.Controllers
             {
                 UserId = id,
                 AAUId = _coachProfile.AAUId,
-                PersonalBio = _coachProfile.PersonalBio,
+                PersnalBio = _coachProfile.PersnalBio,
                 YearsCoaching = _coachProfile.YearsCoaching,
                 Wins = _coachProfile.Wins,
-                Losses = _coachProfile.Losses,
-                Achievements = _coachProfile.Achievements,
+                Lossess = _coachProfile.Lossess,
+                Achievments = _coachProfile.Achievments,
                 Verified = _coachProfile.Verified,
                 StatusMessage = StatusMessage
             };
@@ -536,20 +536,20 @@ namespace gybitg.Controllers
             }
 
             var AAUId = coachProfile.AAUId;
-            var PersonalBio = coachProfile.PersonalBio;
+            var PersonalBio = coachProfile.PersnalBio;
             var YearsCoaching = coachProfile.YearsCoaching;
             var Wins = coachProfile.Wins;
-            var Losses = coachProfile.Losses;
-            var Achievements = coachProfile.Achievements;
+            var Lossess = coachProfile.Lossess;
+            var Achievements = coachProfile.Achievments;
             var Verified = coachProfile.Verified;
 
             if (AAUId != vmodel.AAUId)
             {
                 coachProfile.AAUId = vmodel.AAUId;
             }
-            if (PersonalBio != vmodel.PersonalBio)
+            if (PersonalBio != vmodel.PersnalBio)
             {
-                coachProfile.PersonalBio = vmodel.PersonalBio;
+                coachProfile.PersnalBio = vmodel.PersnalBio;
             }
             if (YearsCoaching != vmodel.YearsCoaching)
             {
@@ -559,13 +559,13 @@ namespace gybitg.Controllers
             {
                 coachProfile.Wins = vmodel.Wins;
             }
-            if (Losses != vmodel.Losses)
+            if (Lossess != vmodel.Lossess)
             {
-                coachProfile.Losses = vmodel.Losses;
+                coachProfile.Lossess = vmodel.Lossess;
             }
-            if (Achievements != vmodel.Achievements)
+            if (Achievements != vmodel.Achievments)
             {
-                coachProfile.Achievements = vmodel.Achievements;
+                coachProfile.Achievments = vmodel.Achievments;
             }
             if (Verified != vmodel.Verified)
             {

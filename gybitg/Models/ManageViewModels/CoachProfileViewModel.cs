@@ -15,25 +15,25 @@ namespace gybitg.Models.ManageViewModels
         public string AAUId { get; set; }
 
         [Display(Name = "Personal Bio")]
-        public string PersonalBio { get; set; }
+        public string PersnalBio { get; set; }
 
         public int Wins { get; set; }
 
-        public int Losses { get; set; }
+        public int Lossess { get; set; }
 
         [Display(Name = "Career win-loss record")]
         public virtual string WinLossRecord
         {
             get
             {
-                return (Wins + "-" + Losses);
+                return (Wins + "-" + Lossess);
             }
         }
 
         [Display(Name = "Years at current institution")]
         public decimal YearsCoaching { get; set; }
 
-        public string Achievements { get; set; }
+        public string Achievments { get; set; }
 
         public string Address { get; set; }
 

@@ -11,13 +11,15 @@ namespace gybitg.Models.Repositories
     {
         public IQueryable<AthleteProfile> athleteProfiles => new List<AthleteProfile>
         {
-                        new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(06-01-2020), UserId = "1", HighschoolCoach = "Bob", AAUCoach = "Mary", AAUId = "3"},
-            new AthleteProfile {HighschoolName = "Inglemoor", HSGraduationDate = new DateTime(06-01-2021), UserId = "2", HighschoolCoach = "Cindy", AAUCoach = "Susan", AAUId = "7"},
-            new AthleteProfile {HighschoolName = "Woodinville", HSGraduationDate = new DateTime(06-02-2021), UserId = "3", HighschoolCoach = "Prudence", AAUCoach = "Sarah", AAUId = "17"},
-            new AthleteProfile {HighschoolName = "Jackson", HSGraduationDate = new DateTime(06-01-2023), UserId = "4", HighschoolCoach = "Zack", AAUCoach = "Emily", AAUId = "2"},
-            new AthleteProfile {HighschoolName = "Juanita", HSGraduationDate = new DateTime(06-03-2023), UserId = "5", HighschoolCoach = "Teresa", AAUCoach = "Tina", AAUId = "11"},
-            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(05-28-2023), UserId = "6", HighschoolCoach = "Sally", AAUCoach = "Ashley", AAUId = "0"},
-            new AthleteProfile {HighschoolName = "Mariner", HSGraduationDate = new DateTime(06-01-2021), UserId = "7", HighschoolCoach = "Betty", AAUCoach = "Denise", AAUId = "6"}
+            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(2020-06), UserId = "1", HighschoolCoach = "Bob", AAUCoach = "Mary", AAUId = "3"},
+            new AthleteProfile {HighschoolName = "Inglemoor", HSGraduationDate = new DateTime(2021-06), UserId = "2", HighschoolCoach = "Cindy", AAUCoach = "Susan", AAUId = "7"},
+            new AthleteProfile {HighschoolName = "Woodinville", HSGraduationDate = new DateTime(2021-06), UserId = "3", HighschoolCoach = "Prudence", AAUCoach = "Sarah", AAUId = "17"},
+            new AthleteProfile {HighschoolName = "Jackson", HSGraduationDate = new DateTime(2023-06), UserId = "4", HighschoolCoach = "Zack", AAUCoach = "Emily", AAUId = "2"},
+            new AthleteProfile {HighschoolName = "Juanita", HSGraduationDate = new DateTime(2023-06), UserId = "5", HighschoolCoach = "Teresa", AAUCoach = "Tina", AAUId = "11"},
+            new AthleteProfile {HighschoolName = "Bothell", HSGraduationDate = new DateTime(2023-96), UserId = "6", HighschoolCoach = "Sally", AAUCoach = "Ashley", AAUId = "0"},
+            new AthleteProfile {HighschoolName = "Mariner", HSGraduationDate = new DateTime(2021-06), UserId = "7", HighschoolCoach = "Betty", AAUCoach = "Denise", AAUId = "6"}
+
+
         }.AsQueryable<AthleteProfile>();
 
         public IQueryable<ApplicationUser> applicationUser => new List<ApplicationUser>

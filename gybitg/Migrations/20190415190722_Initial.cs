@@ -67,7 +67,7 @@ namespace gybitg.Migrations
                     Height = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     HighschoolCoach = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HighschoolName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PersnalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Weight = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
@@ -128,9 +128,9 @@ namespace gybitg.Migrations
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AAUId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Achievements = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Losses = table.Column<int>(type: "int", nullable: false),
-                    PersonalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Achievments = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lossess = table.Column<int>(type: "int", nullable: false),
+                    PersnalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Verified = table.Column<bool>(type: "bit", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
                     YearsCoaching = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)

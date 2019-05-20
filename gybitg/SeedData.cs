@@ -160,7 +160,7 @@ namespace gybitg
 
             //athlete 4
             AthleteUserViewModel athlete4 = new AthleteUserViewModel();
-            athlete4.FirstName = "Keith";
+            athlete4.FirstName = "Kieth";
             athlete4.LastName = "E";
             athlete4.Position = "Power Foward";
             athlete.UserId = "4";
