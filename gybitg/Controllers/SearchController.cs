@@ -19,16 +19,16 @@ namespace gybitg.Controllers
     {
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly IAthleteRepository _athleteRepository;
 
         public SearchController(
             UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context,
+            //ApplicationDbContext context,
             IAthleteRepository athleteRepository)
         {
             _userManager = userManager;
-            _context = context;
+            //_context = context;
             _athleteRepository = athleteRepository;
         }
 
@@ -72,21 +72,23 @@ namespace gybitg.Controllers
             }
         }
 
-        public async Task<IActionResult> AthleteListToSearch(SearchViewModel m)
-        {
-            SearchViewModel search = m;
-            //Next two lines splits the athlete users from the coach users 
-            string roleName = "Athlete";
-            IList<ApplicationUser> usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
+        //public async Task<IActionResult> AthleteListToSearch(SearchViewModel m)
+        //{
+        //    SearchViewModel search = m;
+        //    //Next two lines splits the athlete users from the coach users 
+        //    string roleName = "Athlete";
+        //    IList<ApplicationUser> usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
             
-            return RedirectToAction("SearchResults", new {athleteUsers = usersOfRole, SearchParam = m });
-        }
+        //    return RedirectToAction("SearchResults", new {athleteUsers = usersOfRole, SearchParam = search });
+        //}
 
         //IMPORTANT: Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
         [HttpGet]
-        public IActionResult SearchResults(IList<ApplicationUser> athleteUsers, SearchViewModel SearchParam)
+        public async Task<IActionResult> SearchResults(/*IList<ApplicationUser> athleteUsers,*/ SearchViewModel SearchParam)
         {
-            
+
+            string roleName = "Athlete";
+            IList<ApplicationUser> athleteUsers = await _userManager.GetUsersInRoleAsync(roleName);
             //Splits up SearchViewModel SearchParam in to components to save typing later
             string SearchName = SearchParam.Name;
             string SearchPosition;
