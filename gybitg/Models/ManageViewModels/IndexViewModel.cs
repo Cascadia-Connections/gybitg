@@ -22,6 +22,9 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
+        [Required]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [StringLength(20, ErrorMessage = "First Name should be less than or equal to twenty characters.")]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
@@ -33,6 +36,9 @@ namespace gybitg.Models.ManageViewModels
             }
         }
 
+        [Required]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [StringLength(20, ErrorMessage = "Last Name should be less than or equal to twenty characters.")]
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
