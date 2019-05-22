@@ -8,30 +8,25 @@ namespace gybitg.Models.SearchViewModels
 {
     public class SearchViewModel
     {
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "Name")]
         public virtual string Name { get; set; }
 
         [Display(Name = "Position")]
         public PositionType Position { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
-        public DateTime HSGraduationDate { get; set; }
-
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
+        [Display(Name = "HS Graduation Date")]
+        public string HSGraduationDate { get; set; }
+      
         [Display(Name = "High School")]
         public string HighSchool { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "AAU Team")]
         public string AAUId { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "AAU Coach")]
         public string AAUCoach { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "High School Coach")]
         public string HighScoolCoach { get; set; }
 
