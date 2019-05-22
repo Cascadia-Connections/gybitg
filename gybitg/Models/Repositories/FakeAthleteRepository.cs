@@ -7,7 +7,7 @@ using gybitg.Models;
 
 namespace gybitg.Models.Repositories
 {
-    public class FakeAthleteRepository : IAthleteRepository
+    public class FakeAthleteRepository //: IAthleteRepository
     {
         public IQueryable<AthleteProfile> athleteProfiles => new List<AthleteProfile>
         {
@@ -20,19 +20,19 @@ namespace gybitg.Models.Repositories
             new AthleteProfile {HighschoolName = "Mariner", HSGraduationDate = new DateTime(06-01-2021), UserId = "7", HighschoolCoach = "Betty", AAUCoach = "Denise", AAUId = "6"}
         }.AsQueryable<AthleteProfile>();
 
-        public IQueryable<ApplicationUser> applicationUser => new List<ApplicationUser>
-        {
-            //Will this link with the above athleteProfiles?
-            new ApplicationUser {Position = "Point Guard", Id = "1", FirstName = "Sue", LastName = "Bean"},
-            new ApplicationUser {Position = "Shooting Guard", Id = "2", FirstName = "Daisey", LastName = "Shield"},
-            new ApplicationUser {Position = "Small Forward", Id = "3", FirstName = "Black", LastName = "Widow"},
-            new ApplicationUser {Position = "Power Forward", Id = "4", FirstName = "Wasp", LastName = "B"},
-            new ApplicationUser {Position = "Center Forward", Id = "5", FirstName = "Angela", LastName = "Jole"},
-            new ApplicationUser {Position = "Shooting Guard", Id = "6", FirstName = "Sabrina", LastName = "Witch"},
-            new ApplicationUser {Position = "Small Forward", Id = "7", FirstName = "Alicia", LastName = "Avenger"},
+        //public IQueryable<ApplicationUser> applicationUser => new List<ApplicationUser>
+        //{
+        //    //Will this link with the above athleteProfiles?
+        //    new ApplicationUser {Position = "Point Guard", Id = "1", FirstName = "Sue", LastName = "Bean"},
+        //    new ApplicationUser {Position = "Shooting Guard", Id = "2", FirstName = "Daisey", LastName = "Shield"},
+        //    new ApplicationUser {Position = "Small Forward", Id = "3", FirstName = "Black", LastName = "Widow"},
+        //    new ApplicationUser {Position = "Power Forward", Id = "4", FirstName = "Wasp", LastName = "B"},
+        //    new ApplicationUser {Position = "Center Forward", Id = "5", FirstName = "Angela", LastName = "Jole"},
+        //    new ApplicationUser {Position = "Shooting Guard", Id = "6", FirstName = "Sabrina", LastName = "Witch"},
+        //    new ApplicationUser {Position = "Small Forward", Id = "7", FirstName = "Alicia", LastName = "Avenger"},
 
-            new ApplicationUser {Id = "10", FirstName = "Bill", LastName = "Bob"}
-        }.AsQueryable<ApplicationUser>();
+        //    //new ApplicationUser {Id = "10", FirstName = "Bill", LastName = "Bob"}
+        //}.AsQueryable<ApplicationUser>();
 
 
         public IQueryable<AthleteStats> athleteStats => new List<AthleteStats>
