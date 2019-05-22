@@ -287,17 +287,6 @@ namespace gybitg.Controllers
                 }
                 catch
                 {
-                    //ViewBag.NewUser = "User with this email already exists.";
-                    //return RedirectToLocal(returnUrl);
-
-
-
-                    //var tempUser = _context.Users.SingleOrDefault(u => u.Email == model.Email);
-                    //if (tempUser == _context.Users.DefaultIfEmpty())
-                    //{
-                    //ViewBag.NewUser = "User with this email already exists.";
-                    //return RedirectToLocal(returnUrl);
-                    //}
 
                     var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
 
@@ -343,8 +332,6 @@ namespace gybitg.Controllers
 
                     AddErrors(result);
                 }
-                string errormessage = "User with this email already exists.";
-                ViewBag.NewUser = errormessage;
                 return RedirectToAction("Register");
             }
 
