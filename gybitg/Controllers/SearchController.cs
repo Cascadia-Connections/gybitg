@@ -32,14 +32,8 @@ namespace gybitg.Controllers
             _athleteRepository = athleteRepository;
         }
 
-        //Basic Search [get][post]
-        //Basic athlete search method
-        [HttpGet] // --- Adam
-        public IActionResult BasicSearch()
-        {
-            return View();
-        }
-
+        //Basic Search [post]
+        //Basic athlete search method - used for searchbar
         [HttpPost] //Post method for the BasicAthleteSearch --- Adam
         public IActionResult BasicSearch(string SearchParam)
         {
@@ -72,19 +66,9 @@ namespace gybitg.Controllers
             }
         }
 
-        //public async Task<IActionResult> AthleteListToSearch(SearchViewModel m)
-        //{
-        //    SearchViewModel search = m;
-        //    //Next two lines splits the athlete users from the coach users 
-        //    string roleName = "Athlete";
-        //    IList<ApplicationUser> usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
-            
-        //    return RedirectToAction("SearchResults", new {athleteUsers = usersOfRole, SearchParam = search });
-        //}
-
         //IMPORTANT: Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
         [HttpGet]
-        public async Task<IActionResult> SearchResults(/*IList<ApplicationUser> athleteUsers,*/ SearchViewModel SearchParam)
+        public async Task<IActionResult> SearchResults(SearchViewModel SearchParam)
         {
 
             string roleName = "Athlete";
@@ -103,15 +87,31 @@ namespace gybitg.Controllers
 
             string SearchGraduation = SearchParam.HSGraduationDate;
             string SearchHS = SearchParam.HighSchool;
-            string SearchAAU = SearchParam.AAUId;
             string SearchHSCoach = SearchParam.HighScoolCoach;
-            string SearchAAUCoach = SearchParam.AAUCoach;
+            string SearchAAUCoach;
+            string SearchAAU;
+            if (SearchParam.AAUCoach == null)
+            {
+                SearchAAUCoach = "";
+            }
+            else
+            {
+                SearchAAUCoach = SearchParam.AAUCoach;
+            }
+            if(SearchParam.AAUId == null)
+            {
+                SearchAAU = "";
+            }
+            else
+            {
+                SearchAAU = SearchParam.AAUId;
+            }
 
             List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
 
             /*This if statement checks to see that at least one search parameters is not default*/
             if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || !string.IsNullOrEmpty(SearchGraduation)
-                || !string.IsNullOrEmpty(SearchHS) || !string.IsNullOrEmpty(SearchAAU) || !string.IsNullOrEmpty(SearchHSCoach) || !string.IsNullOrEmpty(SearchAAUCoach))
+                || !string.IsNullOrEmpty(SearchHS) || SearchAAU != "" || !string.IsNullOrEmpty(SearchHSCoach) || SearchAAUCoach != "")
             {
                 //runs through all athlete users
                 foreach(var a in athleteUsers)
