@@ -36,7 +36,23 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        public string Position { get; set; }
+        [Display(Name = "Position")]
+        public string Position { get; set; } //PositionType
+
+        //Designate only specific types of Positions
+        /*public enum PositionType
+        {
+            Default,
+            [Display(Name = "Point Guard")]
+            PointGuard,
+            [Display(Name = "Shooting Guard")]
+            ShootingGuard,
+            [Display(Name = "Small Forward")]
+            SmallForward,
+            [Display(Name = "Power Forward")]
+            PowerForward,
+            Center
+        }*/
 
         public string City { get; set; }
 

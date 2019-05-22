@@ -34,9 +34,13 @@ namespace gybitg.Models.SearchViewModels
         public enum PositionType
         {
             Default,
+            [Display(Name ="Point Guard")]
             PointGuard,
+            [Display(Name = "Shooting Guard")]
             ShootingGuard,
+            [Display(Name = "Small Forward")]
             SmallForward,
+            [Display(Name = "Power Forward")]
             PowerForward,
             Center
         }

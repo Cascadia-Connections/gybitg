@@ -22,9 +22,12 @@ using gybitg.Data;
 using gybitg.Models.ManageViewModels;
 using gybitg.Services;
 using Korzh.EasyQuery.Linq;
+using Microsoft.AspNetCore.Server.Kestrel.Internal.System.Collections.Sequences;
 
 namespace gybitg.Controllers
 {
+
+
     [Authorize]
     public class ManageController : Controller
     {
@@ -36,7 +39,7 @@ namespace gybitg.Controllers
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _environment;
-
+        
 
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
@@ -64,10 +67,10 @@ namespace gybitg.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -76,11 +79,12 @@ namespace gybitg.Controllers
 
             var model = new IndexViewModel
             {
-                Username = user.UserName,
+                Username = user.Email,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                //Enum.TryParse(user.Position, true, out Position),
                 Position = user.Position,
                 City = user.City,
                 State = user.State,
@@ -183,9 +187,9 @@ namespace gybitg.Controllers
             }
 
             var position = user.Position;
-            if (model.Position != user.Position)
+            if (model.Position.ToString() != user.Position)
             {
-                user.Position = model.Position;
+                user.Position = model.Position.ToString();
 
                 var setPositionResult = await _userManager.UpdateAsync(user);
                 if (!setPositionResult.Succeeded)
