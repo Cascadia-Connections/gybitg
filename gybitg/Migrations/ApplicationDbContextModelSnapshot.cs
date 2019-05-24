@@ -312,19 +312,45 @@ namespace gybitg.Migrations
                     b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<decimal>("APG");
+
                     b.Property<string>("AvatarImageUrl");
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<decimal>("FGAG");
+
+                    b.Property<decimal>("FGG");
+
+                    b.Property<decimal>("FGMG");
 
                     b.Property<string>("FirstName");
 
+                    b.Property<int>("GP");
+
+                    b.Property<int>("GS");
+
                     b.Property<DateTime>("HSGraduationDate");
 
+                    b.Property<decimal>("Height");
+
+                    b.Property<string>("HighschoolName");
+
                     b.Property<string>("LastName");
+
+                    b.Property<decimal>("MPG");
+
+                    b.Property<decimal>("PPG");
 
                     b.Property<string>("Position");
 
                     b.Property<string>("ProfileVideoUrl");
 
+                    b.Property<decimal>("RPG");
+
                     b.Property<string>("Text");
+
+                    b.Property<decimal>("Weight");
 
                     b.HasKey("UserId");
 

@@ -10,8 +10,8 @@ using gybitg.Data;
 namespace gybitg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190506184127_AthleteProfiles")]
-    partial class AthleteProfiles
+    [Migration("20190519155347_remove AthleteUserViewModel")]
+    partial class removeAthleteUserViewModel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -218,7 +218,7 @@ namespace gybitg.Migrations
 
                     b.Property<string>("HighschoolName");
 
-                    b.Property<string>("PersnalBio");
+                    b.Property<string>("PersonalBio");
 
                     b.Property<decimal>("Weight");
 
@@ -292,11 +292,11 @@ namespace gybitg.Migrations
 
                     b.Property<string>("AAUId");
 
-                    b.Property<string>("Achievments");
+                    b.Property<string>("Achievements");
 
-                    b.Property<int>("Lossess");
+                    b.Property<int>("Losses");
 
-                    b.Property<string>("PersnalBio");
+                    b.Property<string>("PersonalBio");
 
                     b.Property<bool>("Verified");
 
@@ -314,19 +314,45 @@ namespace gybitg.Migrations
                     b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<decimal>("APG");
+
                     b.Property<string>("AvatarImageUrl");
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<decimal>("FGAG");
+
+                    b.Property<decimal>("FGG");
+
+                    b.Property<decimal>("FGMG");
 
                     b.Property<string>("FirstName");
 
+                    b.Property<int>("GP");
+
+                    b.Property<int>("GS");
+
                     b.Property<DateTime>("HSGraduationDate");
 
+                    b.Property<decimal>("Height");
+
+                    b.Property<string>("HighschoolName");
+
                     b.Property<string>("LastName");
+
+                    b.Property<decimal>("MPG");
+
+                    b.Property<decimal>("PPG");
 
                     b.Property<string>("Position");
 
                     b.Property<string>("ProfileVideoUrl");
 
+                    b.Property<decimal>("RPG");
+
                     b.Property<string>("Text");
+
+                    b.Property<decimal>("Weight");
 
                     b.HasKey("UserId");
 

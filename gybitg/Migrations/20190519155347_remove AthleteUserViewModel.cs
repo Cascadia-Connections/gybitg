@@ -2,7 +2,7 @@
 
 namespace gybitg.Migrations
 {
-    public partial class CoachProfiles : Migration
+    public partial class removeAthleteUserViewModel : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

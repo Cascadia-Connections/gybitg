@@ -10,8 +10,8 @@ using gybitg.Data;
 namespace gybitg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190506202139_CoachProfiles")]
-    partial class CoachProfiles
+    [Migration("20190510003438_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

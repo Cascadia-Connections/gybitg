@@ -10,6 +10,7 @@ using gybitg.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using gybitg.Services;
+using gybitg.Models.ManageViewModels;
 
 namespace gybitg.Controllers
 {
@@ -36,29 +37,58 @@ namespace gybitg.Controllers
         }
        
 
-        // GET: Athlete
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.AthleteProfiles.ToListAsync());
-        }
+        //// GET: Athlete
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.AthleteProfiles.ToListAsync());
+        //}
 
         // GET: Athlete/Details/5
-        public async Task<IActionResult> Details(string id)
+        public IActionResult Index(string id)
         {
-            if (id == null)
+          
+            //var athleteProfile = await _context.AthleteProfiles.SingleOrDefaultAsync(m => m.UserId == id);
+        
+        
+
+
+
+
+            //var au =  _context.AthleteUserViewModel.SingleOrDefault(m => m.UserId == id);
+            var athleteProfile = _context.AthleteProfiles.SingleOrDefault(p => p.UserId == id);
+            var athleteStats =  _context.AthleteStats.SingleOrDefault(m => m.UserId == id);
+
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
+           
+            AthleteUserViewModel au = new AthleteUserViewModel();
+               if (au == null)
             {
                 return NotFound();
             }
+            au.UserId = id;
+            au.FirstName = user.FirstName;
+            au.LastName = user.LastName;
+            au.Position = user.Position;
+            au.AvatarImageUrl = user.AvatarImageUrl;
+            au.ProfileVideoUrl = user.ProfileVideoUrl;
+            au.DateOfBirth = athleteProfile.DateOfBirth;
+            au.Height = athleteProfile.Height;
+            au.Weight = athleteProfile.Weight;
+            au.HighschoolName = athleteProfile.HighschoolName;
+            au.HSGraduationDate = athleteProfile.HSGraduationDate;
+            au.PPG = athleteStats.PPG;
+            au.RPG = athleteStats.PPG;
+            au.FGAG = athleteStats.FGAG;
+            au.FGG = athleteStats.FGG;
+            au.FGMG = athleteStats.FGMG;
+            au.GP = athleteStats.GP;
+            
 
-            var athleteProfile = await _context.AthleteProfiles
-                .SingleOrDefaultAsync(m => m.UserId == id);
-            if (athleteProfile == null)
-            {
-                return NotFound();
-            }
 
-            return View(athleteProfile);
-        }
+
+            return View(au);
+
+                   }
 
         // GET: Athlete/Create
         public IActionResult Create()
@@ -165,6 +195,11 @@ namespace gybitg.Controllers
         private bool AthleteProfileExists(string id)
         {
             return _context.AthleteProfiles.Any(e => e.UserId == id);
+        }
+
+        private bool AthleteUserViewModelExists(string id)
+        {
+            return _context.AthleteUserViewModel.Any(e => e.UserId == id);
         }
     }
 }
