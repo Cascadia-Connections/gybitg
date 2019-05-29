@@ -36,8 +36,11 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        //[Display(Name = "Position")]
-        public string Position { get; set; } //PositionType
+        [Display(Name = "Position")]
+        public string Position { get; set; }   //PositionType
+        //We were wanting to have the above Position be of type PositionType
+        //Creates issues with the rest of the code however in ManageController line 88 comparing Position to user.Position
+        //Also breaks program at Index.cshtml at the coach position check line 42
 
         //Designate only specific types of Positions
         public enum PositionType
