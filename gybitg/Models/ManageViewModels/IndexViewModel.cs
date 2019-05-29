@@ -36,7 +36,7 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Position")]
+        //[Display(Name = "Position")]
         public string Position { get; set; } //PositionType
 
         //Designate only specific types of Positions
