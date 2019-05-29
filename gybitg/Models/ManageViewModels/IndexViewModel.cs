@@ -40,7 +40,7 @@ namespace gybitg.Models.ManageViewModels
         public string Position { get; set; } //PositionType
 
         //Designate only specific types of Positions
-        /*public enum PositionType
+        public enum PositionType
         {
             Default,
             [Display(Name = "Point Guard")]
@@ -52,7 +52,7 @@ namespace gybitg.Models.ManageViewModels
             [Display(Name = "Power Forward")]
             PowerForward,
             Center
-        }*/
+        }
 
         public string City { get; set; }
 

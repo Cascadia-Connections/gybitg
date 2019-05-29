@@ -1,4 +1,5 @@
 ﻿@model IndexViewModel
+@using gybitg.Models.SearchViewModels;
 @{
 	ViewData["Title"] = "Account";
 	ViewData.AddActivePage(ManageNavPages.Index);
@@ -39,10 +40,12 @@
 				<input asp-for="LastName" class="form-control" />
 			</div>
 			@if (Model.Position == "Coach")
-			{ }	else
+			{ }
+			else
 			{<div class="form-group">
 					<label asp-for="Position"></label>
-					<input asp-for="@Model.Position" class="form-control" />
+					<select asp-for="Position" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))"></select>
+					
 				</div>}
 
 			<div class="form-group">
