@@ -24,8 +24,8 @@ namespace gybitg.Models.ManageViewModels
         public virtual string LastName { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Date of Birth"), DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Date of Birth")]
+        public string DateOfBirth { get; set; }
 
         [Range(1, 999, ErrorMessage = "Height can be between 1 to 999 inches." )]
         [Display(Name = "Height (inches)")]
@@ -54,8 +54,8 @@ namespace gybitg.Models.ManageViewModels
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
-        [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
-        public DateTime HSGraduationDate { get; set; }
+        [Display(Name = "HS Graduation Date")]
+        public string HSGraduationDate { get; set; }
         
         [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [StringLength(40, ErrorMessage = "AAU Team should be less than or equal to fourty characters.")]

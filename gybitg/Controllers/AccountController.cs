@@ -341,11 +341,11 @@ namespace gybitg.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        //used RedirectResult and Redirect to directly break out of the AccountController.Login loop.
+        public async Task<RedirectResult> Logout(string returnUrl ="/")
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            return RedirectToAction((nameof(AccountController.Login)));
+            return Redirect(returnUrl);
         }
 
         [HttpPost]
