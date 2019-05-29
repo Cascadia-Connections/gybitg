@@ -118,7 +118,7 @@ namespace gybitg.Controllers
                 {
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
                     if(a.FullName == SearchName || a.Position == SearchPosition
-                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate.ToShortDateString() == (SearchGraduation) 
+                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate == SearchGraduation 
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchHS
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach
