@@ -16,7 +16,7 @@ namespace gybitg.Models.SearchViewModels
         public virtual string FullName { get; set; }
 
         [Display(Name = "Position")]
-        public String Position { get; set; }
+        public string Position { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
