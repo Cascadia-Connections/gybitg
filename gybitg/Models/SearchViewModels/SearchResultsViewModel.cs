@@ -19,8 +19,8 @@ namespace gybitg.Models.SearchViewModels
         public String Position { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
-        [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
-        public DateTime HSGraduationDate { get; set; }
+        [Display(Name = "HS Graduation Date")]
+        public string HSGraduationDate { get; set; }
 
         [Display(Name = "High School")]
         public string HighSchool { get; set; }
