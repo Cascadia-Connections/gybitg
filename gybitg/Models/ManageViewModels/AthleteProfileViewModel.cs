@@ -17,7 +17,7 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Last Name")]
         public virtual string LastName { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
+     
         [Display(Name = "Date of Birth")]
         public string DateOfBirth { get; set; }
 
@@ -36,7 +36,7 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Current Highschool Coach")]
         public string HighschoolCoach { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
+  
         [Display(Name = "HS Graduation Date")]
         public string HSGraduationDate { get; set; }
 

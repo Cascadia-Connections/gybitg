@@ -316,7 +316,7 @@ namespace gybitg.Migrations
 
                     b.Property<string>("AvatarImageUrl");
 
-                    b.Property<DateTime>("DateOfBirth");
+                    b.Property<string>("DateOfBirth");
 
                     b.Property<decimal>("FGAG");
 
@@ -330,7 +330,7 @@ namespace gybitg.Migrations
 
                     b.Property<int>("GS");
 
-                    b.Property<DateTime>("HSGraduationDate");
+                    b.Property<string>("HSGraduationDate");
 
                     b.Property<decimal>("Height");
 

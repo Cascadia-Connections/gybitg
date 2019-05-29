@@ -19,9 +19,10 @@ namespace gybitg.Models.ManageViewModels
         public virtual string LastName { get; set; }
 
         public string Text { get; set; }
-        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
+
+ 
         [Display(Name = "Date of Birth"), DataType(DataType.Date)]
-        public DateTime DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
 
         public virtual string FullName
         {
@@ -36,9 +37,9 @@ namespace gybitg.Models.ManageViewModels
 
         public string ProfileVideoUrl { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
+
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
-        public DateTime HSGraduationDate { get; set; }
+        public string HSGraduationDate { get; set; }
         [Display(Name = "Points per Game")]
         public decimal PPG { get; set; }
 

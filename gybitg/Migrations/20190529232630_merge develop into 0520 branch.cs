@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace gybitg.Migrations
 {
-    public partial class initial : Migration
+    public partial class mergedevelopinto0520branch : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,13 +60,13 @@ namespace gybitg.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    DateOfBirth = table.Column<string>(nullable: true),
                     Height = table.Column<decimal>(nullable: false),
                     Weight = table.Column<decimal>(nullable: false),
                     PersonalBio = table.Column<string>(nullable: true),
                     HighschoolName = table.Column<string>(nullable: true),
                     HighschoolCoach = table.Column<string>(nullable: true),
-                    HSGraduationDate = table.Column<DateTime>(nullable: false),
+                    HSGraduationDate = table.Column<string>(nullable: true),
                     AAUId = table.Column<string>(nullable: true),
                     AAUCoach = table.Column<string>(nullable: true)
                 },
@@ -112,10 +112,23 @@ namespace gybitg.Migrations
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Text = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<string>(nullable: true),
                     Position = table.Column<string>(nullable: true),
                     AvatarImageUrl = table.Column<string>(nullable: true),
                     ProfileVideoUrl = table.Column<string>(nullable: true),
-                    HSGraduationDate = table.Column<DateTime>(nullable: false)
+                    HSGraduationDate = table.Column<string>(nullable: true),
+                    PPG = table.Column<decimal>(nullable: false),
+                    Height = table.Column<decimal>(nullable: false),
+                    Weight = table.Column<decimal>(nullable: false),
+                    HighschoolName = table.Column<string>(nullable: true),
+                    RPG = table.Column<decimal>(nullable: false),
+                    APG = table.Column<decimal>(nullable: false),
+                    GP = table.Column<int>(nullable: false),
+                    GS = table.Column<int>(nullable: false),
+                    MPG = table.Column<decimal>(nullable: false),
+                    FGAG = table.Column<decimal>(nullable: false),
+                    FGMG = table.Column<decimal>(nullable: false),
+                    FGG = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
