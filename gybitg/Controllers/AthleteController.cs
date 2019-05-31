@@ -82,6 +82,10 @@ namespace gybitg.Controllers
             au.FGG = athleteStats.FGG;
             au.FGMG = athleteStats.FGMG;
             au.GP = athleteStats.GP;
+            au.GalleryVideo1= user.GalleryVideo1;
+            au.GalleryVideo2 = user.GalleryVideo2;
+            au.GalleryVideo3 = user.GalleryVideo3;
+            au.GalleryVideo4 = user.GalleryVideo4;
             
 
 

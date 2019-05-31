@@ -54,5 +54,13 @@ namespace gybitg.Models.ManageViewModels
 
         [Display (Name = "Paste YouTube Embed code for profile video")]
         public string ProfileVideoUrl { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 1")]
+        public string GalleryVideo1 { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 2")]
+        public string GalleryVideo2 { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 3")]
+        public string GalleryVideo3 { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 4")]
+        public string GalleryVideo4 { get; set; }
     }
 }

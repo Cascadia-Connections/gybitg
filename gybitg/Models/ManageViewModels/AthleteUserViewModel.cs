@@ -37,6 +37,12 @@ namespace gybitg.Models.ManageViewModels
 
         public string ProfileVideoUrl { get; set; }
 
+        public string GalleryVideo1 { get; set; }
+        public string GalleryVideo2 { get; set; }
+        public string GalleryVideo3 { get; set; }
+        public string GalleryVideo4 { get; set; }
+
+
 
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
         public string HSGraduationDate { get; set; }
