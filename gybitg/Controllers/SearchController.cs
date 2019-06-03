@@ -116,9 +116,13 @@ namespace gybitg.Controllers
                 //runs through all athlete users
                 foreach(var a in athleteUsers)
                 {
+                    char[] delimiterChars = { '/' };
+                    string[] words = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate.Split(delimiterChars);
+                    string athleteGradDate = words[0] + "/" + words[2];
+
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
-                    if(a.FullName == SearchName || a.Position == SearchPosition
-                      || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate == SearchGraduation 
+                    if (a.FullName == SearchName || a.Position == SearchPosition
+                      || athleteGradDate == SearchGraduation 
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchHS
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU
                       || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach
