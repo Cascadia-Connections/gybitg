@@ -1,10 +1,11 @@
 ﻿@model IndexViewModel
 @using gybitg.Models.SearchViewModels;
+@inject UserManager<ApplicationUser> UserManager
 @{
 	ViewData["Title"] = "Account";
 	ViewData.AddActivePage(ManageNavPages.Index);
 }
-
+@{var _user = await UserManager.GetUserAsync(User);}
 <h4>@ViewData["Title"]</h4>
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <div class="row">
@@ -39,14 +40,15 @@
 				<label asp-for="LastName"></label>
 				<input asp-for="LastName" class="form-control" />
 			</div>
-			@if (Model.Position == "Coach")
-			{ }
-			else
-			{<div class="form-group">
-					<label asp-for="Position"></label>
-					<select asp-for="Position" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))"></select>
-					
-				</div>}
+
+
+			@if (await UserManager.IsInRoleAsync(_user, "Athlete"))
+			{ 		
+			<div class="form-group">
+				<label asp-for="Position"></label>
+				<select asp-for="Position" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))"></select>
+			</div>
+			}
 
 			<div class="form-group">
 				<label asp-for="City"></label>

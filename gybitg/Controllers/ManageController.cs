@@ -77,6 +77,27 @@ namespace gybitg.Controllers
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            
+            if (user.Position == null)
+            {
+                var modelCo = new IndexViewModel
+                {
+                    Username = user.Email,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    //Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
+                    //Position = user.Position,
+                    City = user.City,
+                    State = user.State,
+                    Zip = user.Zip,
+                    IsEmailConfirmed = user.EmailConfirmed,
+                    StatusMessage = StatusMessage
+                };
+                return View(modelCo);
+            }
+
             var model = new IndexViewModel
             {
                 Username = user.Email,
@@ -84,14 +105,33 @@ namespace gybitg.Controllers
                 PhoneNumber = user.PhoneNumber,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                //Enum.TryParse(user.Position, true, out Position),
-                Position = user.Position,
+                Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
                 City = user.City,
                 State = user.State,
                 Zip = user.Zip,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
             };
+            return View(model);
+
+
+
+
+            /*var model = new IndexViewModel
+            {
+                Username = user.Email,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
+                //Position = user.Position,
+                City = user.City,
+                State = user.State,
+                Zip = user.Zip,
+                IsEmailConfirmed = user.EmailConfirmed,
+                StatusMessage = StatusMessage
+            };*/
 
             return View(model);
         }

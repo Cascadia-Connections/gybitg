@@ -24,6 +24,7 @@
             <div class="form-group">
                 <label asp-for="Position"></label>
                 <select asp-for="Position" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))"></select>
+
             </div>
                 <div class="form-group">
                    <label asp-for="HSGraduationDate"></label>
