@@ -241,51 +241,7 @@ namespace gybitg.Controllers
                     throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
                 }
             }
-            var GalleryVideo1 = user.GalleryVideo1;
-            if (model.GalleryVideo1 != user.GalleryVideo1)
-            {
-                user.GalleryVideo1 = model.GalleryVideo1;
-
-                var setGalleryVideo1 = await _userManager.UpdateAsync(user);
-                if (!setGalleryVideo1.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
-                }
-            }
-            var GalleryVideo2 = user.GalleryVideo2;
-            if (model.GalleryVideo2 != user.GalleryVideo2)
-            {
-                user.GalleryVideo2 = model.GalleryVideo2;
-
-                var setGalleryVideo2 = await _userManager.UpdateAsync(user);
-                if (!setGalleryVideo2.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
-                }
-            }
-            var GalleryVideo3 = user.GalleryVideo3;
-            if (model.GalleryVideo3 != user.GalleryVideo3)
-            {
-                user.GalleryVideo3 = model.GalleryVideo3;
-
-                var setGalleryVideo3 = await _userManager.UpdateAsync(user);
-                if (!setGalleryVideo3.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
-                }
-            }
-            var GalleryVideo4 = user.GalleryVideo4;
-            if (model.GalleryVideo4 != user.GalleryVideo4)
-            {
-                user.GalleryVideo4 = model.GalleryVideo4;
-
-                var setGalleryVideo4 = await _userManager.UpdateAsync(user);
-                if (!setGalleryVideo4.Succeeded)
-                {
-                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
-                }
-            }
-  
+              
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
