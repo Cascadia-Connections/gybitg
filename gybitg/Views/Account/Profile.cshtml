@@ -60,13 +60,15 @@
     {
         var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
 
-        <div style="display:inline-block; padding-top: 20px;">
+        <div style="display:inline-block; padding-top: 40px; padding-left: 85px">
             <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
 
-            <p style="display:inline-grid">
-                <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
-                <br />
-                @_user.Position for @_coachProfile.YearsCoaching years at @_coachProfile.AAUId
+            <div style="display:inline-grid; padding-left: 20px">
+                <text style="font-size: x-large; font-weight: bold"> Coach @_user.FullName</text>
+                <div style=" display: inline-grid; padding-left: 40px">
+                    <text style="font-size: x-large; font-weight: bold"> @_coachProfile.AAUId</text>
+                </div>
+            </div>
         </div>
 
         <center>
@@ -76,7 +78,10 @@
                 </div>
             </div>
             <div>
-                @Html.Raw(@_user.ProfileVideoUrl)
+                <center>
+                    @Html.Raw(@_user.ProfileVideoUrl)
+                </center>
+               
             </div>
         </center>
     }
