@@ -20,37 +20,43 @@
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Position"></label>
                 <select asp-for="Position" class="form-control" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))"></select>
-
+                <span asp-validation-for="Position" class="text-danger"></span>
             </div>
-                <div class="form-group">
-                   <label asp-for="HSGraduationDate"></label>
-                    <div class='input-group date' id='datetimepicker10' style="color:black">
-                        <input asp-for="HSGraduationDate" class="form-control" />
-                        <span class="input-group-addon">
-                            <span class="glyphicon glyphicon-calendar">
-                            </span>
+            <div class="form-group">
+                <label asp-for="HSGraduationDate"></label>
+                <div class='input-group date' id='datetimepicker10' style="color:black">
+                    <input asp-for="HSGraduationDate" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar">
                         </span>
-                    </div>
+                    </span>
                 </div>
-     <div class="form-group">
+                <span asp-validation-for="HSGraduationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="HighSchool"></label>
                 <input asp-for="HighSchool" class="form-control" />
+                <span asp-validation-for="HighSchool" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AAUId"></label>
                 <input asp-for="AAUId" class="form-control" />
+                <span asp-validation-for="AAUId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HighScoolCoach"></label>
                 <input asp-for="HighScoolCoach" class="form-control" />
+                <span asp-validation-for="HighScoolCoach" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AAUCoach"></label>
                 <input asp-for="AAUCoach" class="form-control" />
+                <span asp-validation-for="AAUCoach" class="text-danger"></span>
             </div>
             <div>
                 <input type="submit" value="Search" class="btn btn-default" />
