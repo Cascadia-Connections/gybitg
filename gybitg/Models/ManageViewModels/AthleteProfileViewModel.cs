@@ -11,19 +11,16 @@ namespace gybitg.Models.ManageViewModels
         [Key]
         public string UserId { get; set; }
 
-        [Required]
         [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [StringLength(20, ErrorMessage = "First Name should be less than or equal to twenty characters.")]
         [Display(Name = "First Name")]
         public virtual string FirstName { get; set; }
 
-        [Required]
         [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [StringLength(20, ErrorMessage = "Last Name should be less than or equal to twenty characters.")]
         [Display(Name = "Last Name")]
         public virtual string LastName { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date of Birth")]
         public string DateOfBirth { get; set; }
 
@@ -53,7 +50,6 @@ namespace gybitg.Models.ManageViewModels
         public string HighschoolCoach { get; set; }
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
         [Display(Name = "HS Graduation Date")]
         public string HSGraduationDate { get; set; }
         
