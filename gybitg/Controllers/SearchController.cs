@@ -12,9 +12,11 @@ using Microsoft.Extensions.Logging;
 using gybitg.Services;
 using gybitg.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace gybitg.Controllers
 {
+    [Authorize(Roles = "Coach")]
     public class SearchController : Controller
     {
 
