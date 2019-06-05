@@ -57,30 +57,43 @@ namespace gybitg.Controllers
 
        
         [HttpGet]
-        public async Task<IActionResult> AthleteList()
+        public IActionResult AthleteList(string id)
         {
-            string roleName = "Athlete";
 
-            var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
+            id = _userManager.GetUserId(User);
 
-            List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
+            var _userProfile = _context.AthleteProfiles.SingleOrDefault(p => p.UserId == id);
 
-            foreach (var u in usersOfRole)
-            {
+            var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
+            //string roleName = "Athlete";
+
+            //var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
+
+            //List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
+
+            //foreach (var u in usersOfRole)
+            //{
                 AthleteUserViewModel au = new AthleteUserViewModel();
-                au.UserId = u.Id;
-                au.FirstName = u.FirstName;
-                au.LastName = u.LastName;
-                au.Position = u.Position;
-                au.AvatarImageUrl = u.AvatarImageUrl;
-                au.ProfileVideoUrl = u.ProfileVideoUrl;
+                au.UserId = user.Id;
+                au.FirstName = user.FirstName;
+                au.LastName = user.LastName;
+                au.Position = user.Position;
+                au.AvatarImageUrl = user.AvatarImageUrl;
+                au.ProfileVideoUrl = user.ProfileVideoUrl;
+                au.DateOfBirth = _userProfile.DateOfBirth;
+                au.Height = _userProfile.Height;
+                au.Weight = _userProfile.Weight;
+                au.HighschoolName = _userProfile.HighschoolName;
+                au.HSGraduationDate = _userProfile.HSGraduationDate;
+            
+               
 
-                athletes.Add(au);
+            //    athletes.Add(au);
 
 
-            }
+            //}
 
-            return View(athletes);
+            return View(au);
 
         }
 
