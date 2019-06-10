@@ -94,6 +94,24 @@ namespace gybitg.Controllers
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+
+            if (_signInManager.IsSignedIn(User))
+            {   
+                
+                
+                var _user = _context.Users.Single(u => u.Id == _userManager.GetUserId(User));
+                var id = _user.Id;
+                var _profile = _userManager.Users.SingleOrDefault(m => m.Id == id);
+
+                if (await _userManager.IsInRoleAsync(_profile, "Coach"))
+                {
+                    return RedirectToAction("index", "coach");
+                }
+                else if (await _userManager.IsInRoleAsync(_profile, "Athlete"))
+                {
+                    return RedirectToAction("index", "athlete");
+                }
+            }
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -112,7 +130,8 @@ namespace gybitg.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
+                    //return RedirectToLocal(returnUrl);
+                    return RedirectToAction("Login", "Account");
                 }
                 
                 if (result.RequiresTwoFactor)

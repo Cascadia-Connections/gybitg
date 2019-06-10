@@ -48,8 +48,13 @@ namespace gybitg.Controllers
         // GET: Coach
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CoachProfiles.ToListAsync());
+            var followedAthletes = await _context.CoachAthletes.Where(c => c.CoachId == _userManager.GetUserId(User)).ToListAsync();
+            
+
+            return View(followedAthletes);
         }
+
+
         public async Task<IActionResult> _SearchPartial()
         {
             return View(await _context.AthleteProfiles.ToListAsync());
@@ -156,16 +161,22 @@ namespace gybitg.Controllers
         //}
 
         [HttpPost]
-        public IActionResult Follow(string UserId)
+        public IActionResult Follow(string userId)
         {
-
+            // add if statement to ensure not selecting athlete already being followed
 
             CoachAthlete following = new CoachAthlete();
-            following.AthleteId = UserId;
-            following.Athlete = _context.AthleteProfiles.SingleOrDefault(a => a.UserId == UserId);
 
+            //AthleteProfile followedAthlete = _context.AthleteProfiles.SingleOrDefault(a => a.UserId == userId);
+            following.AthleteId = userId;
+           // following.Athlete = followedAthlete;
+            following.Athlete = new AthleteProfile {UserId = userId }; // new line
+
+            // do same to coach as above
             following.CoachId = _userManager.GetUserId(User);
-            following.Coach = _context.CoachProfiles.SingleOrDefault(c => c.UserId == following.CoachId);
+            CoachProfile followedCoach = _context.CoachProfiles.SingleOrDefault(c => c.UserId == following.CoachId);
+            
+            following.Coach = followedCoach;
 
             _context.CoachAthletes.Add(following);
             _context.SaveChanges();
