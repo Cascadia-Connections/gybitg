@@ -16,6 +16,7 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "Position")]
         public PositionType Position { get; set; }
 
+        [Required]
         [RegularExpression("^[0-9/]{7}$", ErrorMessage = "Only this format allowed: mm/yyyy")]
         [Display(Name = "HS Graduation Date")]
         public string HSGraduationDate { get; set; }
