@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace gybitg.Models.SearchViewModels
 {
@@ -38,7 +39,8 @@ namespace gybitg.Models.SearchViewModels
         //Designate only specific types of Positions
         public enum PositionType
         {
-            Default,
+            [Display(Name = "Not Selected")]
+            NotSelected,
             [Display(Name = "Point Guard")]
             PointGuard,
             [Display(Name = "Shooting Guard")]
@@ -47,6 +49,7 @@ namespace gybitg.Models.SearchViewModels
             SmallForward,
             [Display(Name = "Power Guard")]
             PowerForward,
+            [Display(Name = "Center")]
             Center
         }
     }

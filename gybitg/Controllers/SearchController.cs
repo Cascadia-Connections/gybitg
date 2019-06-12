@@ -78,7 +78,7 @@ namespace gybitg.Controllers
             //Splits up SearchViewModel SearchParam in to components to save typing later
             string SearchName = SearchParam.Name;
             string SearchPosition;
-            if(SearchParam.Position.ToString() != "Default")
+            if(SearchParam.Position.ToString() != "NotSelected")
             {
                 SearchPosition = SearchParam.Position.ToString();
             }
