@@ -21,11 +21,14 @@ using gybitg.Models;
 using gybitg.Data;
 using gybitg.Models.ManageViewModels;
 using gybitg.Services;
+using Korzh.EasyQuery.Linq;
+using Microsoft.AspNetCore.Server.Kestrel.Internal.System.Collections.Sequences;
 
 namespace gybitg.Controllers
 {
+
+
     [Authorize]
-    [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -36,7 +39,7 @@ namespace gybitg.Controllers
         private readonly UrlEncoder _urlEncoder;
         private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _environment;
-
+        
 
 
         private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
@@ -64,30 +67,71 @@ namespace gybitg.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+            
+            if (user.Position == null)
+            {
+                var modelCo = new IndexViewModel
+                {
+                    Username = user.Email,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    //Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
+                    //Position = user.Position,
+                    City = user.City,
+                    State = user.State,
+                    Zip = user.Zip,
+                    IsEmailConfirmed = user.EmailConfirmed,
+                    StatusMessage = StatusMessage
+                };
+                return View(modelCo);
+            }
+
             var model = new IndexViewModel
             {
-                Username = user.UserName,
+                Username = user.Email,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Position = user.Position,
+                Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
                 City = user.City,
                 State = user.State,
                 Zip = user.Zip,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
             };
+            return View(model);
+
+
+
+
+            /*var model = new IndexViewModel
+            {
+                Username = user.Email,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
+                //Position = user.Position,
+                City = user.City,
+                State = user.State,
+                Zip = user.Zip,
+                IsEmailConfirmed = user.EmailConfirmed,
+                StatusMessage = StatusMessage
+            };*/
 
             return View(model);
         }
@@ -110,7 +154,7 @@ namespace gybitg.Controllers
             }
 
             // Avatar image upload process
-            if (model.AvatarImage != null)  
+            if (model.AvatarImage != null)
             {
                 string PathDB = string.Empty;
                 var filename = string.Empty;
@@ -119,7 +163,7 @@ namespace gybitg.Controllers
                                         .Parse(model.AvatarImage.ContentDisposition)
                                         .FileName
                                         .Trim('"');
-                
+
                 //Assigning Unique Filename (Guid)
                 var myUniqueFilename = Convert.ToString(Guid.NewGuid());
 
@@ -135,10 +179,9 @@ namespace gybitg.Controllers
                 // if you want to store path of folder in database
                 PathDB = "avatars/" + newFilename;
 
-                //using (var ms = new FileStream(filename, FileMode.Create))
                 using (FileStream fs = System.IO.File.Create(filename))
                 {
-                    await model.AvatarImage.CopyToAsync(fs);
+                    await model.AvatarImage.CopyToAsync(fs);    // asynchronously copy the file to the avatar folder
                     fs.Flush();
                 }
 
@@ -184,9 +227,9 @@ namespace gybitg.Controllers
             }
 
             var position = user.Position;
-            if (model.Position != user.Position)
+            if (model.Position.ToString() != user.Position)
             {
-                user.Position = model.Position;
+                user.Position = model.Position.ToString();
 
                 var setPositionResult = await _userManager.UpdateAsync(user);
                 if (!setPositionResult.Succeeded)
@@ -231,9 +274,27 @@ namespace gybitg.Controllers
                 }
             }
 
+            var profileVideoUrl = user.ProfileVideoUrl;
+            if (model.ProfileVideoUrl != user.ProfileVideoUrl)
+            {
+                user.ProfileVideoUrl = model.ProfileVideoUrl;
+
+                var setProfileVideoUrl = await _userManager.UpdateAsync(user);
+                if (!setProfileVideoUrl.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
+                }
+            }
+
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));
         }
+
+
+
+
+
+        
 
         [HttpGet]
         public IActionResult EditAthleteProfile(string id)
@@ -257,7 +318,7 @@ namespace gybitg.Controllers
                 DateOfBirth = _userProfile.DateOfBirth,
                 Height = _userProfile.Height,
                 Weight = _userProfile.Weight,
-                PersnalBio = _userProfile.PersnalBio,
+                PersonalBio = _userProfile.PersonalBio,
                 HighschoolName = _userProfile.HighschoolName,
                 HighschoolCoach = _userProfile.HighschoolCoach,
                 HSGraduationDate = _userProfile.HSGraduationDate,
@@ -301,10 +362,10 @@ namespace gybitg.Controllers
             {
                 userProfile.Weight = vmodel.Weight;
             }
-            var personalBio = userProfile.PersnalBio;
-            if (vmodel.PersnalBio != personalBio)
+            var personalBio = userProfile.PersonalBio;
+            if (vmodel.PersonalBio != personalBio)
             {
-                userProfile.PersnalBio = vmodel.PersnalBio;
+                userProfile.PersonalBio = vmodel.PersonalBio;
             }
 
             var hsCoach = userProfile.HighschoolCoach;
@@ -490,11 +551,11 @@ namespace gybitg.Controllers
             {
                 UserId = id,
                 AAUId = _coachProfile.AAUId,
-                PersnalBio = _coachProfile.PersnalBio,
+                PersonalBio = _coachProfile.PersonalBio,
                 YearsCoaching = _coachProfile.YearsCoaching,
                 Wins = _coachProfile.Wins,
-                Lossess = _coachProfile.Lossess,
-                Achievments = _coachProfile.Achievments,
+                Losses = _coachProfile.Losses,
+                Achievements = _coachProfile.Achievements,
                 Verified = _coachProfile.Verified,
                 StatusMessage = StatusMessage
             };
@@ -519,20 +580,20 @@ namespace gybitg.Controllers
             }
 
             var AAUId = coachProfile.AAUId;
-            var PersonalBio = coachProfile.PersnalBio;
+            var PersonalBio = coachProfile.PersonalBio;
             var YearsCoaching = coachProfile.YearsCoaching;
             var Wins = coachProfile.Wins;
-            var Lossess = coachProfile.Lossess;
-            var Achievements = coachProfile.Achievments;
+            var Losses = coachProfile.Losses;
+            var Achievements = coachProfile.Achievements;
             var Verified = coachProfile.Verified;
 
             if (AAUId != vmodel.AAUId)
             {
                 coachProfile.AAUId = vmodel.AAUId;
             }
-            if (PersonalBio != vmodel.PersnalBio)
+            if (PersonalBio != vmodel.PersonalBio)
             {
-                coachProfile.PersnalBio = vmodel.PersnalBio;
+                coachProfile.PersonalBio = vmodel.PersonalBio;
             }
             if (YearsCoaching != vmodel.YearsCoaching)
             {
@@ -542,13 +603,13 @@ namespace gybitg.Controllers
             {
                 coachProfile.Wins = vmodel.Wins;
             }
-            if (Lossess != vmodel.Lossess)
+            if (Losses != vmodel.Losses)
             {
-                coachProfile.Lossess = vmodel.Lossess;
+                coachProfile.Losses = vmodel.Losses;
             }
-            if (Achievements != vmodel.Achievments)
+            if (Achievements != vmodel.Achievements)
             {
-                coachProfile.Achievments = vmodel.Achievments;
+                coachProfile.Achievements = vmodel.Achievements;
             }
             if (Verified != vmodel.Verified)
             {

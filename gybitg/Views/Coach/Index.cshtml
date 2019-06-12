@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Data
+
+
+
+@model IEnumerable<gybitg.Models.CoachProfile>
+@inject ApplicationDbContext _context
+@{
+    ViewData["Title"] = "Index";
+}
+<h2>Index</h2>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AAUId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalBio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wins)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Losses)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearsCoaching)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Achievements)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Verified)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AAUId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonalBio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Wins)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Losses)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearsCoaching)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Achievements)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Verified)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+                </td>
+            </tr>
+        }
+            <div>
+                 @{// var _athleteProfiles = await _context.AthleteProfiles.ToListAsync();
+                   // await Html.PartialAsync("_SearchPartial", _athleteProfiles); 
+                }  
+            </div>
+        </tbody>
+    </table>

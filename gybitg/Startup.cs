@@ -15,7 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using gybitg.Data;
 using gybitg.Models;
 using gybitg.Services;
-
+using gybitg.Models.Repositories;
 namespace gybitg
 {
     public class Startup
@@ -30,10 +30,14 @@ namespace gybitg
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDistributedMemoryCache();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
+            // TODO: See if this in needed : Automatically perform database migration
+            //services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -73,6 +77,10 @@ namespace gybitg
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddTransient<IAthleteRepository, EFAthleteRepository>();
+
+           // services.AddTransient<IApplicationUserRepository, FakeApplicationUserRepository>();
+
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
             services.AddMvc().AddRazorPagesOptions(options =>
@@ -82,17 +90,13 @@ namespace gybitg
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
@@ -102,9 +106,12 @@ namespace gybitg
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    name: "Default",
+                    template: "{controller=Manage}/{action=Index}/{id?}");
             });
+
+            // Make sure we have the database
+            //serviceProvider.GetService<ApplicationDbContext>().Database.EnsureCreated();
         }
     }
 }

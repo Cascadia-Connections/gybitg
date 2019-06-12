@@ -36,5 +36,10 @@ namespace gybitg.Models
         public string Zip { get; set; }
   
         public string AvatarImageUrl { get; set; }
+
+        public string ProfileVideoUrl { get; set; }
+
+        public List<IdentityUserRole<string>> Roles { get; set; }
+       
     }
 }

@@ -23,9 +23,14 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="UserId" />
             <div class="form-group">
-                <label asp-for="DateOfBirth" class="control-label"></label>
-                <input asp-for="DateOfBirth" class="form-control" />
-                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                <label asp-for="DateOfBirth"></label>
+                <div class='input-group date' id='datetimepicker' style="color:black">
+                    <input asp-for="DateOfBirth" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar">
+                        </span>
+                    </span>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Height" class="control-label"></label>
@@ -38,9 +43,9 @@
                 <span asp-validation-for="Weight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PersnalBio" class="control-label"></label>
-                <input asp-for="PersnalBio" class="form-control" />
-                <span asp-validation-for="PersnalBio" class="text-danger"></span>
+                <label asp-for="PersonalBio" class="control-label"></label>
+                <input asp-for="PersonalBio" class="form-control" />
+                <span asp-validation-for="PersonalBio" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="HighschoolName" class="control-label"></label>
@@ -53,9 +58,14 @@
                 <span asp-validation-for="HighschoolCoach" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="HSGraduationDate" class="control-label"></label>
-                <input asp-for="HSGraduationDate" class="form-control" />
-                <span asp-validation-for="HSGraduationDate" class="text-danger"></span>
+                <label asp-for="HSGraduationDate"></label>
+                <div class='input-group date' id='datetimepicker1' style="color:black">
+                    <input asp-for="HSGraduationDate" class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar">
+                        </span>
+                    </span>
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -69,4 +79,18 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker').datetimepicker({
+                viewMode: 'years',
+                format: 'MM/DD/YYYY'
+            });
+            $('#datetimepicker1').datetimepicker({
+                viewMode: 'years',
+                format: 'MM/DD/YYYY'
+            });
+        });
+    </script>
+    }

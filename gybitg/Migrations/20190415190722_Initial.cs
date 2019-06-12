@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace gybitg.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,7 @@ namespace gybitg.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileVideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     State = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
@@ -66,7 +67,7 @@ namespace gybitg.Migrations
                     Height = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     HighschoolCoach = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     HighschoolName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersnalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PersonalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Weight = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
@@ -104,23 +105,39 @@ namespace gybitg.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AthleteUserViewModel",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AvatarImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HSGraduationDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfileVideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AthleteUserViewModel", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CoachProfiles",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     AAUId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Achievments = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Lossess = table.Column<int>(type: "int", nullable: false),
-                    PersnalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Achievements = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Losses = table.Column<int>(type: "int", nullable: false),
+                    PersonalBio = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Verified = table.Column<bool>(type: "bit", nullable: false),
                     Wins = table.Column<int>(type: "int", nullable: false),
                     YearsCoaching = table.Column<decimal>(type: "decimal(18, 2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CoachProfiles", x => x.Id);
+                    table.PrimaryKey("PK_CoachProfiles", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -190,11 +207,18 @@ namespace gybitg.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
                         column: x => x.RoleId,
@@ -229,6 +253,30 @@ namespace gybitg.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CoachAthletes",
+                columns: table => new
+                {
+                    CoachId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    AthleteId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CoachAthletes", x => new { x.CoachId, x.AthleteId });
+                    table.ForeignKey(
+                        name: "FK_CoachAthletes_AthleteProfiles_AthleteId",
+                        column: x => x.AthleteId,
+                        principalTable: "AthleteProfiles",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CoachAthletes_CoachProfiles_CoachId",
+                        column: x => x.CoachId,
+                        principalTable: "CoachProfiles",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -252,6 +300,11 @@ namespace gybitg.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_ApplicationUserId",
+                table: "AspNetUserRoles",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
@@ -267,6 +320,11 @@ namespace gybitg.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CoachAthletes_AthleteId",
+                table: "CoachAthletes",
+                column: "AthleteId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -287,19 +345,25 @@ namespace gybitg.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AthleteProfiles");
-
-            migrationBuilder.DropTable(
                 name: "AthleteStats");
 
             migrationBuilder.DropTable(
-                name: "CoachProfiles");
+                name: "AthleteUserViewModel");
+
+            migrationBuilder.DropTable(
+                name: "CoachAthletes");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AthleteProfiles");
+
+            migrationBuilder.DropTable(
+                name: "CoachProfiles");
         }
     }
 }

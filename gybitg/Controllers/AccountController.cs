@@ -56,7 +56,6 @@ namespace gybitg.Controllers
         [TempData]
         public string StatusMessage { get; set; }
 
-
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Profile(string id)
@@ -80,6 +79,7 @@ namespace gybitg.Controllers
             else if (await _userManager.IsInRoleAsync(_profile, "Coach"))   // check if the user is a Coach: return Profile
             {
                 var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == id);
+               
                 return View(_coachProfile);
             }
 
@@ -114,6 +114,7 @@ namespace gybitg.Controllers
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
+                
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
@@ -272,53 +273,66 @@ namespace gybitg.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                string email = model.Email;
-                var userName = email.Substring(0, email.IndexOf('@'));
+                //string email = model.Email;
+                //var userName = email.Substring(0, email.IndexOf('@'));
+                var userName = model.Email;
 
                 var user = new ApplicationUser { UserName = userName, Email = model.Email }; // initialize the new Application User entity
 
-                var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
-
-                if (result.Succeeded) // create the necessary athlete/ coach profile, stats, and assign the User to its Role
+                //Probably the wrong way to do this but for now this works.  If a user email already exists then the program
+                // will not allow another user to register with the same email.  Works for athlete and coach.
+                try
                 {
-                    var roleModel = _roleManager.Roles.SingleOrDefault(r => r.Id == model.RoleId);  // get the new User role type: 1 - Athlete, 2 - Coach
-                    switch (roleModel.Name)
+                    var tempUser = _context.Users.Single(u => u.Email == model.Email);
+                }
+                catch
+                {
+
+                    var result = await _userManager.CreateAsync(user, model.Password);  // confirm new Application User was created successfully 
+
+                    if (result.Succeeded) // create the necessary athlete/ coach profile, stats, and assign the User to its Role
                     {
-                        case "Athlete":
-                            var athleteProfile = new AthleteProfile { UserId = user.Id }; // initialize a new Athlete Profile entity
-                            var athleteStats = new AthleteStats { UserId = user.Id, DateOFEntry = DateTime.Now }; // initialize a new Athlete Stats entity and add to Athlete role
-                            _context.AthleteProfiles.Add(athleteProfile);
-                            _context.AthleteStats.Add(athleteStats);
-                            await _userManager.AddToRoleAsync(user, roleModel.Name);
-                            break;
-                        case "Coach":
-                            user.Position = "Coach";
-                            var coachProfile = new CoachProfile { UserId = user.Id }; // initialize a new Coach Profile entity and add to Coach role
-                            _context.CoachProfiles.Add(coachProfile);
-                            await _userManager.AddToRoleAsync(user, roleModel.Name);
-                            break;
-                        default:
-                            break;
+                        var roleModel = _roleManager.Roles.SingleOrDefault(r => r.Id == model.RoleId);  // get the new User role type: 1 - Athlete, 2 - Coach
+                        switch (roleModel.Name)
+                        {
+                            case "Athlete":
+                                var athleteProfile = new AthleteProfile { UserId = user.Id }; // initialize a new Athlete Profile entity
+                                var athleteStats = new AthleteStats { UserId = user.Id, DateOFEntry = DateTime.Now }; // initialize a new Athlete Stats entity and add to Athlete role
+                                _context.AthleteProfiles.Add(athleteProfile);
+                                _context.AthleteStats.Add(athleteStats);
+                                await _userManager.AddToRoleAsync(user, roleModel.Name);
+                                break;
+                            case "Coach":
+                                //user.Position = "Coach";
+                                var coachProfile = new CoachProfile { UserId = user.Id }; // initialize a new Coach Profile entity and add to Coach role
+                                _context.CoachProfiles.Add(coachProfile);
+                                await _userManager.AddToRoleAsync(user, roleModel.Name);
+                                break;
+                            default:
+                                break;
+                        }
+
+                        await _userManager.SetUserNameAsync(user, userName);    // set the Username within the User.Identity
+                        await _userManager.UpdateAsync(user);
+
+                        _context.SaveChanges();
+
+                        _logger.LogInformation("User created a new account with password.");
+                        _logger.LogInformation("Profile created");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+
+                        await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation("User created a new account with password.");
+                        return RedirectToLocal(returnUrl);
                     }
 
-                    await _userManager.SetUserNameAsync(user, userName);    // set the Username within the User.Identity
-                    await _userManager.UpdateAsync(user);
-
-                    _context.SaveChanges();
-
-                    _logger.LogInformation("User created a new account with password.");
-                    _logger.LogInformation("Profile created");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                return RedirectToAction("Register");
             }
 
             // If we got this far, something failed, redisplay form
@@ -327,11 +341,11 @@ namespace gybitg.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        //used RedirectResult and Redirect to directly break out of the AccountController.Login loop.
+        public async Task<RedirectResult> Logout(string returnUrl ="/")
         {
             await _signInManager.SignOutAsync();
-            _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return Redirect(returnUrl);
         }
 
         [HttpPost]
@@ -419,7 +433,7 @@ namespace gybitg.Controllers
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(AccountController.Login), "Login");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -541,7 +555,7 @@ namespace gybitg.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(AccountController.Login), "Account");
             }
         }
 

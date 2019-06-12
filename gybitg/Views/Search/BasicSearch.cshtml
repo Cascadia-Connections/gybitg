@@ -1,0 +1,35 @@
+﻿@*File created by Kevin Durgan on 4/15/19*@
+
+@using gybitg.Models.SearchViewModels;
+@using gybitg.Views.Manage;
+@model gybitg.Models.SearchViewModels.SearchViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "BasicSearch";
+    ViewData.AddActivePage(ManageNavPages.BasicSearch);
+    var _requestedProfileId = (string)ViewData["RequestedProfileId"];
+    var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId);
+}
+
+<h3>Find Athlete</h3>
+<form asp-action="BasicSearch" asp-controller="Search">
+    <div>
+        First Name: <input asp-for="Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Position"></label>
+        <select asp-for="Position" asp-items="@new SelectList(Enum.GetNames(typeof(SearchViewModel.PositionType)))">
+            <option disabled selected value="">Select a Program</option>
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="BasicSearch" />
+    </div>
+    <div>
+        <input type ="submit" value="AdvancedSearch" />
+    </div>
+</form>

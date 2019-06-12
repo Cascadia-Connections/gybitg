@@ -23,7 +23,20 @@ namespace gybitg.Views.Manage
 
         public static string ExternalLogins => "ExternalLogins";
 
+        public static string AthleteList => "AthleteList";
+
+        //added by Kevin on 4/15/19
+        public static string BasicSearch => "BasicSearch";
+
+        public static string SearchResults => "SearchResults";
+
+        public static string AdvancedSearch => "AdvancedSearch";
+
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
+
+        public static string BasicSearchNavClass(ViewContext viewContext) => PageNavClass(viewContext, BasicSearch);
+
+        public static string AdvancedSearchNavClass(ViewContext viewContext) => PageNavClass(viewContext, AdvancedSearch);
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
 
@@ -33,6 +46,7 @@ namespace gybitg.Views.Manage
 
         public static string EditCoachProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, EditCoachProfile);
 
+        public static string AthleteListNavClass(ViewContext viewContext) => PageNavClass(viewContext, AthleteList);
         public static string ChangePasswordNavClass(ViewContext viewContext) => PageNavClass(viewContext, ChangePassword);
 
         public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);

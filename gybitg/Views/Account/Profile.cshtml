@@ -21,39 +21,54 @@
     {
         var _athleteProfile = _context.AthleteProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
         var _athleteStats = _context.AthleteStats.SingleOrDefault(m => m.UserId == _requestedProfileId);
+        
 
         <div style="display:inline-block; padding-top: 20px;">
-            <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
+            <a asp-area="" asp-controller="Manage" asp-action="Index" asp-fragment="target" title="Add/Change Image"><img src="~/@_user.AvatarImageUrl" width="200" height="200" /></a>
             <p style="display:inline-grid">
-                <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
+                <text style="font-size: x-large; font-weight: bold; color: darkorange;">@_user.FullName</text>
                 <br />
                 @_user.Position
                 <br />
-                Class of @_athleteProfile.HSGraduationDate.Year
         </div>
 
-        <center>
-            <div class="row dl-horizontal">
-                <div class="col-md-6">
-                    @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
+        
+            <div class="row">
+                <div class="col-md-4">
+                    <center>
+
+                        <h3>Stats</h3>
+                        <div>
+                            @await Html.PartialAsync("_AthleteProfilePartial", _athleteProfile)
+                        </div>
+
+                        <div>
+                            @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
+                        </div>
+                    </center>
                 </div>
-                <div class="col-md-6">
-                    @await Html.PartialAsync("_AthleteStatsPartial", _athleteStats)
+                <div class="col-md-8">
+                    <h2>Plays</h2>
+                    <div>
+                       @Html.Raw( @_user.ProfileVideoUrl)
+                     </div>
                 </div>
             </div>
-        </center>
 
     }
     else if (await UserManager.IsInRoleAsync(_user, "Coach")) // if User is Coach: load the Coach profile partial view
     {
         var _coachProfile = _context.CoachProfiles.SingleOrDefault(m => m.UserId == _requestedProfileId);
 
-        <div style="display:inline-block; padding-top: 20px;">
+        <div style="display:inline-block; padding-top: 40px; padding-left: 85px">
             <img src="~/@_user.AvatarImageUrl" width="200" height="200" />
-            <p style="display:inline-grid">
-                <text style="font-size: x-large; font-weight: bold">@_user.FullName</text>
-                <br />
-                @_user.Position for @_coachProfile.YearsCoaching years at @_coachProfile.AAUId
+
+            <div style="display:inline-grid; padding-left: 20px">
+                <text style="font-size: x-large; font-weight: bold"> Coach @_user.FullName</text>
+                <div style=" display: inline-grid; padding-left: 40px">
+                    <text style="font-size: x-large; font-weight: bold"> @_coachProfile.AAUId</text>
+                </div>
+            </div>
         </div>
 
         <center>
@@ -61,6 +76,12 @@
                 <div class="col-md-6">
                     @await Html.PartialAsync("_CoachProfilePartial", _coachProfile)
                 </div>
+            </div>
+            <div>
+                <center>
+                    @Html.Raw(@_user.ProfileVideoUrl)
+                </center>
+               
             </div>
         </center>
     }

@@ -10,13 +10,11 @@
 @model gybitg.Models.AthleteStats
 
 <div>
-    <h3>Stats</h3>
-    @if (Model.UserId == (string)UserManager.GetUserId(User))
+    <!--@if (Model.UserId == (string)UserManager.GetUserId(User))
     {
         @Html.ActionLink("Edit Stats", "EditAthleteStats", "Manage", new { id = Model.UserId });
-    }
+    }-->
 
-    <hr />
     <dl class="d2-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.PPG)
@@ -48,65 +46,6 @@
         <dd>
             @Html.DisplayFor(model => model.GS)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.MPG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.MPG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FGAG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FGAG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FGMG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FGMG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FGG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FGG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FTAG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FTAG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FTMG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FTMG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.FTP)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.FTP)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TPAG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TPAG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TPMG)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TPMG)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TPP)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TPP)
-        </dd>
+       
     </dl>
 </div>

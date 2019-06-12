@@ -8,7 +8,7 @@
 
 @model gybitg.Models.AthleteProfile
 
-<h3>Profile</h3>
+
 
 <div>
     @if (Model.UserId == (string) UserManager.GetUserId(User))
@@ -18,6 +18,7 @@
         }
     <hr />
     <dl class="d2-horizontal">
+       
         <dt>
             Age
         </dt>
@@ -25,10 +26,10 @@
             @(DateTime.Today.Year - Model.DateOfBirth.Year)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PersnalBio)
+            @Html.DisplayNameFor(model => model.PersonalBio)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PersnalBio)
+            @Html.DisplayFor(model => model.PersonalBio)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Height)
@@ -36,12 +37,7 @@
         <dd>
             @Html.DisplayFor(model => model.Height)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Weight)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Weight)
-        </dd>
+       
         <dt>
             @Html.DisplayNameFor(model => model.HighschoolName)
         </dt>

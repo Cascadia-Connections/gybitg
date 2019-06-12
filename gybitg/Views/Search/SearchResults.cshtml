@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views.Manage
+@using gybitg.Data
+@using gybitg.Views
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model IEnumerable<gybitg.Models.SearchViewModels.SearchResultsViewModel>
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "SearchResults";
+    ViewData.AddActivePage(ManageNavPages.SearchResults);
+    var _requestedProfileId = (string)ViewData["RequestedProfileId"];
+    var _user = UserManager.Users.SingleOrDefault(m => m.Id == _requestedProfileId);
+}
+<h2>Search Results</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HSGraduationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HighSchool)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HighScoolCoach)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AAUId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AAUCoach)
+            </th>
+            <th>
+                Profile Link
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HSGraduationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HighSchool)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HighScoolCoach)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AAUId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AAUCoach)
+                </td>
+                <td>
+
+                    <a asp-action="SearchResults" method="post" class="btn btn-sm btn-primary" asp-route-athleteId="@item.UserId">
+                        Profile
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
