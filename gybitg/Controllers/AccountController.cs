@@ -322,7 +322,7 @@ namespace gybitg.Controllers
                                 await _userManager.AddToRoleAsync(user, roleModel.Name);
                                 break;
                             case "Coach":
-                                user.Position = "Coach";
+                                //user.Position = "Coach";
                                 var coachProfile = new CoachProfile { UserId = user.Id }; // initialize a new Coach Profile entity and add to Coach role
                                 _context.CoachProfiles.Add(coachProfile);
                                 await _userManager.AddToRoleAsync(user, roleModel.Name);
