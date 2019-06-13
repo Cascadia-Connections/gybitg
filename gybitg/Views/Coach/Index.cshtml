@@ -4,16 +4,14 @@
 @using gybitg.Data
 
 
-@model IEnumerable<gybitg.Models.AthleteProfile >
+@model IEnumerable<gybitg.Models.AthleteProfile>
 @*@model IEnumerable<gybitg.Models.CoachAthlete>*@
 @inject ApplicationDbContext _context
 @{
     ViewData["Title"] = "Index";
 }
 <h2>Index</h2>
-<p>
 
-</p>
 
 <table class="table">
     <thead>
@@ -23,24 +21,22 @@
 
             </th>
 
-            <th></th>
+            <th>UsersID</th>
         </tr>
     </thead>
     <tbody>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.HighschoolName)
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.HighschoolName)
 
-                </td>
-                @*<td>
-                        <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
-                    </td*@>
-            </tr>
+            </td>
+            <td>
+           @Html.DisplayFor(modelItem => item.UserId)
+        </td>
+        </tr>
         }
         <div>
             @{// var _athleteProfiles = await _context.AthleteProfiles.ToListAsync();
