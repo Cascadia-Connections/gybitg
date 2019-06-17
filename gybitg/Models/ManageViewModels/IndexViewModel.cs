@@ -51,7 +51,7 @@ namespace gybitg.Models.ManageViewModels
         //Designate only specific types of Positions
         public enum PositionType
         {
-            Default,
+            NotSelected,
             [Display(Name = "Point Guard")]
             PointGuard,
             [Display(Name = "Shooting Guard")]
