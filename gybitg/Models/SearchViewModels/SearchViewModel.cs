@@ -15,6 +15,20 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "Position")]
         public PositionType Position { get; set; }
 
+        public enum PositionType
+        {
+            [Display(Name = "Point Guard")]
+            PointGuard,
+            [Display(Name = "Shooting Guard")]
+            ShootingGuard,
+            [Display(Name = "Small Forward")]
+            SmallForward,
+            [Display(Name = "Power Forward")]
+            PowerForward,
+            [Display(Name = "Center")]
+            Center
+        }
+
         [RegularExpression("^[0-9/]{7}$", ErrorMessage = "Only this format allowed: mm/yyyy")]
         [Display(Name = "HS Graduation Date")]
         public string HSGraduationDate { get; set; }
@@ -34,20 +48,5 @@ namespace gybitg.Models.SearchViewModels
         [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [Display(Name = "High School Coach")]
         public string HighScoolCoach { get; set; }
-
-        //Designate only specific types of Positions
-        public enum PositionType
-        {
-            Default,
-            [Display(Name = "Point Guard")]
-            PointGuard,
-            [Display(Name = "Shooting Guard")]
-            ShootingGuard,
-            [Display(Name = "Small Guard")]
-            SmallForward,
-            [Display(Name = "Power Guard")]
-            PowerForward,
-            Center
-        }
     }
 }

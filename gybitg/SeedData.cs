@@ -13,12 +13,12 @@ namespace gybitg
 {
     public class SeedData
     {
-        public static async Task InitializeAsync(IServiceProvider services)
+        public static void Initialize(IServiceProvider services)
         {
-            await Seed(services.GetRequiredService<ApplicationDbContext>());
+            Seed(services.GetRequiredService<ApplicationDbContext>());
         }
 
-        public static async Task Seed(ApplicationDbContext context)
+        public static void Seed(ApplicationDbContext context)
         {
             if (context.AthleteUserViewModel.Any())
             {
@@ -186,7 +186,7 @@ namespace gybitg
             */
 
             //context.SaveChanges();
-            
+
         }
     }
 }

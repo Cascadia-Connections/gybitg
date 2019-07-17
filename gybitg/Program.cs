@@ -84,7 +84,7 @@ namespace gybitg
                 var services = scope.ServiceProvider;
                 try
                 {
-                    SeedData.InitializeAsync(services).Wait();
+                    SeedData.Initialize(services);
                 }
                 catch (Exception ex)
                 {
