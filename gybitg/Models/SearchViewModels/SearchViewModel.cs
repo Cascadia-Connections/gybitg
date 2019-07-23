@@ -29,7 +29,8 @@ namespace gybitg.Models.SearchViewModels
             Center
         }
 
-        [RegularExpression("^[0-9/]{7}$", ErrorMessage = "Only this format allowed: mm/yyyy")]
+        [RegularExpression("^[0-9/]*$", ErrorMessage = "Only numerical digits and Forward-Slashes allowed '/'")]
+        [StringLength(10, ErrorMessage = "High School Graduation Date should be less than or equal to 10 characters.")]
         [Display(Name = "HS Graduation Date")]
         public string HSGraduationDate { get; set; }
 
