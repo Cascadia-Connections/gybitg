@@ -16,11 +16,8 @@ namespace gybitg.Models.ManageViewModels
 
         [Required]
         [EmailAddress]
+        [StringLength(50, ErrorMessage = "Email Address should be less than or equal to fifty characters.")]
         public string Email { get; set; }
-
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
 
         [Required]
         [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
@@ -72,6 +69,10 @@ namespace gybitg.Models.ManageViewModels
 
         [RegularExpression(@"^\d{5}(-\d{4})?$", ErrorMessage = "Invalid Zip")]
         public string Zip { get; set; }
+
+        [Phone]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
 
         [Display(Name ="Upload a profile picture")]
         public IFormFile AvatarImage { get; set; }
