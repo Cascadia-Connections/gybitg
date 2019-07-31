@@ -87,8 +87,6 @@ namespace gybitg.Controllers
                     PhoneNumber = user.PhoneNumber,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    //Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
-                    //Position = user.Position,
                     City = user.City,
                     State = user.State,
                     Zip = user.Zip,
@@ -112,27 +110,6 @@ namespace gybitg.Controllers
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage
             };
-            return View(model);
-
-
-
-
-            /*var model = new IndexViewModel
-            {
-                Username = user.Email,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Position = (IndexViewModel.PositionType)Enum.Parse(typeof(IndexViewModel.PositionType), user.Position),
-                //Position = user.Position,
-                City = user.City,
-                State = user.State,
-                Zip = user.Zip,
-                IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
-            };*/
-
             return View(model);
         }
 

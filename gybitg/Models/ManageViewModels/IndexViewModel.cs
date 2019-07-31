@@ -42,16 +42,14 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Position")]
-        public PositionType Position { get; set; }   //PositionType
         //We were wanting to have the above Position be of type PositionType
         //Creates issues with the rest of the code however in ManageController line 88 comparing Position to user.Position
         //Also breaks program at Index.cshtml at the coach position check line 42
+        [Display(Name = "Position")]
+        public PositionType Position { get; set; }
 
-        //Designate only specific types of Positions
         public enum PositionType
         {
-            Default,
             [Display(Name = "Point Guard")]
             PointGuard,
             [Display(Name = "Shooting Guard")]
@@ -60,6 +58,7 @@ namespace gybitg.Models.ManageViewModels
             SmallForward,
             [Display(Name = "Power Forward")]
             PowerForward,
+            [Display(Name = "Center")]
             Center
         }
 
