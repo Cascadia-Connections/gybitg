@@ -21,6 +21,8 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Last Name")]
         public virtual string LastName { get; set; }
 
+        [RegularExpression("^[0-9/]*$", ErrorMessage = "Only numerical digits and Forward-Slashes allowed '/'")]
+        [StringLength(10, ErrorMessage = "Date of Birth should be less than or equal to 10 characters.")]
         [Display(Name = "Date of Birth")]
         public string DateOfBirth { get; set; }
 
@@ -50,6 +52,8 @@ namespace gybitg.Models.ManageViewModels
         public string HighschoolCoach { get; set; }
 
         [Required]
+        [RegularExpression("^[0-9/]*$", ErrorMessage = "Only numerical digits and Forward-Slashes allowed '/'")]
+        [StringLength(10, ErrorMessage = "High School Graduation Date should be less than or equal to 10 characters.")]
         [Display(Name = "HS Graduation Date")]
         public string HSGraduationDate { get; set; }
         

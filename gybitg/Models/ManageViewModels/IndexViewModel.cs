@@ -42,7 +42,7 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        //We were wanting to have the above Position be of type PositionType
+        //We were wanting to have the Position be of type PositionType
         //Creates issues with the rest of the code however in ManageController line 88 comparing Position to user.Position
         //Also breaks program at Index.cshtml at the coach position check line 42
         [Display(Name = "Position")]
