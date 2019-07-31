@@ -9,11 +9,11 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
-
 @{
     ViewData["Title"] = "Edit Profile";
     ViewData.AddActivePage(ManageNavPages.EditAthleteProfile);
 }
+
 <h4>Edit your Profile</h4>
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <hr>
