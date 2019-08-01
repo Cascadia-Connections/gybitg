@@ -62,9 +62,7 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "AAU Team")]
         public string AAUId { get; set; }
 
-        [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
-        [StringLength(40, ErrorMessage = "Status Message must be less than or equal to fourty characters.")]
-        [Display(Name = "Status Message")]
         public string StatusMessage { get; set; }
+
     }
 }

@@ -82,15 +82,13 @@ namespace gybitg.Models.ManageViewModels
 
         [Url]// Does this even get used anywhere? Remove?
         public string AvatarImageUrl { get; set; }
-
-        [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
-        [StringLength(40, ErrorMessage = "Status Message must be less than or equal to fourty characters.")]
-        [Display(Name = "Status Message")]
-        public string StatusMessage { get; set; }
-
+        
         [Url]
         [StringLength(50, ErrorMessage = "Video URL must be less than or equal to fifty characters.")]
         [Display(Name = "Paste YouTube Embed code for profile video")]
         public string ProfileVideoUrl { get; set; }
+
+        public string StatusMessage { get; set; }
+
     }
 }
