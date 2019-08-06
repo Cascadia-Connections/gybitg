@@ -20,10 +20,10 @@
     <dl class="d2-horizontal">
        
         <dt>
-            Age
+            @Html.DisplayNameFor(model => model.DateOfBirth)
         </dt>
         <dd>
-            @(DateTime.Today.Year - Model.DateOfBirth.Year)
+            @Html.DisplayFor(model => model.DateOfBirth)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.PersonalBio)
@@ -37,7 +37,6 @@
         <dd>
             @Html.DisplayFor(model => model.Height)
         </dd>
-       
         <dt>
             @Html.DisplayNameFor(model => model.HighschoolName)
         </dt>
