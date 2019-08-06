@@ -75,12 +75,12 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
 
+        //Commented out FileExtensions below because jpg,jpeg,png don't get allowed to be uploaded like they should
         //[FileExtensions(Extensions ="jpg,jpeg,png", ErrorMessage = "Upload only .jpg .jpeg .png files")]
-        //Commented out FileExtensions above because jpg,jpeg,png don't get allowed to be uploaded like they should
         [Display(Name ="Upload a profile picture")] 
         public IFormFile AvatarImage { get; set; }
 
-        [Url]// Does this even get used anywhere? Remove?
+        [Url]// Does this even get used anywhere? Should it get removed?
         public string AvatarImageUrl { get; set; }
         
         [Url]
