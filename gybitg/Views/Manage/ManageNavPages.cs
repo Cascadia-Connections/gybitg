@@ -25,6 +25,8 @@ namespace gybitg.Views.Manage
 
         public static string AthleteList => "AthleteList";
 
+        public static string DeleteProfile => "DeleteProfileNavClass";
+
         //added by Kevin on 4/15/19
         public static string BasicSearch => "BasicSearch";
 
@@ -52,7 +54,10 @@ namespace gybitg.Views.Manage
         public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
-    
+
+        public static string DeleteProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, DeleteProfile);
+
+
         public static string PageNavClass(ViewContext viewContext, string page)
         {
             var activePage = viewContext.ViewData["ActivePage"] as string;

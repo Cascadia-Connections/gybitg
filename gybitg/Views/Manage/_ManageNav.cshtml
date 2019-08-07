@@ -28,5 +28,7 @@
         <li class="@ManageNavPages.ExternalLoginsNavClass(ViewContext)"><a asp-action="ExternalLogins">External logins</a></li>
     }
     <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-action="TwoFactorAuthentication">Two-factor authentication</a></li>
+
+	<li class="@ManageNavPages.DeleteProfileNavClass(ViewContext)"><a asp-action="DeleteProfile" asp-route-id="@_curUser.Id">Delete Profile</a></li>
 </ul>
 
