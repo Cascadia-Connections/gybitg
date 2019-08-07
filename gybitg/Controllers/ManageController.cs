@@ -540,6 +540,37 @@ namespace gybitg.Controllers
             return View(vmodel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> DeleteProfile(string id)
+        {
+            //var AspUserToDelete = _context.Users.Single(p => p.Id == id);
+            var _profile = _userManager.Users.SingleOrDefault(m => m.Id == id);
+
+            if (await _userManager.IsInRoleAsync(_profile, "Coach"))
+            {
+                await _signInManager.SignOutAsync();
+                await _userManager.DeleteAsync(_profile);
+
+                var ProfileToDelete = _context.CoachProfiles.Single(p => p.UserId == id);
+                _context.CoachProfiles.Remove(ProfileToDelete);
+
+            }
+
+            else if (await _userManager.IsInRoleAsync(_profile, "Athlete"))
+            {
+                await _signInManager.SignOutAsync();
+                await _userManager.DeleteAsync(_profile); //this removes athlete from all the .AspNet tables (I think)
+
+                var ProfileToDelete = _context.AthleteProfiles.Single(p => p.UserId == id);
+                _context.AthleteProfiles.Remove(ProfileToDelete); //remove data from AthleteProfile table
+                var ProfileToDelete2 = _context.AthleteStats.Single(p => p.UserId == id);
+                _context.AthleteStats.Remove(ProfileToDelete2); //remove data from AthleteStats table
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("Login", "Account");
+        }
+
         [HttpPost]
         public IActionResult EditCoachProfile(CoachProfileViewModel vmodel, string id)
         {
