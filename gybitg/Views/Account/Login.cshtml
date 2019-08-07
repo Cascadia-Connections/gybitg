@@ -19,12 +19,12 @@
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    @*<label asp-for="Username"></label>*@
-                    <input placeholder="Username" asp-for="Username" class="form-control" />
+                    @*<label asp-for="Username"></label>*@ @* The placeholder="Username" below places this label inside the input text box instead*@
+                    <input placeholder="Username" asp-for="Username" class="form-control" /> 
                     <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    @*<label asp-for="Password"></label>*@
+                    @*<label asp-for="Password"></label>*@ @* The placeholder="Password" below places this label inside the input text box instead*@
                     <input placeholder="Password" asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>

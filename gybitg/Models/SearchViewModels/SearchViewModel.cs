@@ -8,7 +8,7 @@ namespace gybitg.Models.SearchViewModels
 {
     public class SearchViewModel
     {
-        [RegularExpression("^[a-zA-Z .&'-_]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
         [Display(Name = "Name")]
         public virtual string Name { get; set; }
 
@@ -34,19 +34,19 @@ namespace gybitg.Models.SearchViewModels
         [Display(Name = "HS Graduation Date")]
         public string HSGraduationDate { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
         [Display(Name = "High School")]
         public string HighSchool { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
         [Display(Name = "AAU Team")]
         public string AAUId { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
         [Display(Name = "AAU Coach")]
         public string AAUCoach { get; set; }
 
-        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
         [Display(Name = "High School Coach")]
         public string HighScoolCoach { get; set; }
     }

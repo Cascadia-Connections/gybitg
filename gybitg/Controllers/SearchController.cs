@@ -78,7 +78,7 @@ namespace gybitg.Controllers
             //Splits up SearchViewModel SearchParam in to components to save typing later
             string SearchName = SearchParam.Name;
             string SearchPosition;
-            if(SearchParam.Position.ToString() != "Default")
+            if(SearchParam.Position.ToString() != "--Select--")
             {
                 SearchPosition = SearchParam.Position.ToString();
             }
@@ -119,7 +119,7 @@ namespace gybitg.Controllers
                 foreach(var a in athleteUsers)
                 {
                     char[] delimiterChars = { '/' };
-                    string[] words = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate.Split(delimiterChars);
+                    string[] words = _athleteRepository.athleteProfiles.SingleOrDefault(ap => ap.UserId == a.Id).HSGraduationDate.Split(delimiterChars);
                     string athleteGradDate = words[0] + "/" + words[2];
 
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
