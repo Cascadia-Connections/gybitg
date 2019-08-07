@@ -29,6 +29,6 @@
     }
     <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-action="TwoFactorAuthentication">Two-factor authentication</a></li>
 
-	<li class="@ManageNavPages.DeleteProfileNavClass(ViewContext)"><a asp-action="DeleteProfile" asp-route-id="@_curUser.Id">Delete Profile</a></li>
+	<li class="@ManageNavPages.DeleteProfileNavClass(ViewContext)"><a asp-action="DeleteProfile" asp-route-id="@_curUser.Id" onclick="return confirm('Are you sure you want to Delete your profile?')">Delete Profile</a></li>
 </ul>
 
