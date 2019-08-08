@@ -93,7 +93,7 @@ namespace gybitg.Controllers
         {
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
+            
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -325,9 +325,12 @@ namespace gybitg.Controllers
 
                         await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
+                        // To create account and return (still logged out) to the login page: comment out just SignInManager and RedirectToAction below
+                        // To create account and be sent (logged in automatically) to manage page: comment out only RedirectToLocal below instead
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created a new account with password.");
-                        return RedirectToLocal(returnUrl);
+                        //return RedirectToLocal(returnUrl);
+                        return RedirectToAction("Index", "Manage");
                     }
 
                     AddErrors(result);
