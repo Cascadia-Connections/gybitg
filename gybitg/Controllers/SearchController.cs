@@ -120,7 +120,7 @@ namespace gybitg.Controllers
                 {
                     char[] delimiterChars = { '/' };
                     string[] words = _athleteRepository.athleteProfiles.SingleOrDefault(ap => ap.UserId == a.Id).HSGraduationDate.Split(delimiterChars);
-                    string athleteGradDate = words[0] + "/" + words[2];
+                    string athleteGradDate = words[0] + "/" + words[1];
 
                     //Checks to see if any part of the athlete matches the search parameters and if any part does add them to the list of athletes to return
                     if (a.FullName == SearchName || a.Position == SearchPosition

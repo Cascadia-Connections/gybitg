@@ -21,11 +21,13 @@ using gybitg.Models;
 using gybitg.Data;
 using gybitg.Models.AccountViewModels;
 using gybitg.Services;
+using Korzh.EasyQuery.Linq;
+using Microsoft.AspNetCore.Server.Kestrel.Internal.System.Collections.Sequences;
 
 namespace gybitg.Controllers
 {
     [Authorize]
-    [Route("[controller]/[action]")]
+    //[Route("[controller]/[action]")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
