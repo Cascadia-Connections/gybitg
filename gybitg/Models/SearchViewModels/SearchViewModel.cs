@@ -17,6 +17,8 @@ namespace gybitg.Models.SearchViewModels
 
         public enum PositionType
         {
+            [Display(Name = "--Select--")]
+            Default,
             [Display(Name = "Point Guard")]
             PointGuard,
             [Display(Name = "Shooting Guard")]

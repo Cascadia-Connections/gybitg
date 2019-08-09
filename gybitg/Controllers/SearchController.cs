@@ -45,6 +45,7 @@ namespace gybitg.Controllers
             basic.HighSchool = SearchParam;
 
             return RedirectToAction("SearchResults", basic);
+            //return RedirectToAction("BasicSearchResults", basic);
         }
 
         //Get for AdvancedSearch view
@@ -68,6 +69,15 @@ namespace gybitg.Controllers
             }
         }
 
+        //A beggining thought on having a different method to handle basic search function
+        /*[HttpGet]
+        public async Task<IActionResult> BasicSearchResults(SearchViewModel SearchParam)
+        {
+            IList<ApplicationUser> athleteUsers = await _userManager.GetUsersInRoleAsync("Athlete");
+            
+            return SearchResults(athleteUsers);
+        }*/
+
         //IMPORTANT: Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
         [HttpGet]
         public async Task<IActionResult> SearchResults(SearchViewModel SearchParam)
@@ -75,9 +85,35 @@ namespace gybitg.Controllers
 
             string roleName = "Athlete";
             IList<ApplicationUser> athleteUsers = await _userManager.GetUsersInRoleAsync(roleName);
-            //Splits up SearchViewModel SearchParam in to components to save typing later
+            List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();            //Splits up SearchViewModel SearchParam in to components to save typing later
             string SearchName = SearchParam.Name;
             string SearchPosition;
+
+            //The following 'if' catches basic search parameters of player name and highschool name
+            if (SearchParam.AAUCoach == null && SearchParam.AAUId == null && SearchParam.HighScoolCoach == null
+                && SearchParam.Position.ToString() == "Default")
+            {
+                foreach (var a in athleteUsers)
+                {
+                    //Currently this checks for any portion of an athlete name matching the search model or a match of the highschool name matching the search model.
+                    if (a.FullName.ToLower().Contains(SearchParam.Name.ToLower()) == true || 
+                        _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchParam.HighSchool)
+                    {
+                        SearchResultsViewModel srA = new SearchResultsViewModel();
+                        srA.FullName = a.FullName;
+                        srA.Position = a.Position;
+                        srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+                        srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                        srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                        srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                        srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
+                        athletes.Add(srA);
+                    }
+                }
+                return View(athletes);
+            }
+
+            //The following logic is for Advanced Search logic
             if(SearchParam.Position.ToString() != "--Select--")
             {
                 SearchPosition = SearchParam.Position.ToString();
@@ -109,7 +145,7 @@ namespace gybitg.Controllers
                 SearchAAU = SearchParam.AAUId;
             }
 
-            List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
+            //List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
 
             /*This if statement checks to see that at least one search parameters is not default*/
             if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || !string.IsNullOrEmpty(SearchGraduation)
