@@ -44,8 +44,8 @@ namespace gybitg.Controllers
             basic.Name = SearchParam;
             basic.HighSchool = SearchParam;
 
-            return RedirectToAction("SearchResults", basic);
-            //return RedirectToAction("BasicSearchResults", basic);
+            //return RedirectToAction("SearchResults", basic);
+            return RedirectToAction("BasicSearchResults", basic);
         }
 
         //Get for AdvancedSearch view
@@ -70,19 +70,36 @@ namespace gybitg.Controllers
         }
 
         //A beggining thought on having a different method to handle basic search function
-        /*[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> BasicSearchResults(SearchViewModel SearchParam)
         {
             IList<ApplicationUser> athleteUsers = await _userManager.GetUsersInRoleAsync("Athlete");
-            
-            return SearchResults(athleteUsers);
-        }*/
+            List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();
+            foreach (var a in athleteUsers)
+            {
+                if (a.FullName.ToLower().Contains(SearchParam.Name.ToLower()) == true ||
+                    _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchParam.HighSchool)
+                {
+                    SearchResultsViewModel srA = new SearchResultsViewModel();
+                    srA.FullName = a.FullName;
+                    srA.Position = a.Position;
+                    srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+                    srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                    srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                    srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                    srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
+                    athletes.Add(srA);
+                }
+            }
+            return View("SearchResults", athletes);
+        }
 
         //IMPORTANT: Parameters should be passed from the AdvancedSearch post method and the BasicSearch post method
         [HttpGet]
         public async Task<IActionResult> SearchResults(SearchViewModel SearchParam)
         {
-
+            //Currently the advanced search only works if a position is fixed.  Look at adding a message to user if a position is not selected that
+              //They need to select from the dropdown.
             string roleName = "Athlete";
             IList<ApplicationUser> athleteUsers = await _userManager.GetUsersInRoleAsync(roleName);
             List<SearchResultsViewModel> athletes = new List<SearchResultsViewModel>();            //Splits up SearchViewModel SearchParam in to components to save typing later
@@ -90,26 +107,29 @@ namespace gybitg.Controllers
             string SearchPosition;
 
             //The following 'if' catches basic search parameters of player name and highschool name
-            if (SearchParam.AAUCoach == null && SearchParam.AAUId == null && SearchParam.HighScoolCoach == null
-                && SearchParam.Position.ToString() == "Default")
+            if (SearchParam.AAUCoach == null && SearchParam.AAUId == null && SearchParam.HighScoolCoach == null)
+                /*&& SearchParam.Position.ToString() == "Default")*/// && SearchParam.Position.ToString() == "All")
             {
-                foreach (var a in athleteUsers)
+                if (SearchParam.Position.ToString() == "All")
                 {
-                    //Currently this checks for any portion of an athlete name matching the search model or a match of the highschool name matching the search model.
-                    if (SearchParam.Name != null)
+                    foreach (var a in athleteUsers)
                     {
-                        if (a.FullName.ToLower().Contains(SearchParam.Name.ToLower()) == true ||
-                            _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchParam.HighSchool)
+                        //Currently this checks for any portion of an athlete name matching the search model or a match of the highschool name matching the search model.
+                        if (SearchParam.Name != null)
                         {
-                            SearchResultsViewModel srA = new SearchResultsViewModel();
-                            srA.FullName = a.FullName;
-                            srA.Position = a.Position;
-                            srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
-                            srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
-                            srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
-                            srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
-                            srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
-                            athletes.Add(srA);
+                            if (a.FullName.ToLower().Contains(SearchParam.Name.ToLower()) == true ||
+                                _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchParam.HighSchool)
+                            {
+                                SearchResultsViewModel srA = new SearchResultsViewModel();
+                                srA.FullName = a.FullName;
+                                srA.Position = a.Position;
+                                srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+                                srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                                srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                                srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                                srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
+                                athletes.Add(srA);
+                            }
                         }
                     }
                 }
@@ -117,9 +137,13 @@ namespace gybitg.Controllers
             }
 
             //The following logic is for Advanced Search logic
-            if(SearchParam.Position.ToString() != "--Select--")
+            if (SearchParam.Position.ToString() != "--Select--")
             {
                 SearchPosition = SearchParam.Position.ToString();
+            }
+            else if (SearchParam.Position.ToString() == "All")
+            {
+                SearchPosition = "All";
             }
             else
             {
@@ -152,7 +176,8 @@ namespace gybitg.Controllers
 
             /*This if statement checks to see that at least one search parameters is not default*/
             if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || !string.IsNullOrEmpty(SearchGraduation)
-                || !string.IsNullOrEmpty(SearchHS) || SearchAAU != "" || !string.IsNullOrEmpty(SearchHSCoach) || SearchAAUCoach != "")
+                || !string.IsNullOrEmpty(SearchHS) || SearchAAU != "" || !string.IsNullOrEmpty(SearchHSCoach) || SearchAAUCoach != ""
+                || SearchPosition.ToString() == "All")
             {
                 //runs through all athlete users
                 foreach(var a in athleteUsers)
@@ -173,7 +198,8 @@ namespace gybitg.Controllers
                           || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchHS
                           || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU
                           || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach
-                          || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach == SearchAAUCoach)
+                          || _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach == SearchAAUCoach
+                          || SearchPosition == "All")
 
                         {
                             SearchResultsViewModel srA = new SearchResultsViewModel();
