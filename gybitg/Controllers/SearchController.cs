@@ -212,7 +212,78 @@ namespace gybitg.Controllers
                     return View("AdvancedSearch");
                 }
                 return View(athletes);
-            } 
+            }
+
+            //Start of a new Advanced Search Prototype (Adam)
+            foreach (var a in athleteUsers)
+            {
+                char[] delimiterChars = { '/' };
+                var HgradDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+
+                if (HgradDate == null)
+                { }
+                else
+                {
+                    string[] words = _athleteRepository.athleteProfiles.SingleOrDefault(ap => ap.UserId == a.Id).HSGraduationDate.Split(delimiterChars);
+                    string athleteGradDate = words[0] + "/" + words[1];
+
+
+                    
+                    if (a.FullName == SearchName || SearchName == null)
+                    {
+                        if (athleteGradDate == SearchGraduation || SearchGraduation == null)
+                        {
+                            if (_athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchHS || SearchHS == null)
+                            {
+                                if (_athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU || SearchAAU == "")
+                                {
+                                    if (_athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach || SearchHSCoach == null)
+                                    {
+                                        if (_athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach == SearchAAUCoach || SearchAAUCoach == "")
+                                        {
+                                            if (a.Position == SearchPosition || SearchPosition == "All")
+                                            {
+                                                SearchResultsViewModel srA = new SearchResultsViewModel();
+                                                srA.UserId = a.Id;
+                                                srA.FullName = a.FullName;
+                                                srA.Position = a.Position;
+                                                srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+                                                srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                                                srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                                                srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                                                srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
+                                                athletes.Add(srA);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+
+                   /* if (a.FullName == SearchName || SearchName == null
+                        && athleteGradDate == SearchGraduation || SearchGraduation == null
+                        && _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchHS || SearchHS == null
+                        && _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId == SearchAAU || SearchAAU == ""
+                        && _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach == SearchHSCoach || SearchHSCoach == null
+                        && _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach == SearchAAUCoach || SearchAAUCoach == "")
+                    {
+                        SearchResultsViewModel srA = new SearchResultsViewModel();
+                        srA.UserId = a.Id;
+                        srA.FullName = a.FullName;
+                        srA.Position = a.Position;
+                        srA.HSGraduationDate = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HSGraduationDate;
+                        srA.HighSchool = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName;
+                        srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
+                        srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
+                        srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
+                        athletes.Add(srA);
+                    }*/
+                }
+
+            }
+            return View(athletes);
 
             /*This if statement checks to see that at least one search parameters is not default*/
             if (!string.IsNullOrEmpty(SearchName) || !string.IsNullOrEmpty(SearchPosition) || !string.IsNullOrEmpty(SearchGraduation)
@@ -263,7 +334,8 @@ namespace gybitg.Controllers
                 }
             }
 
-            /*default search returns all athletes - only happens when all search fields are left blank*/
+            /*default search returns all athletes - only happens when all search fields are left blank*/ 
+            //right now this does nothing as clicking search with all fields blank does not do anything.  
             else
             {
                 //runs through all athlete users and adds them to the list of athletes to return
