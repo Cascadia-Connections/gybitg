@@ -34,7 +34,6 @@ namespace gybitg.Controllers
             _athleteRepository = athleteRepository;
         }
 
-        //Basic Search [post]
         //Basic athlete search method - used for searchbar
         [HttpPost] //Post method for the BasicAthleteSearch --- Adam
         public IActionResult BasicSearch(string SearchParam)
@@ -43,8 +42,6 @@ namespace gybitg.Controllers
 
             basic.Name = SearchParam;
             basic.HighSchool = SearchParam;
-
-            //return RedirectToAction("SearchResults", basic);
             //Using a new BasicSearchResults method to keep basic search seperate from adv search
             return RedirectToAction("BasicSearchResults", basic);
         }
@@ -72,7 +69,7 @@ namespace gybitg.Controllers
             }
         }
 
-        //I found it easier to seperate Basic Search and Adv Search
+        //I found it easier to seperate Basic Search and Adv Search - Adam
         [HttpGet]
         public async Task<IActionResult> BasicSearchResults(SearchViewModel SearchParam)
         {
@@ -82,6 +79,7 @@ namespace gybitg.Controllers
             {
                 if (SearchParam.Name != null)
                 {
+                    //This is a basic search of all Athletes based on name or School
                     if (a.FullName.ToLower().Contains(SearchParam.Name.ToLower()) == true ||
                         _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolName == SearchParam.HighSchool)
                     {
@@ -101,6 +99,9 @@ namespace gybitg.Controllers
         }
 
         //IMPORTANT: Parameters should be passed from the AdvancedSearch post method
+        //When the Adv search form is empty, nothing happens.  At any time for the form to submit there
+        // must be a position selected.  ex A coach cannot search for an Athlete named Allison without also selecting a position.
+        // I do not know how to get around this or if this is acceptable to Bobby. - Adam
         [HttpGet]
         public async Task<IActionResult> SearchResults(SearchViewModel SearchParam)
         {
@@ -145,7 +146,7 @@ namespace gybitg.Controllers
                 SearchAAU = SearchParam.AAUId;
             }
 
-            //This is default search list for all althetes in any position since the user has only searched by "All" positions.
+            //This is default search list for all althetes in any position since the user has only searched by "All" positions.  - Adam
             if (SearchName == null && SearchGraduation == null && SearchHS == null && SearchAAU == "" && SearchHSCoach == null
                 && SearchAAUCoach == "" && SearchPosition == "All")
             {
@@ -156,6 +157,7 @@ namespace gybitg.Controllers
 
                     if (HgradDate == null)
                     {
+                        //if an athlete has not filled out HighSchool Graduation date they will not be included in the search results.
                     }
                     else
                     {
@@ -177,6 +179,7 @@ namespace gybitg.Controllers
                 //if no users were added to the athletes list, no results were found
                 if (athletes == null)
                 {
+                    //Previous students put this viewbag here but then do not use it in the view.
                     ViewBag.Error = "No results were found";//populates viewbag with error message
                     return View("AdvancedSearch");
                 }
