@@ -46,6 +46,7 @@ namespace gybitg.Controllers
        
 
         // GET: Coach
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await _context.CoachProfiles.ToListAsync());
