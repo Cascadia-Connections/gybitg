@@ -262,6 +262,7 @@ namespace gybitg.Controllers
                     throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
                 }
             }
+              
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));

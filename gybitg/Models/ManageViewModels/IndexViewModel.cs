@@ -20,6 +20,10 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Phone]
+        [Display(Name = "Phone number")]
+        public string PhoneNumber { get; set; }
+
         [Required]
         [RegularExpression("^[a-zA-Z0-9 .&'-]*$", ErrorMessage = "Only Alphabetical, Numerical, and .&'- characters are allowed.")]
         [StringLength(20, ErrorMessage = "First Name must be less than or equal to twenty characters.")]
@@ -40,11 +44,19 @@ namespace gybitg.Models.ManageViewModels
             }
         }
 
+        [Required]
+        [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
+        [StringLength(20, ErrorMessage = "Last Name should be less than or equal to twenty characters.")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
         [Display(Name = "Position")]
         public PositionType Position { get; set; }
 
+        //Designate only specific types of Positions
         public enum PositionType
         {
+            Default,
             [Display(Name = "Point Guard")]
             PointGuard,
             [Display(Name = "Shooting Guard")]
@@ -90,5 +102,15 @@ namespace gybitg.Models.ManageViewModels
 
         public string StatusMessage { get; set; }
 
+        [Display (Name = "Paste YouTube Embed code for profile video")]
+        public string ProfileVideoUrl { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 1")]
+        public string GalleryVideo1 { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 2")]
+        public string GalleryVideo2 { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 3")]
+        public string GalleryVideo3 { get; set; }
+        [Display(Name = "Paste YouTube Embed code for Gallery Video 4")]
+        public string GalleryVideo4 { get; set; }
     }
 }

@@ -80,11 +80,7 @@
                 <td colspan="3">
                     
                     <form asp-action="Follow" @*asp-route-id="@item.UserId"*@ asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                        @*<p>*@
                         <button type="submit" id="UserId" class="btn-success btn-lg btn-block" name="UserId" value=@item.UserId >Follow @item.FullName</button>
-                         @*<input type="button" style="color:black" name="SearchString">*@
-                        @*< button type="follow"  class="btn-btn-default" value="Follow" />*@
-                        @*</p>*@
                     </form>
                 </td>
             </tr>
