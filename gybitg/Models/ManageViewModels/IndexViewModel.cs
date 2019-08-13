@@ -44,11 +44,11 @@ namespace gybitg.Models.ManageViewModels
             }
         }
 
-        [Required]
+        /*[Required]
         [RegularExpression("^[a-zA-Z .&'-]*$", ErrorMessage = "Only Alphabetical characters allowed.")]
         [StringLength(20, ErrorMessage = "Last Name should be less than or equal to twenty characters.")]
         [Display(Name = "Last Name")]
-        public string LastName { get; set; }
+        public string LastName { get; set; }*/
 
         [Display(Name = "Position")]
         public PositionType Position { get; set; }
@@ -83,10 +83,6 @@ namespace gybitg.Models.ManageViewModels
         [Display(Name = "Zip")]
         public string Zip { get; set; }
 
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
-
         //Commented out FileExtensions below because jpg,jpeg,png don't get allowed to be uploaded like they should
         //[FileExtensions(Extensions ="jpg,jpeg,png", ErrorMessage = "Upload only .jpg .jpeg .png files")]
         [Display(Name ="Upload a profile picture")] 
@@ -95,10 +91,10 @@ namespace gybitg.Models.ManageViewModels
         [Url]// Does this even get used anywhere? Should it get removed?
         public string AvatarImageUrl { get; set; }
         
-        [Url]
-        [StringLength(50, ErrorMessage = "Video URL must be less than or equal to fifty characters.")]
-        [Display(Name = "Paste YouTube Embed code for profile video")]
-        public string ProfileVideoUrl { get; set; }
+        //[Url]
+        //[StringLength(50, ErrorMessage = "Video URL must be less than or equal to fifty characters.")]
+        //[Display(Name = "Paste YouTube Embed code for profile video")]
+        //public string ProfileVideoUrl { get; set; }
 
         public string StatusMessage { get; set; }
 

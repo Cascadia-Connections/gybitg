@@ -74,8 +74,7 @@
                     @Html.DisplayFor(modelItem => item.AAUCoach)
                 </td>
                 <td>
-
-                    <a asp-action="SearchResults" method="post" class="btn btn-sm btn-primary" asp-route-athleteId="@item.UserId">
+                    <a asp-controller="Athlete" asp-action="Index") method="post" class="btn btn-sm btn-primary" asp-route-athleteId="@item.UserId">
                         Profile
                     </a>
                 </td>

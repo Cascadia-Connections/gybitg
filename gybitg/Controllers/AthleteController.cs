@@ -48,12 +48,6 @@ namespace gybitg.Controllers
         {
           
             //var athleteProfile = await _context.AthleteProfiles.SingleOrDefaultAsync(m => m.UserId == id);
-        
-        
-
-
-
-
             //var au =  _context.AthleteUserViewModel.SingleOrDefault(m => m.UserId == id);
             var athleteProfile = _context.AthleteProfiles.SingleOrDefault(p => p.UserId == id);
             var athleteStats =  _context.AthleteStats.SingleOrDefault(m => m.UserId == id);
@@ -61,7 +55,7 @@ namespace gybitg.Controllers
             var user = _userManager.Users.SingleOrDefault(u => u.Id == id);
            
             AthleteUserViewModel au = new AthleteUserViewModel();
-               if (au == null)
+            if (au == null)
             {
                 return NotFound();
             }
@@ -82,13 +76,10 @@ namespace gybitg.Controllers
             au.FGG = athleteStats.FGG;
             au.FGMG = athleteStats.FGMG;
             au.GP = athleteStats.GP;
-                       
-
-
-
+            
             return View(au);
 
-                   }
+        }
 
         // GET: Athlete/Create
         public IActionResult Create()
