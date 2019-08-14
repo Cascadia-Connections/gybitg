@@ -39,16 +39,16 @@ namespace gybitg.Controllers
        
 
         //// GET: Athlete
-        public IActionResult Index(string id)
-        {
-            int a = 1;
-            return View(id, a);
+        //public IActionResult Index(string id)
+        //{
+            //int a = 1;
+            //return View(id, a);
             //return View(await _context.AthleteProfiles.ToListAsync());
-        }
+        //}
 
         // GET: Athlete/Details/5
-        [HttpPost]
-        public IActionResult Index(string id, int i)
+        [HttpGet]
+        public IActionResult Index(string id) //, int i)
         {
           
             //var athleteProfile = await _context.AthleteProfiles.SingleOrDefaultAsync(m => m.UserId == id);

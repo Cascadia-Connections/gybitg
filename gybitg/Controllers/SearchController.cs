@@ -52,6 +52,7 @@ namespace gybitg.Controllers
         {
             return View();
         }
+
         //Post for AdvancedSearch view - checks what is entered into the search and if the entries are valid it redirects to SearchResults
         [HttpPost]
         public IActionResult AdvancedSearch(SearchViewModel athleteSearched)
