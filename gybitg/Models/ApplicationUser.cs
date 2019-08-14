@@ -38,6 +38,10 @@ namespace gybitg.Models
         public string AvatarImageUrl { get; set; }
 
         public string ProfileVideoUrl { get; set; }
+        public string GalleryVideo1 { get; set; }
+        public string GalleryVideo2 { get; set; }
+        public string GalleryVideo3 { get; set; }
+        public string GalleryVideo4 { get; set; }
 
         public List<IdentityUserRole<string>> Roles { get; set; }
        

@@ -1,77 +1,230 @@
-﻿@model IEnumerable<gybitg.Models.AthleteProfile>
+﻿@using Microsoft.AspNetCore.Identity
+@using gybitg.Models
+@using Microsoft.AspNetCore.Mvc
+@using gybitg.Views.Manage
+@using gybitg.Data
+@using gybitg.Views
+
+@model AthleteUserViewModel
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
+    ViewData.AddActivePage(ManageNavPages.EditAthleteProfile);
 }
 
-<h2>Index</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="col-md-5">
+    <center>
+        <div style="display:inline-block; padding-top: 20px;">
+            <text style="font-size:65px; font-weight: bold; color: darkorange;">@Model.FullName</text>
+            <p style="display:flex">
+
+                <a asp-area="" asp-controller="Athlete" asp-action="Index" asp-fragment="target" title="Add/Change Image"><img src="~/@Model.AvatarImageUrl" width="150" height="150" /></a>
+                <br />
+
+                @Model.Position
+                <br />
+            
+                <br />
+
+            </p><form asp-controller="Coach" asp-action="Follow" @*asp-route-id="@_user.UserId" *@ asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                <button type="submit" id="UserId" class="btn btn-primary orange-background white" name="UserId" value="@Model.UserId">Follow</button>
+            </form>
+
+        </div>
+
+    </center>
+</div>
+<br />
+<div class="col-md-7">
+    <h3>  </h3>
+    <div class="video-container">
+        @Html.Raw(@Model.ProfileVideoUrl)
+    </div>
+</div>
+
+
+<div class="col-md-4">
+
+    <h3>Feed</h3>
+
+    <h3>Stats</h3>
+    <hr />
+    <h5 text style="color: darkorange;">Personal</h5>
+
+    <table>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Height)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Weight)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PersonalBio)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HighschoolName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HighschoolCoach)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.HSGraduationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AAUId)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DateOfBirth)
+                Birthday
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Height)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Weight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalBio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HighschoolName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HighschoolCoach)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HSGraduationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AAUId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
+            <td></td>
+            <td text style="text-align:right;">
+				@Html.DisplayFor(model => model.DateOfBirth)
             </td>
         </tr>
-}
-    </tbody>
-</table>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Height)
+            </td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.Height)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.HighschoolName)
+            </td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.HighschoolName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.HSGraduationDate)
+            </td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.HSGraduationDate)
+            </td>
+        </tr>
+    </table>
+
+
+
+    <h5 text style="color: darkorange;">Career</h5>
+    <table>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.PPG)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.PPG)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.RPG)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.RPG)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.APG)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.APG)
+            </td>
+        </tr>
+    </table>
+    <h5 text style="color: darkorange;">Stats</h5>
+    <table>
+
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.GP)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.GP)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.GS)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.GS)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.MPG)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.MPG)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.MPG)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.MPG)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.FGAG)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.FGAG)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.FGMG)
+            </td>
+            <td></td>
+            <td></td>
+            <td text style="text-align:right;">
+                @Html.DisplayFor(model => model.FGMG)
+            </td>
+        </tr>
+
+    </table>
+    <h3>Contact</h3>
+
+</div>
+
+
+<br />
+<h1 style="text-align:center"> GALLERY </h1>
+<br />
+<div class="col-md-4">
+
+    <div class="video-container-gallery">
+        @Html.Raw(@Model.GalleryVideo1)
+    </div>
+</div>
+<div class="col-md-4">
+
+    <div class="video-container-gallery">
+        @Html.Raw(@Model.GalleryVideo2)
+    </div>
+</div>
+<hr/>
+<div class="col-md-4">
+
+    <div class="video-container-gallery">
+        @Html.Raw(@Model.GalleryVideo3)
+    </div>
+</div>
+<div class="col-md-4">
+
+    <div class="video-container-gallery">
+        @Html.Raw(@Model.GalleryVideo4)
+    </div>
+</div>

@@ -5,6 +5,11 @@
     <UserSecretsId>aspnet-gybitg-A612959F-1AAB-4C23-A6D9-3278D84F8F2C</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20190529231437_merge develop and 0520 sprint.cs" />
+    <Compile Remove="Migrations\20190529231437_merge develop and 0520 sprint.Designer.cs" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="26.0.2" />

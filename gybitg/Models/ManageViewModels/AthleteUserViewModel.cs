@@ -20,6 +20,10 @@ namespace gybitg.Models.ManageViewModels
 
         public string Text { get; set; }
 
+ 
+        [Display(Name = "Date of Birth"), DataType(DataType.Date)]
+        public string DateOfBirth { get; set; }
+
         public virtual string FullName
         {
             get
@@ -33,8 +37,51 @@ namespace gybitg.Models.ManageViewModels
 
         public string ProfileVideoUrl { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM}", ApplyFormatInEditMode = true)]
+        public string GalleryVideo1 { get; set; }
+        public string GalleryVideo2 { get; set; }
+        public string GalleryVideo3 { get; set; }
+        public string GalleryVideo4 { get; set; }
+
+
+
         [Display(Name = "HS Graduation Date"), DataType(DataType.Date)]
-        public DateTime HSGraduationDate { get; set; }
+        public string HSGraduationDate { get; set; }
+        [Display(Name = "Points per Game")]
+        public decimal PPG { get; set; }
+
+        [Display(Name = "Height (inches)")]
+        public decimal Height { get; set; }
+
+        [Display(Name = "Weight (Lbs.)")]
+        public decimal Weight { get; set; }
+
+        [Display(Name = "Current Highschool")]
+        public string HighschoolName { get; set; }
+
+
+        [Display(Name = "Rebounds per Game")]
+        public decimal RPG { get; set; }
+
+        [Display(Name = "Assists per Game")]
+        public decimal APG { get; set; }
+
+        [Display(Name = "Games Played")]
+        public int GP { get; set; }
+
+        [Display(Name = "Games Sat")]
+        public int GS { get; set; }
+
+        [Display(Name = "Average Minutes per Game")]
+        public decimal MPG { get; set; }
+
+        [Display(Name = "Field Goals Attempted per Game")]
+        public decimal FGAG { get; set; }
+
+        [Display(Name = "Field Goals Made per Game")]
+        public decimal FGMG { get; set; }
+
+        [Display(Name = "Field Goal Percentage")]
+        public decimal FGG { get; set; }
+
     }
 }

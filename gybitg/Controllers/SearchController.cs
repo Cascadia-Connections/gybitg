@@ -52,6 +52,7 @@ namespace gybitg.Controllers
         {
             return View();
         }
+
         //Post for AdvancedSearch view - checks what is entered into the search and if the entries are valid it redirects to SearchResults
         [HttpPost]
         public IActionResult AdvancedSearch(SearchViewModel athleteSearched)
@@ -91,6 +92,7 @@ namespace gybitg.Controllers
                         srA.AAUId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUId;
                         srA.HighScoolCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).HighschoolCoach;
                         srA.AAUCoach = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).AAUCoach;
+                        srA.UserId = _athleteRepository.athleteProfiles.SingleOrDefault<AthleteProfile>(ap => ap.UserId == a.Id).UserId;
                         athletes.Add(srA);
                     }
                 }

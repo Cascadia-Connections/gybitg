@@ -10,8 +10,8 @@ using gybitg.Data;
 namespace gybitg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20190506202139_CoachProfiles")]
-    partial class CoachProfiles
+    [Migration("20190529232630_merge develop into 0520 branch")]
+    partial class mergedevelopinto0520branch
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -208,9 +208,9 @@ namespace gybitg.Migrations
 
                     b.Property<string>("AAUId");
 
-                    b.Property<DateTime>("DateOfBirth");
+                    b.Property<string>("DateOfBirth");
 
-                    b.Property<DateTime>("HSGraduationDate");
+                    b.Property<string>("HSGraduationDate");
 
                     b.Property<decimal>("Height");
 
@@ -314,19 +314,45 @@ namespace gybitg.Migrations
                     b.Property<string>("UserId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<decimal>("APG");
+
                     b.Property<string>("AvatarImageUrl");
+
+                    b.Property<string>("DateOfBirth");
+
+                    b.Property<decimal>("FGAG");
+
+                    b.Property<decimal>("FGG");
+
+                    b.Property<decimal>("FGMG");
 
                     b.Property<string>("FirstName");
 
-                    b.Property<DateTime>("HSGraduationDate");
+                    b.Property<int>("GP");
+
+                    b.Property<int>("GS");
+
+                    b.Property<string>("HSGraduationDate");
+
+                    b.Property<decimal>("Height");
+
+                    b.Property<string>("HighschoolName");
 
                     b.Property<string>("LastName");
+
+                    b.Property<decimal>("MPG");
+
+                    b.Property<decimal>("PPG");
 
                     b.Property<string>("Position");
 
                     b.Property<string>("ProfileVideoUrl");
 
+                    b.Property<decimal>("RPG");
+
                     b.Property<string>("Text");
+
+                    b.Property<decimal>("Weight");
 
                     b.HasKey("UserId");
 
