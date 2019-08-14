@@ -36,23 +36,12 @@ namespace gybitg.Controllers
             _logger = logger;
             _context = context;
         }
-       
 
-        //// GET: Athlete
-        //public IActionResult Index(string id)
-        //{
-            //int a = 1;
-            //return View(id, a);
-            //return View(await _context.AthleteProfiles.ToListAsync());
-        //}
-
-        // GET: Athlete/Details/5
+        //This is the public facing athlete profile page, this is how a coach will be able to view an athletes
+            //profile and follow that athlete if desired.
         [HttpGet]
-        public IActionResult Index(string id) //, int i)
+        public IActionResult Index(string id)
         {
-          
-            //var athleteProfile = await _context.AthleteProfiles.SingleOrDefaultAsync(m => m.UserId == id);
-            //var au =  _context.AthleteUserViewModel.SingleOrDefault(m => m.UserId == id);
             var athleteProfile = _context.AthleteProfiles.SingleOrDefault(p => p.UserId == id);
             var athleteStats =  _context.AthleteStats.SingleOrDefault(m => m.UserId == id);
 
@@ -69,20 +58,27 @@ namespace gybitg.Controllers
             au.Position = user.Position;
             au.AvatarImageUrl = user.AvatarImageUrl;
             au.ProfileVideoUrl = user.ProfileVideoUrl;
+            au.GalleryVideo1 = user.GalleryVideo1;
+            au.GalleryVideo2 = user.GalleryVideo2;
+            au.GalleryVideo3 = user.GalleryVideo3;
+            au.GalleryVideo4 = user.GalleryVideo4;
             au.DateOfBirth = athleteProfile.DateOfBirth;
             au.Height = athleteProfile.Height;
             au.Weight = athleteProfile.Weight;
             au.HighschoolName = athleteProfile.HighschoolName;
             au.HSGraduationDate = athleteProfile.HSGraduationDate;
             au.PPG = athleteStats.PPG;
-            au.RPG = athleteStats.PPG;
+            au.APG = athleteStats.APG;
+            au.RPG = athleteStats.RPG;
+            au.MPG = athleteStats.MPG;
             au.FGAG = athleteStats.FGAG;
             au.FGG = athleteStats.FGG;
             au.FGMG = athleteStats.FGMG;
             au.GP = athleteStats.GP;
+            au.GS = athleteStats.GS;
+            
             
             return View(au);
-
         }
 
         // GET: Athlete/Create

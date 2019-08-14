@@ -10,80 +10,97 @@
 @Html.Partial("_StatusMessage", Model.StatusMessage)
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Index" asp-controller="Manage" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                @if (Model.IsEmailConfirmed)
-                {
-                    <div class="input-group">
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                        <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
-                    </div>
-                }
-                else
-                {
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                    <button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
-                }
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            @if (await UserManager.IsInRoleAsync(_user, "Athlete"))
-            {
-                <div class="form-group">
-                    <label asp-for="Position"></label>
-                    <select asp-for="Position" class="form-control" asp-items="Html.GetEnumSelectList<IndexViewModel.PositionType>()"><option value="user.Position" selected>--Select--</option></select>
-                    <span asp-validation-for="Position" class="text-danger"></span>
-                </div>
-            }
-            <div class="form-group">
-                <label asp-for="City"></label>
-                <input asp-for="City" class="form-control" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="State"></label>
-                <input asp-for="State" class="form-control" />
-                <span asp-validation-for="State" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Zip"></label>
-                <input asp-for="Zip" class="form-control" />
-                <span asp-validation-for="Zip" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <div id="target">
-                    <label asp-for="AvatarImage"></label>
-                    <input type="file" asp-for="AvatarImage" />
-                    <span asp-validation-for="AvatarImage" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfileVideoUrl"></label>
-                <input asp-for="ProfileVideoUrl" class="form-control" />
-            </div>
-            <button type="submit" class="btn btn-default">Save</button>
-        </form>
+		<form asp-action="Index" asp-controller="Manage" method="post" enctype="multipart/form-data">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="Username"></label>
+				<input asp-for="Username" class="form-control" disabled />
+			</div>
+			<div class="form-group">
+				<label asp-for="Email"></label>
+				@if (Model.IsEmailConfirmed)
+				{
+					<div class="input-group">
+						<input asp-for="Email" class="form-control" />
+						<span asp-validation-for="Email" class="text-danger"></span>
+						<span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+					</div>
+				}
+				else
+				{
+					<input asp-for="Email" class="form-control" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+					<button asp-action="SendVerificationEmail" class="btn btn-link">Send verification email</button>
+				}
+			</div>
+			<div class="form-group">
+				<label asp-for="FirstName"></label>
+				<input asp-for="FirstName" class="form-control" />
+				<span asp-validation-for="FirstName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="LastName"></label>
+				<input asp-for="LastName" class="form-control" />
+				<span asp-validation-for="LastName" class="text-danger"></span>
+			</div>
+			@if (await UserManager.IsInRoleAsync(_user, "Athlete"))
+			{
+				<div class="form-group">
+					<label asp-for="Position"></label>
+					<select asp-for="Position" class="form-control" asp-items="Html.GetEnumSelectList<IndexViewModel.PositionType>()"><option value="user.Position" selected>--Select--</option></select>
+					<span asp-validation-for="Position" class="text-danger"></span>
+				</div>
+			}
+			<div class="form-group">
+				<label asp-for="City"></label>
+				<input asp-for="City" class="form-control" />
+				<span asp-validation-for="City" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="State"></label>
+				<input asp-for="State" class="form-control" />
+				<span asp-validation-for="State" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Zip"></label>
+				<input asp-for="Zip" class="form-control" />
+				<span asp-validation-for="Zip" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="PhoneNumber"></label>
+				<input asp-for="PhoneNumber" class="form-control" />
+				<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<div id="target">
+					<label asp-for="AvatarImage"></label>
+					<input type="file" asp-for="AvatarImage" />
+					<span asp-validation-for="AvatarImage" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label asp-for="ProfileVideoUrl"></label>
+				<input asp-for="ProfileVideoUrl" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="GalleryVideo1"></label>
+				<input asp-for="GalleryVideo1" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="GalleryVideo2"></label>
+				<input asp-for="GalleryVideo2" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="GalleryVideo3"></label>
+				<input asp-for="GalleryVideo3" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label asp-for="GalleryVideo4"></label>
+				<input asp-for="GalleryVideo4" class="form-control" />
+			</div>
+
+			<button type="submit" class="btn btn-default">Save</button>
+		</form>
     </div>
 </div>
 

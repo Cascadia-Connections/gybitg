@@ -108,7 +108,11 @@ namespace gybitg.Controllers
                 State = user.State,
                 Zip = user.Zip,
                 IsEmailConfirmed = user.EmailConfirmed,
-                StatusMessage = StatusMessage
+                StatusMessage = StatusMessage,
+                GalleryVideo1 = user.GalleryVideo1,
+                GalleryVideo2 = user.GalleryVideo2,
+                GalleryVideo3 = user.GalleryVideo3,
+                GalleryVideo4 = user.GalleryVideo4
             };
             return View(model);
         }
@@ -259,10 +263,58 @@ namespace gybitg.Controllers
                 var setProfileVideoUrl = await _userManager.UpdateAsync(user);
                 if (!setProfileVideoUrl.Succeeded)
                 {
-                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user wiht ID '{user.Id}'.");
+                    throw new ApplicationException($"Unexpected error occurd setting profile video for the user with ID '{user.Id}'.");
                 }
             }
-              
+
+            var GalleryVideo1 = user.GalleryVideo1;
+            if (model.GalleryVideo1 != user.GalleryVideo1)
+            {
+                user.GalleryVideo1 = model.GalleryVideo1;
+
+                var setGallerVideo1 = await _userManager.UpdateAsync(user);
+                if (!setGallerVideo1.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurd setting gallery video 1 for the user with ID '{user.Id}'.");
+                }
+            }
+
+            var GalleryVideo2 = user.GalleryVideo2;
+            if (model.GalleryVideo2 != user.GalleryVideo2)
+            {
+                user.GalleryVideo2 = model.GalleryVideo2;
+
+                var setGallerVideo2 = await _userManager.UpdateAsync(user);
+                if (!setGallerVideo2.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurd setting gallery video 2 for the user with ID '{user.Id}'.");
+                }
+            }
+
+            var GalleryVideo3 = user.GalleryVideo3;
+            if (model.GalleryVideo3 != user.GalleryVideo3)
+            {
+                user.GalleryVideo3 = model.GalleryVideo3;
+
+                var setGallerVideo3 = await _userManager.UpdateAsync(user);
+                if (!setGallerVideo3.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurd setting gallery video 3 for the user with ID '{user.Id}'.");
+                }
+            }
+
+            var GalleryVideo4 = user.GalleryVideo4;
+            if (model.GalleryVideo4 != user.GalleryVideo4)
+            {
+                user.GalleryVideo4 = model.GalleryVideo4;
+
+                var setGallerVideo4 = await _userManager.UpdateAsync(user);
+                if (!setGallerVideo4.Succeeded)
+                {
+                    throw new ApplicationException($"Unexpected error occurd setting gallery video 4 for the user with ID '{user.Id}'.");
+                }
+            }
+
 
             StatusMessage = "Your profile has been updated";
             return RedirectToAction(nameof(Index));

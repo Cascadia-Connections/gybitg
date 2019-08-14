@@ -58,11 +58,11 @@
     <table>
         <tr>
             <td>
-                Age
+                Birthday
             </td>
             <td></td>
             <td text style="text-align:right;">
-         
+				@Html.DisplayFor(model => model.DateOfBirth)
             </td>
         </tr>
         <tr>
@@ -206,25 +206,25 @@
 <div class="col-md-4">
 
     <div class="video-container-gallery">
-        @Html.Raw(@Model.ProfileVideoUrl)
+        @Html.Raw(@Model.GalleryVideo1)
     </div>
 </div>
 <div class="col-md-4">
 
     <div class="video-container-gallery">
-        @Html.Raw(@Model.ProfileVideoUrl)
+        @Html.Raw(@Model.GalleryVideo2)
     </div>
 </div>
 <hr/>
 <div class="col-md-4">
 
     <div class="video-container-gallery">
-        @Html.Raw(@Model.ProfileVideoUrl)
+        @Html.Raw(@Model.GalleryVideo3)
     </div>
 </div>
 <div class="col-md-4">
 
     <div class="video-container-gallery">
-        @Html.Raw(@Model.ProfileVideoUrl)
+        @Html.Raw(@Model.GalleryVideo4)
     </div>
 </div>
