@@ -109,6 +109,7 @@ namespace gybitg.Controllers
                 Zip = user.Zip,
                 IsEmailConfirmed = user.EmailConfirmed,
                 StatusMessage = StatusMessage,
+                ProfileVideoUrl = user.ProfileVideoUrl,
                 GalleryVideo1 = user.GalleryVideo1,
                 GalleryVideo2 = user.GalleryVideo2,
                 GalleryVideo3 = user.GalleryVideo3,
