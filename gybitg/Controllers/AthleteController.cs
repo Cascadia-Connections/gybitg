@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using gybitg.Services;
 using gybitg.Models.ManageViewModels;
+using gybitg.Models.SearchViewModels;
 
 namespace gybitg.Controllers
 {
@@ -38,13 +39,16 @@ namespace gybitg.Controllers
        
 
         //// GET: Athlete
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.AthleteProfiles.ToListAsync());
-        //}
+        public IActionResult Index(string id)
+        {
+            int a = 1;
+            return View(id, a);
+            //return View(await _context.AthleteProfiles.ToListAsync());
+        }
 
         // GET: Athlete/Details/5
-        public IActionResult Index(string id)
+        [HttpPost]
+        public IActionResult Index(string id, int i)
         {
           
             //var athleteProfile = await _context.AthleteProfiles.SingleOrDefaultAsync(m => m.UserId == id);

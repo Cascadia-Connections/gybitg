@@ -49,33 +49,33 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var athlete in Model)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
+                    @Html.DisplayFor(modelItem => athlete.FullName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Position)
+                    @Html.DisplayFor(modelItem => athlete.Position)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HSGraduationDate)
+                    @Html.DisplayFor(modelItem => athlete.HSGraduationDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HighSchool)
+                    @Html.DisplayFor(modelItem => athlete.HighSchool)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.HighScoolCoach)
+                    @Html.DisplayFor(modelItem => athlete.HighScoolCoach)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AAUId)
+                    @Html.DisplayFor(modelItem => athlete.AAUId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AAUCoach)
+                    @Html.DisplayFor(modelItem => athlete.AAUCoach)
                 </td>
                 <td>
-                    <a asp-controller="Athlete" asp-action="Index") method="post" class="btn btn-sm btn-primary" asp-route-athleteId="@item.UserId">
-                        Profile
+                    <a asp-controller="Athlete" asp-action="Index" method="post" class="btn btn-sm btn-primary"
+						asp-route-athleteId="@athlete.UserId">Profile
                     </a>
                 </td>
             </tr>
