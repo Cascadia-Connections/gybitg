@@ -78,28 +78,30 @@
 					<span asp-validation-for="AvatarImage" class="text-danger"></span>
 				</div>
 			</div>
-			<div class="form-group">
-				<label asp-for="ProfileVideoUrl"></label>
-				<input asp-for="ProfileVideoUrl" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="GalleryVideo1"></label>
-				<input asp-for="GalleryVideo1" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="GalleryVideo2"></label>
-				<input asp-for="GalleryVideo2" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="GalleryVideo3"></label>
-				<input asp-for="GalleryVideo3" class="form-control" />
-			</div>
-			<div class="form-group">
-				<label asp-for="GalleryVideo4"></label>
-				<input asp-for="GalleryVideo4" class="form-control" />
-			</div>
-
-			<button type="submit" class="btn btn-default">Save</button>
+			@if (await UserManager.IsInRoleAsync(_user, "Athlete"))
+			{
+				<div class="form-group">
+					<label asp-for="ProfileVideoUrl"></label>
+					<input asp-for="ProfileVideoUrl" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label asp-for="GalleryVideo1"></label>
+					<input asp-for="GalleryVideo1" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label asp-for="GalleryVideo2"></label>
+					<input asp-for="GalleryVideo2" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label asp-for="GalleryVideo3"></label>
+					<input asp-for="GalleryVideo3" class="form-control" />
+				</div>
+				<div class="form-group">
+					<label asp-for="GalleryVideo4"></label>
+					<input asp-for="GalleryVideo4" class="form-control" />
+				</div>
+			}
+				<button type="submit" class="btn btn-default">Save</button>
 		</form>
     </div>
 </div>
