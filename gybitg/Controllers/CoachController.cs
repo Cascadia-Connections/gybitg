@@ -57,7 +57,7 @@ namespace gybitg.Controllers
         }
 
        
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult AthleteList(string id)
         {
 
@@ -96,7 +96,7 @@ namespace gybitg.Controllers
 
             return View(au);
 
-        }
+        }*/
 
         [HttpGet]
         public async Task<IActionResult> FollowList(string coachId)
@@ -124,7 +124,7 @@ namespace gybitg.Controllers
 
         //This allows the coachId and athleteId to be linked in the database, the current coach is now "following the selected athlete"
         [HttpGet]
-        public IActionResult Follow(string id)
+        public async Task<IActionResult> Follow(string id)
         {
             var athletefollowed = _context.CoachAthletes.Single(a => a.AthleteId == id);
 
@@ -144,14 +144,31 @@ namespace gybitg.Controllers
             }
             catch { }
 
-            return RedirectToAction("AthleteList");//, following.CoachId);
+            IList<ApplicationUser> athleteUsers = await _userManager.GetUsersInRoleAsync("Athlete");
+            List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
+            foreach (var athlete in athleteUsers)
+            {
+                var followed = _context.CoachAthletes.Single(ath => ath.CoachId == id);
+                if (athlete.Id == followed.AthleteId)
+                {
+                    AthleteUserViewModel au = new AthleteUserViewModel();
+                    au.UserId = followed.AthleteId;
+                    au.Position = athlete.Position;
+                    au.FirstName = athlete.FirstName;
+                    au.LastName = athlete.LastName;
+
+                    athletes.Add(au);
+                }
+            }
+
+            return RedirectToAction("AthleteList", athletes);
             //return View();
         }
 
         [HttpGet]
-        public IActionResult AthleteList()
+        public IActionResult AthleteList(AthleteUserViewModel athletes)
         {
-            return View();
+            return View(athletes);
         }
 
         /*[HttpGet]
