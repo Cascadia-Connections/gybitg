@@ -237,6 +237,9 @@ namespace gybitg.Controllers
             }
             return View(athletes);
         }
+
+        //I do not think the following is needed, the profile link in the search results view routes 
+          //  to the athlete controller, Index Method for the coach facing athlete profile.
         [HttpPost]
         public IActionResult SearchResults(string athleteId)
         {

@@ -99,32 +99,88 @@ namespace gybitg.Controllers
         }
 
         [HttpGet]
-        public IActionResult Follow()
+        public async Task<IActionResult> FollowList(string coachId)
         {
-            //string roleName = "Athlete";
+            //var AthleteUsers = _userManager.GetUsersInRoleAsync("Athlete");
 
-            //var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
+            IList<ApplicationUser> athleteUsers = await _userManager.GetUsersInRoleAsync("Athlete");
+            List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
+            foreach(var athlete in athleteUsers)
+            {
+                var followed = _context.CoachAthletes.Single(ath => ath.CoachId == coachId);
+                if (athlete.Id == followed.AthleteId)
+                {
+                    AthleteUserViewModel au = new AthleteUserViewModel();
+                    au.UserId = followed.AthleteId;
+                    au.Position = athlete.Position;
+                    au.FirstName = athlete.FirstName;
+                    au.LastName = athlete.LastName;
 
-            //List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
+                    athletes.Add(au);
+                }   
+            }
+            return View(athletes);
+        }
 
-            //foreach (var u in usersOfRole)
-            //{
-            //    AthleteUserViewModel au = new AthleteUserViewModel();
-            //    au.UserId = u.UserName;
-            //    au.FirstName = u.FirstName;
-            //    au.LastName = u.LastName;
-            //    au.Position = u.Position;
-            //    au.AvatarImageUrl = u.AvatarImageUrl;
-            //    au.ProfileVideoUrl = u.ProfileVideoUrl;
+        //This allows the coachId and athleteId to be linked in the database, the current coach is now "following the selected athlete"
+        [HttpGet]
+        public IActionResult Follow(string id)
+        {
+            var athletefollowed = _context.CoachAthletes.Single(a => a.AthleteId == id);
 
-            //    athletes.Add(au);
+            CoachAthlete following = new CoachAthlete();
+            following.AthleteId = id;
+            following.Athlete = _context.AthleteProfiles.SingleOrDefault(a => a.UserId == id);
+
+            following.CoachId = _userManager.GetUserId(User);
+            following.Coach = _context.CoachProfiles.SingleOrDefault(c => c.UserId == following.CoachId);
+
+            //need to add a check and make sure the coach is not already following the selected athlete
+
+            try
+            {
+                _context.CoachAthletes.Add(following);
+                _context.SaveChanges();
+            }
+            catch { }
+
+            return RedirectToAction("AthleteList");//, following.CoachId);
+            //return View();
+        }
+
+        [HttpGet]
+        public IActionResult AthleteList()
+        {
+            return View();
+        }
+
+        /*[HttpGet]
+        public IActionResult Follow(string id)
+        {
+            string roleName = "Athlete";
+
+            var usersOfRole = await _userManager.GetUsersInRoleAsync(roleName);
+
+            List<AthleteUserViewModel> athletes = new List<AthleteUserViewModel>();
+
+            foreach (var u in usersOfRole)
+            {
+                AthleteUserViewModel au = new AthleteUserViewModel();
+                au.UserId = u.UserName;
+                au.FirstName = u.FirstName;
+                au.LastName = u.LastName;
+                au.Position = u.Position;
+                au.AvatarImageUrl = u.AvatarImageUrl;
+                au.ProfileVideoUrl = u.ProfileVideoUrl;
+
+                athletes.Add(au);
 
 
-            //}
+            }
 
             return View();
 
-        }
+        }*/
 
         //[HttpPost]
         //public async Task<IActionResult> AthleteList(string SearchString)
@@ -169,24 +225,7 @@ namespace gybitg.Controllers
         //    return View(searchusers);
         //}
 
-        [HttpPost]
-        public IActionResult Follow(string UserId)
-        {
 
-
-            CoachAthlete following = new CoachAthlete();
-            following.AthleteId = UserId;
-            following.Athlete = _context.AthleteProfiles.SingleOrDefault(a => a.UserId == UserId);
-
-            following.CoachId = _userManager.GetUserId(User);
-            following.Coach = _context.CoachProfiles.SingleOrDefault(c => c.UserId == following.CoachId);
-
-            _context.CoachAthletes.Add(following);
-            _context.SaveChanges();
-
-            return View();
-
-        }
     }
 
 
