@@ -17,26 +17,26 @@
 
 
 <div class="col-md-5">
-    <center>
-        <div style="display:inline-block; padding-top: 20px;">
-            <text style="font-size:65px; font-weight: bold; color: darkorange;">@Model.FullName</text>
-            <p style="display:flex">
+	<center>
+		<div style="display:inline-block; padding-top: 20px;">
+			<text style="font-size:65px; font-weight: bold; color: darkorange;">@Model.FullName</text>
+			<p style="display:flex">
 
-                <a asp-area="" asp-controller="Athlete" asp-action="Index" asp-fragment="target" title="Add/Change Image"><img src="~/@Model.AvatarImageUrl" width="150" height="150" /></a>
-                <br />
+				<a asp-area="" asp-controller="Athlete" asp-action="Index" asp-fragment="target" title="Add/Change Image"><img src="~/@Model.AvatarImageUrl" width="150" height="150" /></a>
+				<br />
 
-                @Model.Position
-                <br />
-            
-                <br />
+				@Model.Position
+				<br />
 
-            </p><form asp-controller="Coach" asp-action="Follow" @*asp-route-id="@_user.UserId" *@ asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                <button type="submit" id="UserId" class="btn btn-primary orange-background white" name="UserId" value="@Model.UserId">Follow</button>
-            </form>
+				<br />
 
-        </div>
-
-    </center>
+			</p>
+			@*Commented out the below code for a follow button.  Could not for the longest time get it to work.  Moved the follow button to the bottom and got it to work...*@
+			@*<a asp-controller="Coach" asp-action="Follow" asp-route-id="@Model.UserId" @*asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal" >
+			   <button type="submit" id="UserId" class="btn btn-primary orange-background white" name="UserId" value="@Model.UserId">Follow</button>
+			</a>*@ 
+		</div>
+	</center>
 </div>
 <br />
 <div class="col-md-7">
@@ -196,6 +196,7 @@
 
     </table>
     <h3>Contact</h3>
+	<div><a asp-controller="Coach" asp-action="Follow" asp-route-id="@Model.UserId" class="btn btn-primary orange-background white">Follow</a></div>
 
 </div>
 
